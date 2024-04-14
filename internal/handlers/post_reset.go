@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/mail"
+	"os"
 	"strconv"
 	"time"
 
@@ -63,7 +64,8 @@ func (h *PostResetHandler) ServeHTTP(c echo.Context) error {
 		log.Printf("dbEmail: %v\n", dbEmail)
 		log.Printf("Query result: %v\n", result)
 
-		passUrl := fmt.Sprintf("http://localhost:9001/pwreset/%s/%s", id, resetToken)
+		appPort, _ := os.LookupEnv("APP_PORT")
+		passUrl := fmt.Sprintf("http://localhost:%s/pwreset/%s/%s", appPort, id, resetToken)
 		log.Printf("passUrl: %v\n", passUrl)
 
 		// Must configure SMTP server or other email sending service

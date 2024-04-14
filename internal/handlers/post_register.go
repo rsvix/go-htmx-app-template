@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/mail"
+	"os"
 	"strconv"
 	"time"
 
@@ -103,7 +104,8 @@ func (h *PostRegisterHandler) ServeHTTP(c echo.Context) error {
 	// log.Printf("Create user result: %s\n", result)
 
 	maskedId := strconv.FormatUint(uint64((user.ID + 575426791)), 10)
-	activationUrl := fmt.Sprintf("http://localhost:9001/activation/%s/%s", maskedId, activationToken)
+	appPort, _ := os.LookupEnv("APP_PORT")
+	activationUrl := fmt.Sprintf("http://localhost:%s/activation/%s/%s", appPort, maskedId, activationToken)
 	// log.Printf("Activation Url: %s\n", activationUrl)
 
 	// Must configure SMTP server or other email sending service

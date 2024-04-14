@@ -7,7 +7,7 @@ import (
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
-	"github.com/rsvix/go-htmx-app-template/templates"
+	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
 type GetLoginHandler struct {

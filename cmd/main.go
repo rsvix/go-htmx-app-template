@@ -9,10 +9,10 @@ import (
 
 	"github.com/rsvix/go-htmx-app-template/internal/handlers"
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
-	"github.com/rsvix/go-htmx-app-template/store/cookiestore"
-	"github.com/rsvix/go-htmx-app-template/store/db"
-	"github.com/rsvix/go-htmx-app-template/templates"
-	"github.com/rsvix/go-htmx-app-template/utils"
+	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
+	"github.com/rsvix/go-htmx-app-template/internal/store/db"
+	"github.com/rsvix/go-htmx-app-template/internal/templates"
+	"github.com/rsvix/go-htmx-app-template/internal/utils"
 )
 
 func main() {

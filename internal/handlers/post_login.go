@@ -6,7 +6,7 @@ import (
 	"net/mail"
 	"strconv"
 
-	"github.com/rsvix/go-htmx-app-template/hash"
+	"github.com/rsvix/go-htmx-app-template/internal/hash"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"

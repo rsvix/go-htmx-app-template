@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/rsvix/go-htmx-app-template/hash"
-	"github.com/rsvix/go-htmx-app-template/templates"
+	"github.com/rsvix/go-htmx-app-template/internal/hash"
+	"github.com/rsvix/go-htmx-app-template/internal/templates"
 	"gorm.io/gorm"
 
 	"github.com/labstack/echo-contrib/session"

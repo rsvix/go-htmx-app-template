@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"github.com/rsvix/go-htmx-app-template/hash"
+	"github.com/rsvix/go-htmx-app-template/internal/hash"
 	"gorm.io/gorm"
 )
 

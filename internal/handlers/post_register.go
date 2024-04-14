@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/rsvix/go-htmx-app-template/hash"
-	"github.com/rsvix/go-htmx-app-template/structs"
-	"github.com/rsvix/go-htmx-app-template/utils"
+	"github.com/rsvix/go-htmx-app-template/internal/hash"
+	"github.com/rsvix/go-htmx-app-template/internal/structs"
+	"github.com/rsvix/go-htmx-app-template/internal/utils"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"

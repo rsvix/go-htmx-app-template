@@ -46,3 +46,8 @@ templ generate
 ./tailwindcss -i ./static/css/input.css -o ./static/css/style.min.css --minify
 ```
 ---
+### To build and run the dockerfile
+```
+docker build -t go-htmx-app-template .
+docker run -p 9001:9001 go-htmx-app-template:latest
+```

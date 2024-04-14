@@ -4,3 +4,7 @@ LICENSE
 README.md
 Makefile
 .gitignore
+servers.json
+init.sql
+docker-compose.yml
+tailwind.config.js

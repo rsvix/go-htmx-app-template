@@ -40,7 +40,7 @@ For different OS and achitectures check: https://github.com/tailwindlabs/tailwin
 templ generate
 ```
 ---
-### To update tailwind, run
+### To update css files, run
 ```
 # Start a watcher
 ./tailwindcss -i ./static/css/input.css -o ./static/css/style.css --watch
@@ -57,7 +57,7 @@ docker run -p 8080:8080 go-htmx-app-template:latest
 ### To build and run the docker compose
 ```
 docker compose up
-docke compose down
+docker compose down
 
 # Clean docker cache
 docker system prune

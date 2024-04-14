@@ -1,0 +1,74 @@
+package templates
+
+templ header(pageTitle string) {
+	<head>
+		<title>{ pageTitle }</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+		<script src="static/script/htmx.min.js"></script>
+		<script src="static/script/response-targets.js"></script>
+		<link rel="stylesheet" href="static/css/style.min.css"/>
+		<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+
+		// <script src="static/script/htmx.min.js" nonce={ middleware.GetHtmxNonce(ctx) }></script>
+		// <script src="static/script/response-targets.js" nonce={ middleware.GetResponseTargetsNonce(ctx) }></script>
+		// if os.Getenv("env") == "production" {
+		// 	<link rel="stylesheet" href="static/css/style.min.css" nonce={ middleware.GetTwNonce(ctx) }/>
+		// } else {
+		// 	<link rel="stylesheet" href="static/css/style.css" nonce={ middleware.GetTwNonce(ctx) }/>
+		// }
+	</head>
+}
+
+templ nav(pageTitle string, authenticated bool, userName string) {
+	<nav class="bg-white dark:bg-gray-800 p-4 sticky top-0 shadow">
+		<div class="container flex justify-end">
+			if authenticated {
+				<ol class="flex space-x-8">
+					<li>
+						<a class="text-gray-900 dark:text-white text-xl font-semibold" href="/">Home</a>
+					</li>
+					<li>
+						<a class="text-gray-900 dark:text-white text-xl font-semibold" href="/logout">Logout</a>
+					</li>
+				</ol>
+			} else {
+				if pageTitle == "Login" {
+					<ol class="flex space-x-8">
+						<li>
+							<a class="text-gray-900 dark:text-white text-xl font-semibold" href="/register">Register</a>
+						</li>
+					</ol>
+				} else {
+					<ol class="flex space-x-8">
+						<li>
+							<a class="text-gray-900 dark:text-white text-xl font-semibold" href="/login">Login</a>
+						</li>
+					</ol>
+				}
+			}
+		</div>
+	</nav>
+}
+
+templ footer() {
+	<footer class="bg-white dark:bg-gray-800 p-4"></footer>
+}
+
+
+templ Layout(pageTitle string, authenticated bool, userName string, showNavbar bool) {
+    <!DOCTYPE html>
+    <html lang="en">
+	@header(pageTitle)
+	<body hx-ext="response-targets" id="pagebody" class="flex flex-col h-full bg-gray-50 dark:bg-gray-900">
+		if showNavbar {
+			@nav(pageTitle, authenticated, userName)
+		}
+		<main class="flex-1 w-full">
+            { children... }
+		</main>
+		// @footer()
+	</body>
+    </html>
+}

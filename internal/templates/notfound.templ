@@ -1,0 +1,25 @@
+package templates
+
+templ NotfoundPage(pageTitle string, message string) {
+	<!DOCTYPE html>
+    <html lang="en">
+	<head>
+		<title>{ pageTitle }</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+	</head>
+	<body style="font-family: ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji; background-color: rgba(17, 24, 39, 1); height: 100%;">
+		<div style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">
+			<div style="margin:0 auto; text-align: center;  width: 100%; font-size: 7rem; font-weight: 700; color: rgb(255 255 255);">
+				404
+			</div>
+			<span style="font-size: 2rem; font-weight: 600; color: rgb(255 255 255);">{ message }</span>
+			<br/>
+			<div style="margin:0px auto; text-align: center;  width: 100%; padding-top: 18px">
+				<a href="/" style="font-size: 1rem; font-weight: 500; color: rgb(255 255 255); text-decoration: none;">Go to home page</a>
+			</div>
+		</div>
+	</body>
+	</html>
+}

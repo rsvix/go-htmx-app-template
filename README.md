@@ -12,6 +12,9 @@ Postgresql
 ---
 ### To install Go dependencies
 ```
+go mod download
+
+# Or
 go get github.com/labstack/echo/v4
 go get github.com/gorilla/sessions
 go get github.com/labstack/echo-contrib/session
@@ -49,7 +52,7 @@ templ generate
 ### To build and run the dockerfile
 ```
 docker build -t go-htmx-app-template .
-docker run -p 9001:9001 go-htmx-app-template:latest
+docker run -p 8080:8080 go-htmx-app-template:latest
 ```
 ### To build and run the docker compose
 ```

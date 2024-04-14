@@ -51,3 +51,11 @@ templ generate
 docker build -t go-htmx-app-template .
 docker run -p 9001:9001 go-htmx-app-template:latest
 ```
+### To build and run the docker compose
+```
+docker compose up
+docke compose down
+
+# Clean docker cache
+docker system prune
+``` 

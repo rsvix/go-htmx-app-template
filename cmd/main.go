@@ -17,14 +17,18 @@ import (
 
 func main() {
 	// Environment variables
-	serverPort := utils.GetSetEnv("SEVER_PORT", "9001")
-	dbName := utils.GetSetEnv("DB_NAME", "go_app_database")
+	appPort := utils.GetSetEnv("APP_PORT", "8080")
 	appName := utils.GetSetEnv("APP_NAME", "GoBot")
+	utils.GetSetEnv("POSTGRES_DB", "go-htmx-app-db")
+	utils.GetSetEnv("POSTGRES_PORT", "5432")
+	utils.GetSetEnv("POSTGRES_USER", "admin")
+	utils.GetSetEnv("POSTGRES_PASSWORD", "123")
+	utils.GetSetEnv("POSTGRES_HOST", "localhost")
 
 	app := echo.New()
-	app.Static("static", "./web_server/static")
-	app.File("/favicon.ico", "web_server/static/images/icon.ico")
-	db := db.Connect(dbName)
+	app.Static("static", "./static")
+	app.File("/favicon.ico", "./static/images/icon.ico")
+	db := db.Connect()
 
 	// Ip extractor
 	// https://echo.labstack.com/docs/ip-address
@@ -72,6 +76,6 @@ func main() {
 		return templates.NotfoundPage("Not Found", "Page not found").Render(c.Request().Context(), c.Response())
 	}
 
-	log.Printf("Starting %v server on port %v", appName, serverPort)
-	app.Logger.Fatal(app.Start(":" + serverPort))
+	log.Printf("Starting %v server on port %v", appName, appPort)
+	app.Logger.Fatal(app.Start(":" + appPort))
 }

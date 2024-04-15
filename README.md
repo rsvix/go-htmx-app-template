@@ -1,4 +1,6 @@
 # go-htmx-app-template
+Because you don't need a bloated javascript framework :joy:
+
 ### Template of a web application using:
 ```
 Golang
@@ -9,12 +11,6 @@ HTMX
 Tailwind CSS
 Postgresql
 ```
-### Why Echo?
-Because Echo returns error in its handlers
-https://www.youtube.com/watch?v=g-gsmike7qc
-
-### Why HTMX?
-Because in 99.9% of the cases, you don't need a bloated javascript framework, lol
 
 ---
 ### To install Go dependencies

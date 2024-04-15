@@ -23,8 +23,6 @@ func Connect() *gorm.DB {
 		log.Panic(err)
 	}
 
-	tableName := "users"
-
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, dbName, port)
 	database, e := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if e != nil {
@@ -42,6 +40,8 @@ func Connect() *gorm.DB {
 			log.Panic(e)
 		}
 	}
+
+	tableName := "users"
 
 	createTableCommand := fmt.Sprintf(
 		"CREATE TABLE IF NOT EXISTS %s ("+

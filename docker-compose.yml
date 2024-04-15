@@ -20,12 +20,11 @@ services:
       APP_NAME: GoBotApp
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
-      POSTGRES_URL: postgres://admin:123@db:5432/go-app-db
       # Check the video below to learn how to use gmail smtp server to send emails
       # https://www.youtube.com/watch?v=g_j6ILT-X0k
       # SENDER_EMAIL: your gmail here
       # SENDER_PSWD: our gmail passphrase here
-    ports:
+    ports: 
       - "8080:8080"
     depends_on:
       db:

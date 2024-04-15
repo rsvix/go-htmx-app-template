@@ -1,7 +1,6 @@
 package emails
 
 import (
-	"fmt"
 	"log"
 	"net/smtp"
 	"os"
@@ -10,35 +9,26 @@ import (
 // https://cloud.google.com/appengine/docs/standard/go111/mail/sending-receiving-with-mail-api?hl=pt-br
 // https://mailtrap.io/blog/golang-send-email/
 
-func SendResetEmail(email string, activation_url string) error {
-	log.Printf("url: %v\n", activation_url)
-
+func SendResetEmail(email string, resetUrl string) error {
 	from, _ := os.LookupEnv("SENDER_EMAIL")
 	password, _ := os.LookupEnv("SENDER_PSWD")
 	to := email
 
-	// smtp server configuration.
 	smtpHost := "smtp.gmail.com"
 	smtpPort := "587"
 
-	// Message.
-	message := []byte(fmt.Sprintf(
-		"To: %s\r\n"+
-			"Subject: Activation Email\r\n"+
-			"\r\n"+
-			"This is a test email message.\n%s",
-		email,
-		activation_url))
+	message := "From: " + from + "\n" +
+		"To: " + to + "\n" +
+		"Subject: GoBot - Activation email\n\n" +
+		"Click on the link below to reset your password\n" + resetUrl
 
-	// Authentication.
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
-	// Sending email.
-	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, message)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, []byte(message))
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return err
 	}
-	fmt.Println("Email Sent Successfully!")
+	log.Printf("Email successfully sent to %s", to)
 	return nil
 }

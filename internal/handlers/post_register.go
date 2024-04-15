@@ -18,17 +18,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type PostRegisterHandler struct {
+type postRegisterHandlerParams struct {
 }
 
-type PostRegisterHandlerParams struct {
+func PostRegisterHandler() *postRegisterHandlerParams {
+	return &postRegisterHandlerParams{}
 }
 
-func NewPostRegisterHandler(params PostRegisterHandlerParams) *PostRegisterHandler {
-	return &PostRegisterHandler{}
-}
-
-func (h *PostRegisterHandler) ServeHTTP(c echo.Context) error {
+func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 
 	email := c.Request().FormValue("email")
 	firstname := c.Request().FormValue("firstname")

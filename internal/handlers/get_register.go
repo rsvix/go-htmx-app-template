@@ -10,19 +10,19 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type registerHandlerParams struct {
+type getRegisterHandlerParams struct {
 	appName   string
 	pageTitle string
 }
 
-func GetRegisterHandler() *registerHandlerParams {
-	return &registerHandlerParams{
+func GetRegisterHandler() *getRegisterHandlerParams {
+	return &getRegisterHandlerParams{
 		appName:   os.Getenv("APP_NAME"),
 		pageTitle: "Register",
 	}
 }
 
-func (h registerHandlerParams) Serve(c echo.Context) error {
+func (h getRegisterHandlerParams) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {

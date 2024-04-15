@@ -10,15 +10,19 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type GetResetformHandler struct {
+type getResetformHandlerParams struct {
+	appName   string
+	pageTitle string
 }
 
-func NewGetResetformHandler() *GetResetformHandler {
-	return &GetResetformHandler{}
+func GetResetformHandler() *getResetformHandlerParams {
+	return &getResetformHandlerParams{
+		appName:   os.Getenv("APP_NAME"),
+		pageTitle: "Reset",
+	}
 }
 
-func (i GetResetformHandler) ServeHTTP(c echo.Context) error {
-	appName := os.Getenv("APP_NAME")
+func (h getResetformHandlerParams) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
@@ -28,10 +32,10 @@ func (i GetResetformHandler) ServeHTTP(c echo.Context) error {
 	if session.Values["pwreset"] != nil {
 		if auth, ok := session.Values["pwreset"].(bool); !ok || !auth {
 			en_err := session.Values["en_error"].(string)
-			return templates.ResetFormPage(appName, "Reset", false, "", en_err).Render(c.Request().Context(), c.Response())
+			return templates.ResetFormPage(h.appName, h.pageTitle, false, "", en_err).Render(c.Request().Context(), c.Response())
 		}
 		id := session.Values["user_id"].(string)
-		return templates.ResetFormPage(appName, "Reset", true, id, "Reset your password").Render(c.Request().Context(), c.Response())
+		return templates.ResetFormPage(h.appName, h.pageTitle, true, id, "Reset your password").Render(c.Request().Context(), c.Response())
 	}
 	return c.Redirect(http.StatusSeeOther, "/login")
 }

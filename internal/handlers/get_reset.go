@@ -10,25 +10,27 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type GetResetHandler struct {
+type getResetHandlerParams struct {
+	appName   string
+	pageTitle string
 }
 
-func NewGetResetHandler() *GetResetHandler {
-	return &GetResetHandler{}
+func GetResetHandler() *getResetHandlerParams {
+	return &getResetHandlerParams{
+		appName:   os.Getenv("APP_NAME"),
+		pageTitle: "Register",
+	}
 }
 
-func (i GetResetHandler) ServeHTTP(c echo.Context) error {
+func (h getResetHandlerParams) Serve(c echo.Context) error {
 
-	// Get session
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
 		log.Printf("Error getting session: %v\n", err)
 	}
 
-	// Check if session is authenticated
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		appName := os.Getenv("APP_NAME")
-		return templates.ResetPage(appName, "Reset").Render(c.Request().Context(), c.Response())
+		return templates.ResetPage(h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
 	}
 	return c.Redirect(http.StatusSeeOther, "/")
 }

@@ -9,19 +9,19 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type indexHandlerParams struct {
+type getIndexHandlerParams struct {
 	pageTitle       string
 	defaultUsername string
 }
 
-func GetIndexHandler() *indexHandlerParams {
-	return &indexHandlerParams{
+func GetIndexHandler() *getIndexHandlerParams {
+	return &getIndexHandlerParams{
 		pageTitle:       "Index",
 		defaultUsername: "User",
 	}
 }
 
-func (h indexHandlerParams) Serve(c echo.Context) error {
+func (h getIndexHandlerParams) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {

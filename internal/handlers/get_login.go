@@ -10,19 +10,19 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type loginHandlerParams struct {
+type getLoginHandlerParams struct {
 	appName   string
 	pageTitle string
 }
 
-func GetLoginHandler() *loginHandlerParams {
-	return &loginHandlerParams{
+func GetLoginHandler() *getLoginHandlerParams {
+	return &getLoginHandlerParams{
 		appName:   os.Getenv("APP_NAME"),
 		pageTitle: "Login",
 	}
 }
 
-func (h loginHandlerParams) Serve(c echo.Context) error {
+func (h getLoginHandlerParams) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {

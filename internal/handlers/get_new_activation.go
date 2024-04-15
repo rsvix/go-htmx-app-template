@@ -11,14 +11,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type GetNewActivationHandler struct {
+type getNewActivationHandler struct {
 }
 
-func NewGetNewActivationHandler() *GetNewActivationHandler {
-	return &GetNewActivationHandler{}
+func GetNewActivationHandler() *getNewActivationHandler {
+	return &getNewActivationHandler{}
 }
 
-func (i GetNewActivationHandler) ServeHTTP(c echo.Context) error {
+func (h getNewActivationHandler) Serve(c echo.Context) error {
 
 	// Get session
 	session, err := session.Get("authenticate-sessions", c)

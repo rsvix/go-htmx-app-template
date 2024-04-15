@@ -36,9 +36,7 @@ func (i GetTokenHandler) ServeHTTP(c echo.Context) error {
 
 	// Check if session is authenticated
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		validationToken := strings.Split(token, "O")[0]
 		extraInfo := strings.Split(token, "O")[1]
-		log.Printf("validationToken: %s\n", validationToken)
 		log.Printf("extraInfo: %s\n", extraInfo)
 
 		decoded, err := hex.DecodeString(extraInfo)
@@ -70,13 +68,16 @@ func (i GetTokenHandler) ServeHTTP(c echo.Context) error {
 			db.Raw("SELECT activationtoken, activationtokenexpiration, enabled FROM users WHERE id = ?", id).Scan(&result)
 
 			if result.Enabled == 0 {
-				// diff := time.Until(result.Activationtokenexpiration)
-				diff := result.Activationtokenexpiration.Sub(time.Now().UTC())
+				diff := time.Until(result.Activationtokenexpiration)
+				// diff := result.Activationtokenexpiration.Sub(time.Now().UTC())
 				secs := diff.Seconds()
-				// log.Printf("diff: %v\nsecs: %v\n", diff, secs)
+				log.Printf("diff: %v\nsecs: %v\n", diff, secs)
+
+				log.Printf("result.Activationtoken: %v\n", result.Activationtoken)
+				log.Printf("token: %v\n", token)
 
 				if secs > 0.0 {
-					if strings.Compare(strings.TrimSpace(result.Activationtoken), strings.TrimSpace(validationToken)) == 0 {
+					if strings.Compare(strings.TrimSpace(result.Activationtoken), strings.TrimSpace(token)) == 0 {
 						// res := db.Table("users").Where("id = ?", id).Update("enabled", 1)
 						timeNow := time.Now().UTC()
 						res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"enabled": 1, "activationtokenexpiration": timeNow})
@@ -158,10 +159,10 @@ func (i GetTokenHandler) ServeHTTP(c echo.Context) error {
 				// return c.Redirect(http.StatusSeeOther, "/resetform")
 			}
 
-			log.Printf("validationToken: %v\n", validationToken)
+			log.Printf("token: %v\n", token)
 			log.Printf("Passwordchangetoken: %v\n", result.Passwordchangetoken)
 
-			if strings.Compare(strings.TrimSpace(result.Passwordchangetoken), strings.TrimSpace(validationToken)) == 0 {
+			if strings.Compare(strings.TrimSpace(result.Passwordchangetoken), strings.TrimSpace(token)) == 0 {
 				session.Values["pwreset"] = true
 				session.Values["user_id"] = id
 				err = session.Save(c.Request(), c.Response())

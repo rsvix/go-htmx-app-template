@@ -13,27 +13,26 @@ import (
 	"gorm.io/gorm"
 )
 
-type PostLoginHandler struct {
+type postLoginHandlerParams struct {
+	dbKey string
 }
 
-type PostLoginHandlerParams struct {
+func PostLoginHandler() *postLoginHandlerParams {
+	return &postLoginHandlerParams{
+		dbKey: "__db",
+	}
 }
 
-func NewPostLoginHandler(params PostLoginHandlerParams) *PostLoginHandler {
-	return &PostLoginHandler{}
-}
-
-func (h *PostLoginHandler) ServeHTTP(c echo.Context) error {
+func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 
 	email := c.Request().FormValue("email")
 	password := c.Request().FormValue("password")
-	// log.Printf("email: %s\npassword: %s\n", email, password)
 
 	if _, err := mail.ParseAddress(email); err != nil {
 		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid credentials</h2>")
 	}
 
-	db := c.Get("__db").(*gorm.DB)
+	db := c.Get(h.dbKey).(*gorm.DB)
 	var result struct {
 		Id        int
 		Firstname string

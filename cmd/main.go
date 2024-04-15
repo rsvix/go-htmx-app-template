@@ -62,13 +62,13 @@ func main() {
 	app.GET("/activate", handlers.GetActivateHandler().Serve)
 	app.GET("/newactivation", handlers.GetNewActivationHandler().Serve)
 	app.GET("/reset", handlers.GetResetHandler().Serve)
-	app.POST("/reset", handlers.NewPostResetHandler(handlers.PostResetHandlerParams{}).ServeHTTP)
+	app.POST("/reset", handlers.PostResetHandler().Serve)
 	app.GET("/resetform", handlers.GetResetformHandler().Serve)
-	app.POST("/resetform", handlers.NewPostProcessResetHandler(handlers.PostProcessResetHandlerParams{}).ServeHTTP)
+	app.POST("/resetform", handlers.PostResetformHandler().Serve)
 	app.GET("/login", handlers.GetLoginHandler().Serve)
-	app.POST("/login", handlers.NewPostLoginHandler(handlers.PostLoginHandlerParams{}).ServeHTTP)
+	app.POST("/login", handlers.PostLoginHandler().Serve)
 	app.GET("/logout", handlers.GetLogoutHandler().Serve)
-	app.GET("/tkn/:token", handlers.GetTokenHandler{}.ServeHTTP)
+	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
 
 	echo.NotFoundHandler = func(c echo.Context) error {
 		return templates.NotfoundPage("Not Found", "Page not found").Render(c.Request().Context(), c.Response())

@@ -14,17 +14,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type PostProcessResetHandler struct {
+type postResetformHandlerParams struct {
 }
 
-type PostProcessResetHandlerParams struct {
+func PostResetformHandler() *postResetformHandlerParams {
+	return &postResetformHandlerParams{}
 }
 
-func NewPostProcessResetHandler(params PostProcessResetHandlerParams) *PostProcessResetHandler {
-	return &PostProcessResetHandler{}
-}
-
-func (h *PostProcessResetHandler) ServeHTTP(c echo.Context) error {
+func (h *postResetformHandlerParams) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
@@ -67,7 +64,6 @@ func (h *PostProcessResetHandler) ServeHTTP(c echo.Context) error {
 			appName := os.Getenv("APP_NAME")
 			return templates.MessagePage(appName, "Reset", "Your password was reset", true, false).Render(c.Request().Context(), c.Response())
 		}
-		log.Println("diff")
 		return c.HTML(http.StatusUnprocessableEntity, "<h2>Passwords dont match</h2>")
 	}
 	return c.Redirect(http.StatusSeeOther, "/login")

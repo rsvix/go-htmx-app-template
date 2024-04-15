@@ -15,17 +15,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type PostResetHandler struct {
+type postResetHandlerParams struct {
 }
 
-type PostResetHandlerParams struct {
+func PostResetHandler() *postResetHandlerParams {
+	return &postResetHandlerParams{}
 }
 
-func NewPostResetHandler(params PostResetHandlerParams) *PostResetHandler {
-	return &PostResetHandler{}
-}
-
-func (h *PostResetHandler) ServeHTTP(c echo.Context) error {
+func (h *postResetHandlerParams) Serve(c echo.Context) error {
 
 	email := c.Request().FormValue("email")
 	_, err := mail.ParseAddress(email)

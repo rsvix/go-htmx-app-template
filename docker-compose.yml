@@ -1,7 +1,7 @@
 version: '3.5'
 
 x-common-variables: &common-variables
-  POSTGRES_DB: go-htmx-app-db
+  POSTGRES_DB: postgres
   POSTGRES_USER: admin
   PGUSER: admin
   POSTGRES_PASSWORD: 123

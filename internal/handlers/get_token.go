@@ -12,16 +12,21 @@ import (
 	"gorm.io/gorm"
 )
 
-type GetTokenHandler struct {
+type getTokenHandlerParams struct {
+	queryParam string
+	dbKey      string
 }
 
-func NewGetTokenHandler() *GetTokenHandler {
-	return &GetTokenHandler{}
+func GetTokenHandler() *getTokenHandlerParams {
+	return &getTokenHandlerParams{
+		queryParam: "token",
+		dbKey:      "__db",
+	}
 }
 
-func (i GetTokenHandler) ServeHTTP(c echo.Context) error {
+func (h getTokenHandlerParams) Serve(c echo.Context) error {
 
-	token := c.Param("token")
+	token := c.Param(h.queryParam)
 	log.Printf("token: %s\n", token)
 
 	if !strings.Contains(token, "O") {
@@ -59,7 +64,7 @@ func (i GetTokenHandler) ServeHTTP(c echo.Context) error {
 			session.Values["enabled"] = false
 			session.Values["id"] = id
 
-			db := c.Get("__db").(*gorm.DB)
+			db := c.Get(h.dbKey).(*gorm.DB)
 			var result struct {
 				Activationtoken           string
 				Activationtokenexpiration time.Time
@@ -68,13 +73,10 @@ func (i GetTokenHandler) ServeHTTP(c echo.Context) error {
 			db.Raw("SELECT activationtoken, activationtokenexpiration, enabled FROM users WHERE id = ?", id).Scan(&result)
 
 			if result.Enabled == 0 {
-				diff := time.Until(result.Activationtokenexpiration)
-				// diff := result.Activationtokenexpiration.Sub(time.Now().UTC())
+				// diff := time.Until(result.Activationtokenexpiration)
+				diff := result.Activationtokenexpiration.Sub(time.Now().UTC())
 				secs := diff.Seconds()
 				log.Printf("diff: %v\nsecs: %v\n", diff, secs)
-
-				log.Printf("result.Activationtoken: %v\n", result.Activationtoken)
-				log.Printf("token: %v\n", token)
 
 				if secs > 0.0 {
 					if strings.Compare(strings.TrimSpace(result.Activationtoken), strings.TrimSpace(token)) == 0 {
@@ -171,9 +173,7 @@ func (i GetTokenHandler) ServeHTTP(c echo.Context) error {
 				}
 				return c.Redirect(http.StatusSeeOther, "/resetform")
 			}
-
 			return c.JSON(http.StatusBadRequest, "Invalid token")
-
 		}
 		return nil
 	}

@@ -52,7 +52,8 @@ func (h *PostResetHandler) ServeHTTP(c echo.Context) error {
 			return c.HTML(http.StatusInternalServerError, "<h2>Can't request multiple password<br/>resets in a short period</h2>")
 		}
 
-		resetToken, err := hash.GenerateActivationToken()
+		// resetToken, err := hash.GenerateActivationToken()
+		resetToken, err := hash.GenerateToken(false, id)
 		if err != nil {
 			log.Println(err)
 			return c.HTML(http.StatusInternalServerError, "<h2>Couldn't process your request</h2>")
@@ -66,7 +67,7 @@ func (h *PostResetHandler) ServeHTTP(c echo.Context) error {
 		log.Printf("Query result: %v\n", result)
 
 		appPort, _ := os.LookupEnv("APP_PORT")
-		passUrl := fmt.Sprintf("http://localhost:%s/pwreset/%s/%s", appPort, id, resetToken)
+		passUrl := fmt.Sprintf("http://localhost:%s/tkn/%s", appPort, resetToken)
 		log.Printf("passUrl: %v\n", passUrl)
 
 		// Must configure SMTP server or other email sending service

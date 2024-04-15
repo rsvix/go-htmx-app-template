@@ -6,10 +6,9 @@ import (
 	"os"
 )
 
-// https://cloud.google.com/appengine/docs/standard/go111/mail/sending-receiving-with-mail-api?hl=pt-br
-// https://mailtrap.io/blog/golang-send-email/
+// https://gist.github.com/jpillora/cb46d183eca0710d909a
 
-func SendResetEmail(email string, resetUrl string) error {
+func SendActivationEmail(email string, activationUrl string) error {
 	from, _ := os.LookupEnv("SENDER_EMAIL")
 	password, _ := os.LookupEnv("SENDER_PSWD")
 	to := email
@@ -19,14 +18,16 @@ func SendResetEmail(email string, resetUrl string) error {
 
 	message := "From: " + from + "\n" +
 		"To: " + to + "\n" +
-		"Subject: GoBot - Activation email\n\n" +
-		"Click on the link below to reset your password\n" + resetUrl
+		"Subject: GoBot - Account ativation\n\n" +
+		"Navigate to the url below to activate your account\n" + activationUrl
 
+	// Authentication.
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
+	// Sending email.
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, []byte(message))
 	if err != nil {
-		log.Println(err)
+		log.Printf("Error sending email to %s\nError: %s", email, err)
 		return err
 	}
 	log.Printf("Email successfully sent to %s", to)

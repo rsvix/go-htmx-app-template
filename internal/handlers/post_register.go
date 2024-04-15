@@ -66,31 +66,21 @@ func (h *PostRegisterHandler) ServeHTTP(c echo.Context) error {
 	}
 	// log.Printf("hashPassword: %s\n", hashPassword)
 
-	activationToken, err := hash.GenerateActivationToken()
-	if err != nil {
-		log.Printf("Error generating activation token: %v\n", err)
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
-	}
-	// log.Printf("activationToken: %v\n", activationToken)
-
 	// ip := c.RealIP()
 	ip, ipErr := utils.GetIP(c.Request())
 	if ipErr != nil {
 		log.Printf("Error obtaining ip from request: %v\n", ipErr)
 	}
 
-	timeNow := time.Now().UTC()
-	timeExp := timeNow.Add(24 * time.Hour)
-
 	user := structs.User{
-		Email:                         email,
-		Firstname:                     firstname,
-		Lastname:                      lastname,
-		Password:                      hashPassword,
-		Activationtoken:               activationToken,
-		Activationtokenexpiration:     timeExp,
-		Passwordchangetokenexpiration: timeNow,
-		Registerip:                    ip,
+		Email:     email,
+		Firstname: firstname,
+		Lastname:  lastname,
+		Password:  hashPassword,
+		// Activationtoken:               activationToken,
+		// Activationtokenexpiration:     timeExp,
+		// Passwordchangetokenexpiration: timeNow,
+		Registerip: ip,
 	}
 
 	db := c.Get("__db").(*gorm.DB)
@@ -104,9 +94,24 @@ func (h *PostRegisterHandler) ServeHTTP(c echo.Context) error {
 	}
 	// log.Printf("Create user result: %s\n", result)
 
-	maskedId := strconv.FormatUint(uint64((user.ID + 575426791)), 10)
+	id := strconv.FormatInt(int64(user.ID), 10)
+
+	activationToken, err := hash.GenerateToken(true, id)
+	if err != nil {
+		log.Printf("Error generating activation token: %v\n", err)
+		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+	}
+
+	timeNow := time.Now().UTC()
+	timeExp := timeNow.Add(24 * time.Hour)
+
+	var emailResp string
+	result2 := db.Raw("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;", activationToken, timeExp, timeNow, id).Scan(&emailResp)
+	log.Printf("emailResp: %v\n", emailResp)
+	log.Printf("Query result: %v\n", result2)
+
 	appPort, _ := os.LookupEnv("APP_PORT")
-	activationUrl := fmt.Sprintf("http://localhost:%s/activation/%s/%s", appPort, maskedId, activationToken)
+	activationUrl := fmt.Sprintf("http://localhost:%s/tkn/%s", appPort, activationToken)
 	// log.Printf("Activation Url: %s\n", activationUrl)
 
 	// Must configure SMTP server or other email sending service

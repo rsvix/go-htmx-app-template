@@ -24,6 +24,9 @@ templ header(pageTitle string) {
 }
 
 const (
+	sidebarRet = "h-full w-14 bg-gray-800 fixed z-40 overflow-auto top-0 left-0 m-0 p-0 border-none block whitespace-normal float-none outline-0 text-xl"
+	sidebarExt = "h-full w-0 bg-gray-800 fixed z-50 overflow-hidden top-0 left-0 m-0 p-0 border-none block whitespace-normal float-none outline-0 text-xl transition-all"
+
 	topbarIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-4"
 	generalcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-2"
 	logoutIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6 absolute bottom-0 left-0 right-0 mx-auto"
@@ -77,8 +80,7 @@ templ sideNav(pageTitle string, authenticated bool, userName string) {
 
 </style>
 	// class="sidebar"
-	// class="h-full w-12 bg-gray-800 fixed z-50 overflow-auto top-0 left-0 m-0 px-1 py-0 border-none block whitespace-normal float-none""
-<div class="sidebar">
+<div class={ sidebarRet }>
 
     <a class={ topbarIcon } title="&#128161; Expandir menu" href="#" onclick="openCloseNav()">
         <i class="fa-solid fa-bars"></i>
@@ -129,7 +131,10 @@ templ sideNav(pageTitle string, authenticated bool, userName string) {
     </a>
 </div>
 
-<div id="sidebarExtension" class="sidebarext">
+<div 
+	id="sidebarExtension" 
+	class={ sidebarExt }
+	>
     <a class={ topbarText } style="font-size: 20px;" title="&#128161; Colapsar menu" href="javascript:void(0)" onclick="openCloseNav()">
         <i class="fa-solid fa-bars"></i>
     </a>

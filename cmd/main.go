@@ -8,7 +8,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/rsvix/go-htmx-app-template/internal/handlers"
-	"github.com/rsvix/go-htmx-app-template/internal/hash"
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
 	"github.com/rsvix/go-htmx-app-template/internal/store/db"
@@ -19,7 +18,7 @@ import (
 func main() {
 	appPort := utils.GetSetEnv("APP_PORT", "8080")
 	appName := utils.GetSetEnv("APP_NAME", "GoBot")
-	utils.GetSetEnv("POSTGRES_DB", "go-htmx-app-db")
+	utils.GetSetEnv("POSTGRES_DB", "postgres")
 	utils.GetSetEnv("POSTGRES_PORT", "5432")
 	utils.GetSetEnv("POSTGRES_USER", "admin")
 	utils.GetSetEnv("POSTGRES_PASSWORD", "123")
@@ -30,21 +29,8 @@ func main() {
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()
 
-	v, _ := hash.GenerateToken(true, "1")
-	hash.DecodeToken(v)
-
-	v, _ = hash.GenerateToken(false, "1")
-	hash.DecodeToken(v)
-
-	v, _ = hash.GenerateToken(true, "2")
-	hash.DecodeToken(v)
-
-	v, _ = hash.GenerateToken(true, "3000")
-	hash.DecodeToken(v)
-
-	// Ip extractor
+	// Ip extractor - https://echo.labstack.com/docs/ip-address
 	// Not using - Cehck github.com/rsvix/go-htmx-app-template/internal/utils/env_var.go
-	// https://echo.labstack.com/docs/ip-address
 	// app.IPExtractor = echo.ExtractIPDirect()
 	// app.IPExtractor = echo.ExtractIPFromXFFHeader()
 	// app.IPExtractor = echo.ExtractIPFromRealIPHeader()
@@ -70,18 +56,18 @@ func main() {
 	}))
 
 	// Handlers
-	app.GET("/", handlers.GetIndexHandler{}.ServeHTTP)
-	app.GET("/register", handlers.GetRegisterHandler{}.ServeHTTP)
+	app.GET("/", handlers.GetIndexHandler().Serve)
+	app.GET("/register", handlers.GetRegisterHandler().Serve)
 	app.POST("/register", handlers.NewPostRegisterHandler(handlers.PostRegisterHandlerParams{}).ServeHTTP)
-	app.GET("/activate", handlers.GetActivateHandler{}.ServeHTTP)
+	app.GET("/activate", handlers.GetActivateHandler().Serve)
 	app.GET("/newactivation", handlers.GetNewActivationHandler{}.ServeHTTP)
 	app.GET("/reset", handlers.GetResetHandler{}.ServeHTTP)
 	app.POST("/reset", handlers.NewPostResetHandler(handlers.PostResetHandlerParams{}).ServeHTTP)
 	app.GET("/resetform", handlers.GetResetformHandler{}.ServeHTTP)
 	app.POST("/resetform", handlers.NewPostProcessResetHandler(handlers.PostProcessResetHandlerParams{}).ServeHTTP)
-	app.GET("/login", handlers.GetLoginHandler{}.ServeHTTP)
+	app.GET("/login", handlers.GetLoginHandler().Serve)
 	app.POST("/login", handlers.NewPostLoginHandler(handlers.PostLoginHandlerParams{}).ServeHTTP)
-	app.GET("/logout", handlers.GetLogoutHandler{}.ServeHTTP)
+	app.GET("/logout", handlers.GetLogoutHandler().Serve)
 	app.GET("/tkn/:token", handlers.GetTokenHandler{}.ServeHTTP)
 
 	echo.NotFoundHandler = func(c echo.Context) error {

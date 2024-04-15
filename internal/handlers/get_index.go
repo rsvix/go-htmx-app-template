@@ -9,21 +9,23 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type GetIndexHandler struct {
-	pageTitle string
+type indexHandlerParams struct {
+	pageTitle       string
+	defaultUsername string
 }
 
-func NewGetIndexHandler() *GetIndexHandler {
-	return &GetIndexHandler{
-		pageTitle: "Index",
+func GetIndexHandler() *indexHandlerParams {
+	return &indexHandlerParams{
+		pageTitle:       "Index",
+		defaultUsername: "User",
 	}
 }
 
-func (h GetIndexHandler) ServeHTTP(c echo.Context) error {
+func (h indexHandlerParams) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
-		log.Printf("Get: %v\n", err)
+		log.Printf("Error getting session: %v\n", err)
 	}
 
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
@@ -31,7 +33,7 @@ func (h GetIndexHandler) ServeHTTP(c echo.Context) error {
 		// return templates.LoginPage("Login", false, "").Render(c.Request().Context(), c.Response())
 	}
 
-	userName := "user"
+	userName := h.defaultUsername
 	if value, ok := session.Values["firstname"].(string); ok {
 		userName = value
 	}

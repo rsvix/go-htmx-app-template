@@ -8,14 +8,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type GetLogoutHandler struct {
+type logoutHandlerParams struct {
 }
 
-func NewGetLogoutHandler() *GetLoginHandler {
-	return &GetLoginHandler{}
+func GetLogoutHandler() *logoutHandlerParams {
+	return &logoutHandlerParams{}
 }
 
-func (i GetLogoutHandler) ServeHTTP(c echo.Context) error {
+func (h logoutHandlerParams) Serve(c echo.Context) error {
 
 	// Get session
 	session, err := session.Get("authenticate-sessions", c)

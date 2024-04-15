@@ -9,16 +9,18 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type GetActivateHandler struct {
+type activateHandlerParams struct {
+	pageTitle string
 }
 
-func NewGetActivateHandler() *GetActivateHandler {
-	return &GetActivateHandler{}
+func GetActivateHandler() *activateHandlerParams {
+	return &activateHandlerParams{
+		pageTitle: "Activate",
+	}
 }
 
-func (i GetActivateHandler) ServeHTTP(c echo.Context) error {
+func (h activateHandlerParams) Serve(c echo.Context) error {
 
-	// Get session
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
 		log.Printf("Error getting session: %v\n", err)
@@ -29,10 +31,10 @@ func (i GetActivateHandler) ServeHTTP(c echo.Context) error {
 			// id := session.Values["id"].(string)
 			en_err := session.Values["en_error"].(string)
 			// return templates.ActivatePage("Activate", false, id, en_err).Render(c.Request().Context(), c.Response())
-			return templates.ActivatePage("Activate", false, en_err).Render(c.Request().Context(), c.Response())
+			return templates.ActivatePage(h.pageTitle, false, en_err).Render(c.Request().Context(), c.Response())
 		}
 		// return templates.ActivatePage("Activate", true, "", "Account activated").Render(c.Request().Context(), c.Response())
-		return templates.ActivatePage("Activate", true, "Account activated").Render(c.Request().Context(), c.Response())
+		return templates.ActivatePage(h.pageTitle, true, "Account activated").Render(c.Request().Context(), c.Response())
 	}
 	return c.Redirect(http.StatusSeeOther, "/login")
 }

@@ -69,7 +69,9 @@ func (h *postResetHandlerParams) Serve(c echo.Context) error {
 
 		// Must configure SMTP server or other email sending service
 		if _, ok := os.LookupEnv("SENDER_PSWD"); ok {
-			emails.SendResetEmail(email, passUrl)
+			if err := emails.SendResetMail(email, passUrl, emails.DefaultParams()); err != nil {
+				log.Printf("Error sending email: %s\n", err)
+			}
 			return c.HTML(http.StatusOK, fmt.Sprintf("<h2>Email sent to %s, id: %s</h2>", email, id))
 		}
 

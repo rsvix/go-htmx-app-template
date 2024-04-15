@@ -30,13 +30,13 @@ func header(pageTitle string) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(pageTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web_server/internal/templates/layout.templ`, Line: 5, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 5, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"static/script/htmx.min.js\"></script><script src=\"static/script/response-targets.js\"></script><link rel=\"stylesheet\" href=\"static/css/style.min.css\"><link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\"></head>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"static/script/htmx.min.js\"></script><script src=\"static/script/response-targets.js\"></script><link rel=\"stylesheet\" href=\"static/css/style.min.css\"><link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\"><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\"></head>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -93,7 +93,7 @@ func nav(pageTitle string, authenticated bool, userName string) templ.Component 
 	})
 }
 
-func footer() templ.Component {
+func nav2(pageTitle string, authenticated bool, userName string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -104,6 +104,30 @@ func footer() templ.Component {
 		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
 		if templ_7745c5c3_Var4 == nil {
 			templ_7745c5c3_Var4 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n.sidebar {\n    height: 100%;\n    width: 56px;\n    background-color: rgb(31 41 55);\n    position: fixed!important;\n    z-index: 100;\n    overflow: auto;\n    top: 0;\n    left: 0;\n    margin: 0px;\n    padding: 2px 18px;\n    border: none;\n    white-space: normal;\n    display: block;\n    float: none;\n    outline: 0;\n    font-size: 20px;\n}\n\n.sidebarext {\n    height: 100%;\n    width: 0;\n    background-color: rgb(31 41 55);\n    position: fixed!important;\n    z-index: 110;\n    overflow-x: hidden;\n    top: 0;\n    left: 0;\n    margin: 0px;\n    /* margin-left: 56px; */\n    padding: 2px 0px;\n    border: none;\n    white-space: normal;\n    display: block;\n    float: none;\n    outline: 0;\n    font-size: 18px;\n    transition: 0.2s;\n}\n\n</style><div class=\"sidebar\"><a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-4\" title=\"💡 Expandir menu\" href=\"#\" onclick=\"openCloseNav()\"><i class=\"fa-solid fa-bars\"></i></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold py-2\" title=\"💡 Home\" href=\"/\"><i class=\"fa-solid fa-house\"></i></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold py-2\" title=\"💡 Bots\" href=\"/botspg\"><i class=\"fa-solid fa-robot\"></i></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold py-2\" title=\"💡 Execução por agendamento\" href=\"/agendamento\"><i class=\"fa-regular fa-calendar-days\"></i></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pb-2\" title=\"💡 Execução por arquivo inserido\" href=\"/gat_arquivo\"><!-- <i class=\"fa-solid fa-file-export\"></i> --><!-- <i class=\"fa-solid fa-file-arrow-up\"></i> --><i class=\"fa-solid fa-laptop-file\"></i></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pb-2\" title=\"💡 Credenciais\" href=\"/credenciais\"><i class=\"fa-solid fa-key\"></i></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pb-2\" title=\"💡 Configurações git\" href=\"/git_config\"><i class=\"fa-brands fa-square-git\"></i><!-- <i class=\"fa-brands fa-git-alt\"></i> --><!-- <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24\" width=\"21\" viewBox=\"0 0 448 512\"><path opacity=\"1\" fill=\"currentColor\" d=\"M439.6 236.1L244 40.5a28.9 28.9 0 0 0 -40.8 0l-40.7 40.6 51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.2 199v121.9c25.3 12.5 22.3 41.9 9.1 55a34.3 34.3 0 0 1 -48.6 0c-17.6-17.6-11.1-46.9 11.3-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1a28.9 28.9 0 0 0 0 40.8l195.6 195.6a28.9 28.9 0 0 0 40.8 0l194.7-194.7a28.9 28.9 0 0 0 0-40.8z\"/></svg> --></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pb-2\" title=\"💡 Execuções\" href=\"/execs\"><i class=\"fa-solid fa-play\"></i><!-- <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"1.5em\" width=\"1.25em\" viewBox=\"0 0 384 512\"><path opacity=\"1\" fill=\"currentColor\" d=\"M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z\"/></svg> --></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pb-2\" title=\"💡 Fila de execuções\" href=\"/fila\"><i class=\"fa-solid fa-list\"></i></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pb-2\" title=\"💡 Code snippets\" href=\"/snippets\"><i class=\"fa-solid fa-code\"></i><!-- <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"1.5em\" width=\"2em\" viewBox=\"0 0 640 512\"><path opacity=\"1\" fill=\"currentColor\" d=\"M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z\"/></svg> --></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pb-2\" title=\"💡 Swagger da API\" href=\"/swagger/#\"><!-- <i class=\"fa-solid fa-book\"></i> --><!-- <i class=\"fa-solid fa-book-open\"></i> --><!-- <i class=\"fa-solid fa-book-open-reader\"></i> --><!-- <i class=\"fa-solid fa-book-bookmark\"></i> --><i class=\"fa-solid fa-file-code\"></i><!-- <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"1.5em\" width=\"1.25em\" viewBox=\"0 0 384 512\"><path opacity=\"1\" fill=\"currentColor\" d=\"M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z\"/></svg> --></a> <a class=\"flex items-center justify-center my-2 text-white font-medium font-bold pb-2\" title=\"💡 Painel Admin\" href=\"/admin\"><i class=\"fa-solid fa-wrench\"></i><!-- <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"1.25em\" width=\"1.25em\" viewBox=\"0 0 512 512\"><path opacity=\"1\" fill=\"currentColor\" d=\"M78.6 5C69.1-2.4 55.6-1.5 47 7L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4h54.1l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3l-109-109V104c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L233.7 374.3c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5c-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16V102.6c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0C288.5 0 224 64.5 224 144l0 .8 85.3 85.3c36-9.1 75.8 .5 104 28.7L429 274.5c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z\"/></svg> --></a> <a class=\"flex items-center justify-center my-4 text-white font-medium font-bold pb-4 absolute bottom-0 left-0 right-0 mx-auto\" title=\"💡 Logout\" href=\"/logout\"><i class=\"fa-solid fa-right-from-bracket\"></i><!-- <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"1.25em\" width=\"1.25em\" viewBox=\"0 0 512 512\"><path opacity=\"1\" fill=\"currentColor\" d=\"M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z\"/></svg> --></a></div><div id=\"sidebarExtension\" class=\"sidebarext\"><a class=\"flex items-center justify-center my-3 text-white font-medium font-bold pb-3\" style=\"font-size: 20px;\" title=\"💡 Colapsar menu\" href=\"javascript:void(0)\" onclick=\"openCloseNav()\"><i class=\"fa-solid fa-bars\"></i></a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/\">Home</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/botspg\">Bots</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/agendamento\">Agendamento</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/gat_arquivo\">Arquivo</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/credenciais\">Credenciais</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/git_config\">Configurações git</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/execs\">Execuções</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/fila\">Fila</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/snippets\">Code snippets</a> <a class=\"flex mx-5 my-3 text-white font-medium font-bold py-0\" style=\"justify-content: left;\" href=\"/swagger/#\">Swagger</a> <a class=\"flex mx-5 my-4 text-white font-medium font-bold py-4 absolute bottom-0\" style=\"justify-content: left;\" href=\"/logout\">Logout</a></div><script type=\"text/javascript\">\n  function openCloseNav() {\n    if (document.getElementById(\"sidebarExtension\").style.width == 0 || document.getElementById(\"sidebarExtension\").style.width == \"0px\") {\n        document.getElementById(\"sidebarExtension\").style.width = \"195px\";\n        document.getElementById(\"main\").style.marginLeft = \"195px\";\n    } else {\n        document.getElementById(\"sidebarExtension\").style.width = \"0\";\n        document.getElementById(\"main\").style.marginLeft= \"56px\";\n    }\n  }\n</script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func footer() templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"bg-white dark:bg-gray-800 p-4\"></footer>")
@@ -125,9 +149,9 @@ func Layout(pageTitle string, authenticated bool, userName string, showNavbar bo
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\">")
@@ -143,20 +167,37 @@ func Layout(pageTitle string, authenticated bool, userName string, showNavbar bo
 			return templ_7745c5c3_Err
 		}
 		if showNavbar {
-			templ_7745c5c3_Err = nav(pageTitle, authenticated, userName).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = nav2(pageTitle, authenticated, userName).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <main class=\"flex-1 w-full\"><div id=\"main\" class=\"main\" style=\"margin-left: 56px\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ_7745c5c3_Var6.Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></main>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"flex-1 w-full\"><div id=\"main\" class=\"main\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ_7745c5c3_Var6.Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"flex-1 w-full\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templ_7745c5c3_Var5.Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</main></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

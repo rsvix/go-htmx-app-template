@@ -17,8 +17,8 @@ type mailParams struct {
 
 func DefaultParams() *mailParams {
 	return &mailParams{
-		from:     os.Getenv("SENDER_EMAIL"),
-		password: os.Getenv("SENDER_PSWD"),
+		from:     os.Getenv("SMTP_EMAIL"),
+		password: os.Getenv("SMTP_PSWD"),
 		smtpHost: "smtp.gmail.com",
 		smtpPort: "587",
 	}

@@ -22,8 +22,8 @@ services:
       POSTGRES_PORT: 5432
       # Check the video below to learn how to use gmail smtp server to send emails
       # https://www.youtube.com/watch?v=g_j6ILT-X0k
-      # SENDER_EMAIL: your gmail here
-      # SENDER_PSWD: our gmail passphrase here
+      # SMTP_EMAIL: your gmail here
+      # SMTP_PSWD: our gmail passphrase here
     ports: 
       - "8080:8080"
     depends_on:

@@ -30,7 +30,7 @@ func NotfoundPage(pageTitle string, message string) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(pageTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web_server/internal/templates/notfound.templ`, Line: 7, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/notfound.templ`, Line: 7, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -43,7 +43,7 @@ func NotfoundPage(pageTitle string, message string) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web_server/internal/templates/notfound.templ`, Line: 17, Col: 86}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/notfound.templ`, Line: 17, Col: 86}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {

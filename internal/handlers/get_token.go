@@ -12,14 +12,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type GetProcessHandler struct {
+type GetTokenHandler struct {
 }
 
-func NewGetProcessHandler() *GetProcessHandler {
-	return &GetProcessHandler{}
+func NewGetTokenHandler() *GetTokenHandler {
+	return &GetTokenHandler{}
 }
 
-func (i GetProcessHandler) ServeHTTP(c echo.Context) error {
+func (i GetTokenHandler) ServeHTTP(c echo.Context) error {
 
 	token := c.Param("token")
 	log.Printf("token: %s\n", token)
@@ -36,9 +36,9 @@ func (i GetProcessHandler) ServeHTTP(c echo.Context) error {
 
 	// Check if session is authenticated
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		validator := strings.Split(token, "O")[0]
+		validationToken := strings.Split(token, "O")[0]
 		extraInfo := strings.Split(token, "O")[1]
-		log.Printf("validator: %s\n", validator)
+		log.Printf("validationToken: %s\n", validationToken)
 		log.Printf("extraInfo: %s\n", extraInfo)
 
 		decoded, err := hex.DecodeString(extraInfo)
@@ -53,6 +53,9 @@ func (i GetProcessHandler) ServeHTTP(c echo.Context) error {
 		log.Printf("id: %s\n", id)
 
 		if mode == "activate" {
+			// ########################
+			// ##  Activation token  ##
+			// ########################
 			log.Println("Processing activation")
 
 			session.Values["enabled"] = false
@@ -73,7 +76,7 @@ func (i GetProcessHandler) ServeHTTP(c echo.Context) error {
 				// log.Printf("diff: %v\nsecs: %v\n", diff, secs)
 
 				if secs > 0.0 {
-					if strings.Compare(strings.TrimSpace(result.Activationtoken), strings.TrimSpace(validator)) == 0 {
+					if strings.Compare(strings.TrimSpace(result.Activationtoken), strings.TrimSpace(validationToken)) == 0 {
 						// res := db.Table("users").Where("id = ?", id).Update("enabled", 1)
 						timeNow := time.Now().UTC()
 						res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"enabled": 1, "activationtokenexpiration": timeNow})
@@ -111,7 +114,65 @@ func (i GetProcessHandler) ServeHTTP(c echo.Context) error {
 			return c.Redirect(http.StatusSeeOther, "/activate")
 
 		} else if mode == "resetpwd" {
+			// ########################
+			// ##  Pswd reset token  ##
+			// ########################
 			log.Println("Processing password reset")
+
+			session.Values["pwreset"] = false
+			session.Values["pr_error"] = ""
+			session.Values["user_id"] = ""
+
+			db := c.Get("__db").(*gorm.DB)
+
+			var result struct {
+				Email                         string
+				Passwordchangetoken           string
+				Passwordchangetokenexpiration time.Time
+				Enabled                       int
+			}
+			db.Raw("SELECT email, passwordchangetoken, passwordchangetokenexpiration, enabled FROM users WHERE id = ?", id).Scan(&result)
+
+			// diff := time.Until(result.Passwordchangetokenexpiration)
+			diff := result.Passwordchangetokenexpiration.Sub(time.Now().UTC())
+			secs := diff.Seconds()
+			// log.Printf("%v\n%v", diff, secs)
+
+			if secs < 0.0 {
+				return c.JSON(http.StatusBadRequest, "Token expired")
+				// session.Values["pr_error"] = "Token expired"
+				// err = session.Save(c.Request(), c.Response())
+				// if err != nil {
+				// 	log.Printf("Error saving session: %v\n", err)
+				// }
+				// return c.Redirect(http.StatusSeeOther, "/resetform")
+			}
+
+			if result.Enabled == 0 {
+				return c.JSON(http.StatusBadRequest, "User must be activated first")
+				// session.Values["pr_error"] = "User must be activated first"
+				// err = session.Save(c.Request(), c.Response())
+				// if err != nil {
+				// 	log.Printf("Error saving session: %v\n", err)
+				// }
+				// return c.Redirect(http.StatusSeeOther, "/resetform")
+			}
+
+			log.Printf("validationToken: %v\n", validationToken)
+			log.Printf("Passwordchangetoken: %v\n", result.Passwordchangetoken)
+
+			if strings.Compare(strings.TrimSpace(result.Passwordchangetoken), strings.TrimSpace(validationToken)) == 0 {
+				session.Values["pwreset"] = true
+				session.Values["user_id"] = id
+				err = session.Save(c.Request(), c.Response())
+				if err != nil {
+					log.Printf("Error saving session: %v\n", err)
+				}
+				return c.Redirect(http.StatusSeeOther, "/resetform")
+			}
+
+			return c.JSON(http.StatusBadRequest, "Invalid token")
+
 		}
 		return nil
 	}

@@ -16,6 +16,7 @@ Postgresql
 ### To install Go dependencies
 ```
 go mod download
+go install github.com/a-h/templ/cmd/templ@latest
 ```
 ### Or
 ```
@@ -26,7 +27,6 @@ go get github.com/a-h/templ
 go get -u gorm.io/gorm
 go get github.com/wader/gormstore/v2
 go get gorm.io/driver/postgres
-
 go install github.com/a-h/templ/cmd/templ@latest
 ```
 ---
@@ -37,7 +37,7 @@ chmod +x tailwindcss-linux-x64
 mv tailwindcss-linux-x64 tailwindcss
 ./tailwindcss init
 
-For different OS and architectures check: https://github.com/tailwindlabs/tailwindcss/releases
+For different OS/Architecture check: https://github.com/tailwindlabs/tailwindcss/releases
 ```
 ---
 ### To update your templates

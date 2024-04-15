@@ -26,12 +26,10 @@ func GenerateToken(forActivation bool, id string) (string, error) {
 	}
 	tenDigitNum := bigInt.Int64() + 1000000000
 	tenDigitStr := fmt.Sprintf("%06d", tenDigitNum)
-
 	// SHA 256
 	// hash := sha256.Sum256([]byte(tenDigitStr))
 	// SHA 512
 	hash := sha512.Sum512([]byte(tenDigitStr))
-
 	EncodedRandomNumberHash := hex.EncodeToString(hash[:])
 
 	token := strings.TrimSpace(fmt.Sprintf("%sO%s", EncodedRandomNumberHash, idEncoded))

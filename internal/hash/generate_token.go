@@ -39,16 +39,18 @@ func GenerateToken(forActivation bool, id string) (string, error) {
 	return token, nil
 }
 
-func DecodeId(s string) (string, error) {
+func DecodeToken(s string) (string, error) {
 	decoded, err := hex.DecodeString(strings.Split(s, "O")[1])
 	if err != nil {
 		log.Println(err)
 		return "", err
 	}
 	decodedStr := string(decoded[:])
+	mode := strings.Split(decodedStr, "@")[0]
 	id := strings.Split(decodedStr, "@")[1]
 
 	log.Printf("Decoded: %v", decodedStr)
+	log.Printf("Mode: %v", mode)
 	log.Printf("Id: %v", id)
 
 	return id, nil

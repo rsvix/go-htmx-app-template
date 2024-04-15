@@ -31,16 +31,16 @@ func main() {
 	db := db.Connect()
 
 	v, _ := hash.GenerateToken(true, "1")
-	hash.DecodeId(v)
+	hash.DecodeToken(v)
 
 	v, _ = hash.GenerateToken(false, "1")
-	hash.DecodeId(v)
+	hash.DecodeToken(v)
 
 	v, _ = hash.GenerateToken(true, "2")
-	hash.DecodeId(v)
+	hash.DecodeToken(v)
 
 	v, _ = hash.GenerateToken(true, "3000")
-	hash.DecodeId(v)
+	hash.DecodeToken(v)
 
 	// Ip extractor
 	// Not using - Cehck github.com/rsvix/go-htmx-app-template/internal/utils/env_var.go

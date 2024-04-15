@@ -84,6 +84,7 @@ func main() {
 	app.GET("/login", handlers.GetLoginHandler{}.ServeHTTP)
 	app.POST("/login", handlers.NewPostLoginHandler(handlers.PostLoginHandlerParams{}).ServeHTTP)
 	app.GET("/logout", handlers.GetLogoutHandler{}.ServeHTTP)
+	app.GET("/process/:token", handlers.GetProcessHandler{}.ServeHTTP)
 
 	echo.NotFoundHandler = func(c echo.Context) error {
 		return templates.NotfoundPage("Not Found", "Page not found").Render(c.Request().Context(), c.Response())

@@ -50,7 +50,7 @@ func (h *PostLoginHandler) ServeHTTP(c echo.Context) error {
 		}
 
 		// if hash.CheckPasswordHashV1(password, result.Password) {
-		if hash.NewHPasswordHash().CheckPasswordHashV2(password, result.Password) {
+		if hash.CheckPasswordHashV2(password, result.Password) {
 
 			// Get session
 			session, err := session.Get("authenticate-sessions", c)

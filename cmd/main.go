@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/rsvix/go-htmx-app-template/internal/handlers"
+	"github.com/rsvix/go-htmx-app-template/internal/hash"
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
 	"github.com/rsvix/go-htmx-app-template/internal/store/db"
@@ -16,7 +17,6 @@ import (
 )
 
 func main() {
-	// Environment variables
 	appPort := utils.GetSetEnv("APP_PORT", "8080")
 	appName := utils.GetSetEnv("APP_NAME", "GoBot")
 	utils.GetSetEnv("POSTGRES_DB", "go-htmx-app-db")
@@ -30,7 +30,20 @@ func main() {
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()
 
+	v, _ := hash.GenerateToken(true, "1")
+	hash.DecodeId(v)
+
+	v, _ = hash.GenerateToken(false, "1")
+	hash.DecodeId(v)
+
+	v, _ = hash.GenerateToken(true, "2")
+	hash.DecodeId(v)
+
+	v, _ = hash.GenerateToken(true, "3000")
+	hash.DecodeId(v)
+
 	// Ip extractor
+	// Not using - Cehck github.com/rsvix/go-htmx-app-template/internal/utils/env_var.go
 	// https://echo.labstack.com/docs/ip-address
 	// app.IPExtractor = echo.ExtractIPDirect()
 	// app.IPExtractor = echo.ExtractIPFromXFFHeader()

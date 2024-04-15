@@ -58,8 +58,8 @@ func (h *PostRegisterHandler) ServeHTTP(c echo.Context) error {
 		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid password</h2>")
 	}
 
-	// hashPassword, err := hash.HashPassword(password)
-	hashPassword, err := hash.NewHPasswordHash().HashPasswordV2(password)
+	// hashPassword, err := hash.HashPasswordV1(password)
+	hashPassword, err := hash.HashPasswordV2(password)
 	if err != nil {
 		log.Printf("Error hashing password: %v\n", err)
 		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")

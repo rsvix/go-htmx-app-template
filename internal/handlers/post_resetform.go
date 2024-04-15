@@ -45,7 +45,7 @@ func (h *PostProcessResetHandler) ServeHTTP(c echo.Context) error {
 
 		if password == password_conf {
 			// hashPassword, err := hash.HashPasswordV1(password)
-			hashPassword, err := hash.NewHPasswordHash().HashPasswordV2(password)
+			hashPassword, err := hash.HashPasswordV2(password)
 			if err != nil {
 				log.Printf("Get: %v\n", err)
 				return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")

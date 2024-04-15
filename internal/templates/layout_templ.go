@@ -36,7 +36,7 @@ func header(pageTitle string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"static/script/htmx.min.js\"></script><script src=\"static/script/response-targets.js\"></script><link rel=\"stylesheet\" href=\"static/css/style.min.css\"><link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\"><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\"></head>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"static/script/htmx.min.js\"></script><script src=\"static/script/response-targets.js\"></script><link rel=\"stylesheet\" href=\"static/css/style.min.css\"><link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\"><link rel=\"stylesheet\" href=\"static/css/all.min.css\"></head>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -73,10 +73,6 @@ func sideNav(pageTitle string, authenticated bool, userName string) templ.Compon
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n.sidebar {\n    height: 100%;\n    width: 56px;\n    background-color: rgb(31 41 55);\n    position: fixed!important;\n    z-index: 100;\n    overflow: auto;\n    top: 0;\n    left: 0;\n    margin: 0px;\n    padding: 2px 18px;\n    border: none;\n    white-space: normal;\n    display: block;\n    float: none;\n    outline: 0;\n    font-size: 20px;\n}\n\n.sidebarext {\n    height: 100%;\n    width: 0;\n    background-color: rgb(31 41 55);\n    position: fixed!important;\n    z-index: 110;\n    overflow-x: hidden;\n    top: 0;\n    left: 0;\n    margin: 0px;\n    /* margin-left: 56px; */\n    padding: 2px 0px;\n    border: none;\n    white-space: normal;\n    display: block;\n    float: none;\n    outline: 0;\n    font-size: 18px;\n    transition: 0.15s;\n}\n\n</style>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		var templ_7745c5c3_Var4 = []any{sidebarRet}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {
@@ -667,7 +663,7 @@ func sideNav(pageTitle string, authenticated bool, userName string) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" href=\"/logout\">Logout</a></div><script type=\"text/javascript\">\n  function openCloseNav() {\n    if (document.getElementById(\"sidebarExtension\").style.width == 0 || document.getElementById(\"sidebarExtension\").style.width == \"0px\") {\n        document.getElementById(\"sidebarExtension\").style.width = \"195px\";\n        document.getElementById(\"main\").style.marginLeft = \"195px\";\n    } else {\n        document.getElementById(\"sidebarExtension\").style.width = \"0\";\n        document.getElementById(\"main\").style.marginLeft= \"56px\";\n    }\n  }\n</script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" href=\"/logout\">Logout</a></div><script type=\"text/javascript\">\n\tfunction openCloseNav() {\n\t\tif (document.getElementById(\"sidebarExtension\").style.width == 0 || document.getElementById(\"sidebarExtension\").style.width == \"0px\") {\n\t\t\tdocument.getElementById(\"sidebarExtension\").style.width = \"195px\";\n\t\t\tdocument.getElementById(\"main\").style.marginLeft = \"195px\";\n\t\t} else {\n\t\t\tdocument.getElementById(\"sidebarExtension\").style.width = \"0\";\n\t\t\tdocument.getElementById(\"main\").style.marginLeft= \"56px\";\n\t\t}\n\t}\n</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

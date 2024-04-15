@@ -11,15 +11,19 @@ import (
 )
 
 type GetLoginHandler struct {
+	appName   string
+	pageTitle string
 }
 
 func NewGetLoginHandler() *GetLoginHandler {
-	return &GetLoginHandler{}
+	return &GetLoginHandler{
+		appName:   os.Getenv("APP_NAME"),
+		pageTitle: "Login",
+	}
 }
 
-func (i GetLoginHandler) ServeHTTP(c echo.Context) error {
+func (h GetLoginHandler) ServeHTTP(c echo.Context) error {
 
-	// Get session
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
 		log.Printf("Error getting session: %v\n", err)
@@ -27,8 +31,7 @@ func (i GetLoginHandler) ServeHTTP(c echo.Context) error {
 
 	// Check if session is authenticated
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		appName := os.Getenv("APP_NAME")
-		return templates.LoginPage(appName, "Login").Render(c.Request().Context(), c.Response())
+		return templates.LoginPage(h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
 	}
 	return c.Redirect(http.StatusSeeOther, "/")
 }

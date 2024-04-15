@@ -70,15 +70,13 @@ func main() {
 	}))
 
 	// Handlers
-	app.GET("/", handlers.IndexHandler{}.ServeHTTP)
+	app.GET("/", handlers.GetIndexHandler{}.ServeHTTP)
 	app.GET("/register", handlers.GetRegisterHandler{}.ServeHTTP)
 	app.POST("/register", handlers.NewPostRegisterHandler(handlers.PostRegisterHandlerParams{}).ServeHTTP)
-	app.GET("/activation/:id/:activationtoken", handlers.GetActivationHandler{}.ServeHTTP)
 	app.GET("/activate", handlers.GetActivateHandler{}.ServeHTTP)
 	app.GET("/newactivation", handlers.GetNewActivationHandler{}.ServeHTTP)
 	app.GET("/reset", handlers.GetResetHandler{}.ServeHTTP)
 	app.POST("/reset", handlers.NewPostResetHandler(handlers.PostResetHandlerParams{}).ServeHTTP)
-	app.GET("/pwreset/:id/:resettoken", handlers.GetPwResetHandler{}.ServeHTTP)
 	app.GET("/resetform", handlers.GetResetformHandler{}.ServeHTTP)
 	app.POST("/resetform", handlers.NewPostProcessResetHandler(handlers.PostProcessResetHandlerParams{}).ServeHTTP)
 	app.GET("/login", handlers.GetLoginHandler{}.ServeHTTP)

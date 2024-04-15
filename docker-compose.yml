@@ -26,7 +26,7 @@ services:
       # SENDER_EMAIL: your gmail here
       # SENDER_PSWD: our gmail passphrase here
     ports:
-      - '8080:8080'
+      - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
@@ -38,7 +38,7 @@ services:
       <<: *common-variables
       PGTZ: "America/Sao_Paulo"
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:

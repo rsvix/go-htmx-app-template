@@ -111,7 +111,7 @@ func (h *PostRegisterHandler) ServeHTTP(c echo.Context) error {
 
 	// Must configure SMTP server or other email sending service
 	if _, ok := os.LookupEnv("SENDER_PSWD"); ok {
-		emails.SendActivationEmail(activationUrl)
+		emails.SendActivationEmail(email, activationUrl)
 		msg := fmt.Sprintf("<h2>Activation email sent to<br/>%s</h2>", email)
 		return c.HTML(http.StatusOK, msg)
 	}

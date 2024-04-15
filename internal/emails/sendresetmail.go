@@ -5,25 +5,17 @@ import (
 	"log"
 	"net/smtp"
 	"os"
-	"strings"
 )
 
 // https://cloud.google.com/appengine/docs/standard/go111/mail/sending-receiving-with-mail-api?hl=pt-br
 // https://mailtrap.io/blog/golang-send-email/
 
-func SendResetEmail(activation_url string) error {
+func SendResetEmail(email string, activation_url string) error {
 	log.Printf("url: %v\n", activation_url)
-	email, _ := os.LookupEnv("SENDER_EMAIL")
-	pswd, _ := os.LookupEnv("SENDER_PSWD")
 
-	// Sender data.
-	from := email
-	password := strings.ReplaceAll(pswd, " ", "")
-
-	// Receiver email address.
-	to := []string{
-		email,
-	}
+	from, _ := os.LookupEnv("SENDER_EMAIL")
+	password, _ := os.LookupEnv("SENDER_PSWD")
+	to := email
 
 	// smtp server configuration.
 	smtpHost := "smtp.gmail.com"
@@ -42,7 +34,7 @@ func SendResetEmail(activation_url string) error {
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
 	// Sending email.
-	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, message)
 	if err != nil {
 		fmt.Println(err)
 		return err

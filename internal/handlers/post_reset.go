@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/rsvix/go-htmx-app-template/internal/emails"
 	"github.com/rsvix/go-htmx-app-template/internal/hash"
 	"gorm.io/gorm"
 )
@@ -69,7 +70,10 @@ func (h *PostResetHandler) ServeHTTP(c echo.Context) error {
 		log.Printf("passUrl: %v\n", passUrl)
 
 		// Must configure SMTP server or other email sending service
-		// return c.HTML(http.StatusOK, fmt.Sprintf("<h2>Email sent to %s, id: %s</h2>", email, id))
+		if _, ok := os.LookupEnv("SENDER_PSWD"); ok {
+			emails.SendResetEmail(passUrl)
+			return c.HTML(http.StatusOK, fmt.Sprintf("<h2>Email sent to %s, id: %s</h2>", email, id))
+		}
 
 		// For testing without email sender configured
 		msg := fmt.Sprintf("<h2><div style=\"text-decoration-line: underline;\"><a href=\"%s\">Reset your password<br/>by clicking here</a></div></h2>", passUrl)

@@ -9,12 +9,21 @@ HTMX
 Tailwind CSS
 Postgresql
 ```
+### Why Echo?
+Because Echo returns error in its handlers
+https://www.youtube.com/watch?v=g-gsmike7qc
+
+### Why HTMX?
+Because in 99.9% of the cases, you don't need a bloated javascript framework, lol
+https://www.youtube.com/watch?v=g-gsmike7qc
+
 ---
 ### To install Go dependencies
 ```
 go mod download
-
-# Or
+```
+Or
+```
 go get github.com/labstack/echo/v4
 go get github.com/gorilla/sessions
 go get github.com/labstack/echo-contrib/session
@@ -32,7 +41,7 @@ chmod +x tailwindcss-linux-x64
 mv tailwindcss-linux-x64 tailwindcss
 ./tailwindcss init
 
-For different OS and achitectures check: https://github.com/tailwindlabs/tailwindcss/releases
+For different OS and architectures check: https://github.com/tailwindlabs/tailwindcss/releases
 ```
 ---
 ### To update your templates, run

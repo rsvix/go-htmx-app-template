@@ -4,17 +4,20 @@ import (
 	"fmt"
 	"log"
 	"net/smtp"
+	"os"
+	"strings"
 )
 
 // https://cloud.google.com/appengine/docs/standard/go111/mail/sending-receiving-with-mail-api?hl=pt-br
 
-func SendActivationEmail(email string, activation_url string) error {
+func SendActivationEmail(activation_url string) error {
 	log.Printf("url: %v\n", activation_url)
-	log.Printf("Send email to: %s\n", email)
+	email, _ := os.LookupEnv("SENDER_EMAIL")
+	pswd, _ := os.LookupEnv("SENDER_PSWD")
 
 	// Sender data.
-	from := "from@gmail.com"
-	password := "<Email Password>"
+	from := email
+	password := strings.ReplaceAll(pswd, " ", "")
 
 	// Receiver email address.
 	to := []string{
@@ -30,7 +33,7 @@ func SendActivationEmail(email string, activation_url string) error {
 		"To: %s\r\n"+
 			"Subject: Activation Email\r\n"+
 			"\r\n"+
-			"This is a test email message.\n%s",
+			"This is a test email message.\nUrl: %s",
 		email,
 		activation_url))
 
@@ -40,7 +43,7 @@ func SendActivationEmail(email string, activation_url string) error {
 	// Sending email.
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Error sending email to %s\nError: %s", email, err)
 		return err
 	}
 	fmt.Println("Email Sent Successfully!")

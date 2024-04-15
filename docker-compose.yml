@@ -12,7 +12,7 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    container_name: go-htmx-app
+    container_name: go-app
     restart: unless-stopped
     environment:
       <<: *common-variables
@@ -21,6 +21,10 @@ services:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
       POSTGRES_URL: postgres://admin:123@db:5432/go-app-db
+      # Check the video below to learn how to use gmail smtp server to send emails
+      # https://www.youtube.com/watch?v=g_j6ILT-X0k
+      # SENDER_EMAIL: your gmail here
+      # SENDER_PSWD: our gmail passphrase here
     ports:
       - '8080:8080'
     depends_on:
@@ -28,7 +32,7 @@ services:
         condition: service_healthy
   db:
     image: postgres:latest
-    container_name: go_app_postgres
+    container_name: go-app-postgres
     restart: unless-stopped
     environment:
       <<: *common-variables
@@ -45,7 +49,7 @@ services:
       retries: 20
       start_period: 10s
   pgadmin:
-    container_name: go_app_pgadmin
+    container_name: go-app-pgadmin
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com

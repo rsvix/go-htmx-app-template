@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/rsvix/go-htmx-app-template/internal/emails"
 	"github.com/rsvix/go-htmx-app-template/internal/hash"
 	"github.com/rsvix/go-htmx-app-template/internal/structs"
 	"github.com/rsvix/go-htmx-app-template/internal/utils"
@@ -109,10 +110,11 @@ func (h *PostRegisterHandler) ServeHTTP(c echo.Context) error {
 	// log.Printf("Activation Url: %s\n", activationUrl)
 
 	// Must configure SMTP server or other email sending service
-	// mail.SendActivationEmail(email, activationUrl)
-	// msg := fmt.Sprintf("<h2>Activation email sent to<br/>%s</h2>", email)
-	// return c.HTML(http.StatusOK, msg)
-
+	if _, ok := os.LookupEnv("SENDER_PSWD"); ok {
+		emails.SendActivationEmail(activationUrl)
+		msg := fmt.Sprintf("<h2>Activation email sent to<br/>%s</h2>", email)
+		return c.HTML(http.StatusOK, msg)
+	}
 	// For testing without email sender configured
 	msg := fmt.Sprintf("<h2><div style=\"text-decoration-line: underline;\"><a href=\"%s\">Activate your account<br/>by clicking here</a></div></h2>", activationUrl)
 	return c.HTML(http.StatusOK, msg)

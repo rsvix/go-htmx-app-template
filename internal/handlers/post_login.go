@@ -27,6 +27,10 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 
 	email := c.Request().FormValue("email")
 	password := c.Request().FormValue("password")
+	remember := c.Request().FormValue("remember")
+	log.Printf("remember: %v\n", remember)
+
+	// https://stackoverflow.com/questions/2185951/how-do-i-keep-a-user-logged-into-my-site-for-months
 
 	if _, err := mail.ParseAddress(email); err != nil {
 		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid credentials</h2>")

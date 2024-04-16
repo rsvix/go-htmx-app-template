@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
@@ -29,5 +30,9 @@ func (h getLoginHandlerParams) Serve(c echo.Context) error {
 	// }
 	// return c.Redirect(http.StatusSeeOther, "/")
 
-	return templates.LoginPage(c, h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
+	csrfToken := "User"
+	if value, ok := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string); ok {
+		csrfToken = value
+	}
+	return templates.LoginPage(c, h.appName, h.pageTitle, csrfToken).Render(c.Request().Context(), c.Response())
 }

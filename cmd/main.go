@@ -56,8 +56,9 @@ func main() {
 		middlewares.CSPMiddleware(),
 	)
 
+	// https://echo.labstack.com/docs/middleware/csrf
 	// app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-	// 	TokenLookup: "header:X-XSRF-TOKEN",
+	// 	TokenLookup: "form:_csrf",
 	// }))
 
 	// Allow CORS For testing - Comment this in production

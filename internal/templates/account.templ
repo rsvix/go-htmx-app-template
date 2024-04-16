@@ -1,0 +1,19 @@
+package templates
+
+import (
+	"github.com/labstack/echo/v4"
+)
+
+templ AccountPage(c echo.Context, pageTitle string, email string, firstname string, lastname string){
+    @Layout(c, pageTitle, true, "", true) {
+    <section class="bg-gray-50 dark:bg-gray-900">
+        <div hx-ext="response-targets" class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+                <p>Email: { email }</p>
+                <p>First name: { firstname }</p>
+                <p>Last name: { lastname }</p>
+            </h1>
+      	</div>
+	</section>
+    }
+}

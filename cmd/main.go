@@ -91,6 +91,7 @@ func main() {
 	// Logged handlers
 	loggedGroup.GET("/", handlers.GetIndexHandler().Serve)
 	loggedGroup.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.NoCache())
+	loggedGroup.GET("/account", handlers.GetAccountHandler().Serve)
 
 	// app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
 	// app.GET("/register", handlers.GetRegisterHandler().Serve)

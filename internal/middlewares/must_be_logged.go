@@ -19,11 +19,12 @@ func MustBeLogged() echo.MiddlewareFunc {
 			if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 				return c.Redirect(http.StatusSeeOther, "/login")
 			}
-			userName := "User"
 			if value, ok := session.Values["firstname"].(string); ok {
-				userName = value
+				c.Set("userName", value)
 			}
-			c.Set("userName", userName)
+			if value, ok := session.Values["id"].(string); ok {
+				c.Set("userId", value)
+			}
 			return next(c)
 		}
 	}

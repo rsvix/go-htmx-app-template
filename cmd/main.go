@@ -67,12 +67,15 @@ func main() {
 	notLoggedGroup := app.Group("", middlewares.MustNotBeLogged())
 	loggedGroup := app.Group("", middlewares.MustBeLogged())
 
-	// Handlers
+	// Not logged handlers
 	notLoggedGroup.GET("/login", handlers.GetLoginHandler().Serve)
 	notLoggedGroup.POST("/login", handlers.PostLoginHandler().Serve)
 	notLoggedGroup.GET("/register", handlers.GetRegisterHandler().Serve)
 	notLoggedGroup.POST("/register", handlers.PostRegisterHandler().Serve)
+	notLoggedGroup.GET("/reset", handlers.GetResetHandler().Serve)
+	notLoggedGroup.POST("/reset", handlers.PostResetHandler().Serve)
 
+	// Logged handlers
 	loggedGroup.GET("/", handlers.GetIndexHandler().Serve)
 	loggedGroup.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.NoCache())
 
@@ -81,8 +84,8 @@ func main() {
 	// app.POST("/register", handlers.PostRegisterHandler().Serve)
 	app.GET("/activate", handlers.GetActivateHandler().Serve)
 	app.GET("/newactivation", handlers.GetNewActivationHandler().Serve)
-	app.GET("/reset", handlers.GetResetHandler().Serve)
-	app.POST("/reset", handlers.PostResetHandler().Serve)
+	// app.GET("/reset", handlers.GetResetHandler().Serve)
+	// app.POST("/reset", handlers.PostResetHandler().Serve)
 	app.GET("/resetform", handlers.GetResetformHandler().Serve)
 	app.POST("/resetform", handlers.PostResetformHandler().Serve)
 	// app.GET("/login", handlers.GetLoginHandler().Serve, middlewares.MustNotBeLogged())

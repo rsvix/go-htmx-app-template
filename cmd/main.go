@@ -63,8 +63,16 @@ func main() {
 		AllowMethods: []string{"*"},
 	}))
 
+	// Groups
+	notLoggedGroup := app.Group("", middlewares.MustNotBeLogged())
+	loggedGroup := app.Group("", middlewares.MustBeLogged())
+
 	// Handlers
-	app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
+	notLoggedGroup.GET("/login", handlers.GetLoginHandler().Serve)
+
+	loggedGroup.GET("/", handlers.GetIndexHandler().Serve)
+	loggedGroup.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.NoCache())
+
 	app.GET("/register", handlers.GetRegisterHandler().Serve)
 	app.POST("/register", handlers.PostRegisterHandler().Serve)
 	app.GET("/activate", handlers.GetActivateHandler().Serve)
@@ -73,12 +81,8 @@ func main() {
 	app.POST("/reset", handlers.PostResetHandler().Serve)
 	app.GET("/resetform", handlers.GetResetformHandler().Serve)
 	app.POST("/resetform", handlers.PostResetformHandler().Serve)
-	app.GET("/login", handlers.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
 	app.POST("/login", handlers.PostLoginHandler().Serve)
-	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCache())
 	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
-
-	// noCacheGroup := app.Group(func(c echo.Context), middlewares.NoCache())
 
 	echo.NotFoundHandler = func(c echo.Context) error {
 		return templates.NotfoundPage("Not Found", "Page not found").Render(c.Request().Context(), c.Response())

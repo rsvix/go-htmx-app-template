@@ -1,0 +1,41 @@
+.notfoundbody {
+    font-family: ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+    background-color: rgba(17, 24, 39, 1);
+    height: 100%;
+}
+
+.divpos{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.divstl {
+    margin:0 auto;
+    text-align: center;
+    width: 100%;
+    font-size: 7rem;
+    font-weight: 700;
+    color: rgb(255 255 255);
+}
+
+.msg{
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgb(255 255 255);
+}
+
+.divlink{
+    margin:0px auto;
+    text-align: center;
+    width: 100%;
+    padding-top: 18px;
+}
+
+.anchor{
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgb(255 255 255);
+    text-decoration: none;
+}

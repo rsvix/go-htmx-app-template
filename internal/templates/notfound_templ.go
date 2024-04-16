@@ -36,20 +36,20 @@ func NotfoundPage(pageTitle string, message string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\"></head><body style=\"font-family: ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji; background-color: rgba(17, 24, 39, 1); height: 100%;\"><div style=\"position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);\"><div style=\"margin:0 auto; text-align: center;  width: 100%; font-size: 7rem; font-weight: 700; color: rgb(255 255 255);\">404</div><span style=\"font-size: 2rem; font-weight: 600; color: rgb(255 255 255);\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\"><link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/nf.css\" nonce=\"2726c7f26s\"></head><body class=\"notfoundbody\"><div class=\"divpos\"><div class=\"divstl\">404</div><span class=\"msg\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/notfound.templ`, Line: 17, Col: 86}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/notfound.templ`, Line: 19, Col: 30}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span><br><div style=\"margin:0px auto; text-align: center;  width: 100%; padding-top: 18px\"><a href=\"/\" style=\"font-size: 1rem; font-weight: 500; color: rgb(255 255 255); text-decoration: none;\">Go to home page</a></div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span><br><div class=\"divlink\"><a href=\"/\" class=\"anchor\">Go to home page</a></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

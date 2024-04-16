@@ -40,7 +40,6 @@ func main() {
 	app.Use(middleware.Recover())
 	app.Use(middlewares.DatabaseMiddleware(db))
 	app.Use(session.Middleware(cookiestore.Start(db)))
-
 	// app.Use(middlewares.TextHTMLMiddleware())
 	// app.Use(middlewares.CSPMiddleware())
 

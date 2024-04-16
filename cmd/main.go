@@ -64,6 +64,10 @@ func main() {
 		AllowMethods: []string{"*"},
 	}))
 
+	echo.NotFoundHandler = func(c echo.Context) error {
+		return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
+	}
+
 	// Groups
 	notLoggedGroup := app.Group("", middlewares.MustNotBeLogged())
 	loggedGroup := app.Group("", middlewares.MustBeLogged())
@@ -93,10 +97,6 @@ func main() {
 	// app.POST("/login", handlers.PostLoginHandler().Serve)
 	// app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCache())
 	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
-
-	echo.NotFoundHandler = func(c echo.Context) error {
-		return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
-	}
 
 	log.Printf("Starting %v server on port %v", appName, appPort)
 	app.Logger.Fatal(app.Start(":" + appPort))

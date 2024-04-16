@@ -32,5 +32,6 @@ func (h getLoginHandlerParams) Serve(c echo.Context) error {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		return templates.LoginPage(h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
 	}
+
 	return c.Redirect(http.StatusSeeOther, "/")
 }

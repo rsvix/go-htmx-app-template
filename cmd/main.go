@@ -64,7 +64,7 @@ func main() {
 	}))
 
 	// Handlers
-	app.GET("/", handlers.GetIndexHandler().Serve)
+	app.GET("/", handlers.GetIndexHandler().Serve, middlewares.LoginPageParamsHandler().MustBeLogged())
 	app.GET("/register", handlers.GetRegisterHandler().Serve)
 	app.POST("/register", handlers.PostRegisterHandler().Serve)
 	app.GET("/activate", handlers.GetActivateHandler().Serve)

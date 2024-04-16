@@ -9,10 +9,9 @@ import (
 	"gorm.io/gorm"
 )
 
-// Store session cookies
 func Start(db *gorm.DB) *gormstore.Store {
 	store := gormstore.NewOptions(
-		db, // *gorm.DB
+		db,
 		gormstore.Options{
 			TableName:       "sessions", // "sessions" is default
 			SkipCreateTable: false,      // false is default

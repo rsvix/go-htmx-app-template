@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -28,10 +27,10 @@ func (h getIndexHandlerParams) Serve(c echo.Context) error {
 		log.Printf("Error getting session: %v\n", err)
 	}
 
-	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		return c.Redirect(http.StatusSeeOther, "/login")
-		// return templates.LoginPage("Login", false, "").Render(c.Request().Context(), c.Response())
-	}
+	// if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+	// 	return c.Redirect(http.StatusSeeOther, "/login")
+	// 	// return templates.LoginPage("Login", false, "").Render(c.Request().Context(), c.Response())
+	// }
 
 	userName := h.defaultUsername
 	if value, ok := session.Values["firstname"].(string); ok {

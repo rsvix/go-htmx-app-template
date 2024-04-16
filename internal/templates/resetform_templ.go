@@ -14,7 +14,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func ResetFormPage(c echo.Context, appName string, pageTitle string, reset bool, id string, message string) templ.Component {
+func ResetFormPage(c echo.Context, appName string, pageTitle string, reset bool, id string, message string, csrfToken string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -64,7 +64,20 @@ func ResetFormPage(c echo.Context, appName string, pageTitle string, reset bool,
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><form class=\"space-y-4 md:space-y-6\" hx-post=\"/resetform\" hx-trigger=\"submit\" hx-target=\"#pagebody\" hx-target-error=\"#any-errors\"><div><label for=\"password\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">New password</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"password\" name=\"password\" id=\"password\" placeholder=\"••••••••\" required=\"\" autocomplete=\"current-password\"></div><div><label for=\"passwordconf\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Confirm password</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"password\" name=\"passwordconf\" id=\"passwordconf\" placeholder=\"••••••••\" required=\"\"></div><button type=\"submit\" class=\"w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Reset</button></form>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1></div><form class=\"space-y-4 md:space-y-6\" hx-post=\"/resetform\" hx-trigger=\"submit\" hx-target=\"#pagebody\" hx-target-error=\"#any-errors\"><input type=\"hidden\" name=\"_csrf\" value=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var5 string
+				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(csrfToken)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/resetform.templ`, Line: 31, Col: 56}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div><label for=\"password\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">New password</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"password\" name=\"password\" id=\"password\" placeholder=\"••••••••\" required=\"\" autocomplete=\"current-password\"></div><div><label for=\"passwordconf\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Confirm password</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"password\" name=\"passwordconf\" id=\"passwordconf\" placeholder=\"••••••••\" required=\"\"></div><button type=\"submit\" class=\"w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Reset</button></form>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -73,12 +86,12 @@ func ResetFormPage(c echo.Context, appName string, pageTitle string, reset bool,
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var5 string
-				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(message)
+				var templ_7745c5c3_Var6 string
+				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(message)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/resetform.templ`, Line: 73, Col: 15}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/resetform.templ`, Line: 74, Col: 15}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

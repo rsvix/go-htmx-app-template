@@ -14,7 +14,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func RegisterPage(c echo.Context, appName string, pageTitle string) templ.Component {
+func RegisterPage(c echo.Context, appName string, pageTitle string, csrfToken string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -46,7 +46,20 @@ func RegisterPage(c echo.Context, appName string, pageTitle string) templ.Compon
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a><div class=\"w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700\"><div class=\"p-6 space-y-4 md:space-y-6 sm:p-8\"><h1 id=\"any-errors\" class=\"text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center\">Register your account</h1><form class=\"space-y-4 md:space-y-6\" hx-post=\"/register\" hx-trigger=\"submit\" hx-target=\"#any-errors\" hx-target-error=\"#any-errors\"><div><label for=\"email\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your email</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"email\" name=\"email\" id=\"email\" placeholder=\"john.doe@company.com\" required=\"\"></div><div><label for=\"firstname\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your first name</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"text\" name=\"firstname\" id=\"firstname\" placeholder=\"Firstname\" required=\"\"></div><div><label for=\"lastname\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your last name</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"text\" name=\"lastname\" id=\"lastname\" placeholder=\"Lastname\" required=\"\"></div><div><label for=\"password\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Password</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"password\" name=\"password\" id=\"password\" placeholder=\"••••••••\" required=\"\"></div><div><label for=\"password\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Confirm password</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"password\" name=\"passwordconf\" id=\"passwordconf\" placeholder=\"••••••••\" required=\"\"></div><button type=\"submit\" class=\"w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Register account</button><p class=\"text-sm font-light text-gray-500 dark:text-gray-400 text-center\">Already have an account? <a href=\"/login\" class=\"font-medium text-primary-600 hover:underline dark:text-primary-500\">Login</a></p></form></div></div></div></section>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a><div class=\"w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700\"><div class=\"p-6 space-y-4 md:space-y-6 sm:p-8\"><h1 id=\"any-errors\" class=\"text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center\">Register your account</h1><form class=\"space-y-4 md:space-y-6\" hx-post=\"/register\" hx-trigger=\"submit\" hx-target=\"#any-errors\" hx-target-error=\"#any-errors\"><input type=\"hidden\" name=\"_csrf\" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(csrfToken)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/register.templ`, Line: 30, Col: 71}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div><label for=\"email\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your email</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"email\" name=\"email\" id=\"email\" placeholder=\"john.doe@company.com\" required=\"\"></div><div><label for=\"firstname\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your first name</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"text\" name=\"firstname\" id=\"firstname\" placeholder=\"Firstname\" required=\"\"></div><div><label for=\"lastname\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your last name</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"text\" name=\"lastname\" id=\"lastname\" placeholder=\"Lastname\" required=\"\"></div><div><label for=\"password\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Password</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"password\" name=\"password\" id=\"password\" placeholder=\"••••••••\" required=\"\"></div><div><label for=\"password\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Confirm password</label> <input class=\"bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500\" type=\"password\" name=\"passwordconf\" id=\"passwordconf\" placeholder=\"••••••••\" required=\"\"></div><button type=\"submit\" class=\"w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Register account</button><p class=\"text-sm font-light text-gray-500 dark:text-gray-400 text-center\">Already have an account? <a href=\"/login\" class=\"font-medium text-primary-600 hover:underline dark:text-primary-500\">Login</a></p></form></div></div></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -74,9 +87,9 @@ func RegisterSuccess() templ.Component {
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>Registration successful</h1><p>Go to <a href=\"login\">login</a></p>")
@@ -98,9 +111,9 @@ func RegisterError() templ.Component {
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><h1>Registration failed</h1><p>There was an error registering your account</p></div>")

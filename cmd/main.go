@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -57,8 +58,25 @@ func main() {
 	)
 
 	// https://echo.labstack.com/docs/middleware/csrf
+
+	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+		TokenLookup:    "form:_csrf",
+		CookiePath:     "/",
+		CookieDomain:   "localhost",
+		CookieMaxAge:   3600,
+		CookieSecure:   false,
+		CookieHTTPOnly: true,
+		CookieSameSite: http.SameSiteDefaultMode,
+	}))
+
 	// app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-	// 	TokenLookup: "form:_csrf",
+	// 	TokenLookup:    "cookie:_csrf",
+	// 	CookiePath:     "/",
+	// 	CookieDomain:   "localhost",
+	// 	CookieMaxAge:   84600,
+	// 	CookieSecure:   false,
+	// 	CookieHTTPOnly: true,
+	// 	CookieSameSite: http.SameSiteDefaultMode,
 	// }))
 
 	// Allow CORS For testing - Comment this in production

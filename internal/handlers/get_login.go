@@ -30,7 +30,7 @@ func (h getLoginHandlerParams) Serve(c echo.Context) error {
 	// }
 	// return c.Redirect(http.StatusSeeOther, "/")
 
-	csrfToken := "User"
+	csrfToken := "none"
 	if value, ok := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string); ok {
 		csrfToken = value
 	}

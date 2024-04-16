@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-templ RegisterPage(c echo.Context, appName string, pageTitle string) {
+templ RegisterPage(c echo.Context, appName string, pageTitle string, csrfToken string) {
     @Layout(c, pageTitle, false, "", false) {
 	<section class="bg-gray-50 dark:bg-gray-900">
 	<div hx-ext="response-targets" class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -27,6 +27,7 @@ templ RegisterPage(c echo.Context, appName string, pageTitle string) {
                     hx-target="#any-errors"
                     hx-target-error="#any-errors"
                     >
+                    <input type="hidden" name="_csrf" value={ csrfToken }/>
                     <div>
                         <label 
                             for="email"

@@ -21,11 +21,11 @@ func Start(db *gorm.DB) *gormstore.Store {
 	)
 
 	store.SessionOpts.Path = "/"
+	store.SessionOpts.Domain = "localhost" //"example.com"
 	store.SessionOpts.MaxAge = 86400
-	store.SessionOpts.HttpOnly = true
 	store.SessionOpts.Secure = false
+	store.SessionOpts.HttpOnly = true
 	store.SessionOpts.SameSite = http.SameSiteLaxMode
-	// store.SessionOpts.Domain = "example.com"
 
 	quit := make(chan struct{})
 	go store.PeriodicCleanup(1*time.Hour, quit)

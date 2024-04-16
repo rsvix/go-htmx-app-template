@@ -64,7 +64,7 @@ func main() {
 	}))
 
 	// Handlers
-	app.GET("/", handlers.GetIndexHandler().Serve, middlewares.LoginPageParamsHandler().MustBeLogged())
+	app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/register", handlers.GetRegisterHandler().Serve)
 	app.POST("/register", handlers.PostRegisterHandler().Serve)
 	app.GET("/activate", handlers.GetActivateHandler().Serve)
@@ -73,9 +73,9 @@ func main() {
 	app.POST("/reset", handlers.PostResetHandler().Serve)
 	app.GET("/resetform", handlers.GetResetformHandler().Serve)
 	app.POST("/resetform", handlers.PostResetformHandler().Serve)
-	app.GET("/login", handlers.GetLoginHandler().Serve)
+	app.GET("/login", handlers.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
 	app.POST("/login", handlers.PostLoginHandler().Serve)
-	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.NoCache())
+	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCache())
 	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
 
 	// noCacheGroup := app.Group(func(c echo.Context), middlewares.NoCache())

@@ -12,7 +12,7 @@ templ NotfoundPage(c echo.Context, pageTitle string, message string) {
 		<title>{ pageTitle }</title>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<link rel="icon" type="image/x-icon" href="/favicon.ico" nonce={ middlewares.GetNavBarNonce(c) }/>
+		<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
 		<link rel="stylesheet" href="/static/css/notfoundpage.css" nonce={ middlewares.GetFaNonce(c) }/>
 	</head>
 	<body class="notfoundbody">

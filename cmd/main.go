@@ -35,6 +35,9 @@ func main() {
 	// app.IPExtractor = echo.ExtractIPFromXFFHeader()
 	// app.IPExtractor = echo.ExtractIPFromRealIPHeader()
 
+	// Needs certificate for https
+	// app.Pre(middleware.HTTPSRedirect())
+
 	// Middlewares
 	app.Use(
 		middleware.Logger(),
@@ -51,19 +54,17 @@ func main() {
 		middlewares.CSPMiddleware(),
 	)
 
-	// app.Use(middlewares.TextHTMLMiddleware())
 	// app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 	// 	TokenLookup: "header:X-XSRF-TOKEN",
 	// }))
 
-	// app.Pre(middleware.HTTPSRedirect())
-
 	// Allow CORS For testing - Comment this in production
-	app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-		AllowMethods: []string{"*"},
-	}))
+	// app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	// 	AllowOrigins: []string{"*"},
+	// 	AllowMethods: []string{"*"},
+	// }))
 
+	// 404 Handler
 	echo.NotFoundHandler = func(c echo.Context) error {
 		return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
 	}

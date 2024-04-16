@@ -4,6 +4,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// https://github.com/TomDoesTech/GOTTH/blob/main/internal/middleware/middleware.go
+
 func TextHTMLMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {

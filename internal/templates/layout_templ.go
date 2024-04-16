@@ -36,7 +36,7 @@ func header(pageTitle string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\"><script src=\"static/script/htmx.min.js\" nonce=\"2726c7f26c\"></script><script src=\"static/script/response-targets.js\" nonce=\"2726c7f26c\"></script><link rel=\"stylesheet\" type=\"text/css\" href=\"static/css/style.min.css\" nonce=\"2726c7f26s\"><link rel=\"stylesheet\" type=\"text/css\" href=\"static/font-awesome-6.5.2/css/all.min.css\" nonce=\"2726c7f26s\"></head>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\"><script src=\"/static/script/htmx.min.js\" nonce=\"2726c7f26c\"></script><script src=\"/static/script/response-targets.js\" nonce=\"2726c7f26c\"></script><link rel=\"stylesheet\" href=\"/static/css/style.min.css\" nonce=\"2726c7f26s\"><link rel=\"stylesheet\" href=\"/static/font-awesome-6.5.2/css/all.min.css\" nonce=\"2726c7f26s\"></head>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

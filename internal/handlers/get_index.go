@@ -1,22 +1,17 @@
 package handlers
 
 import (
-	"log"
-
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
 type getIndexHandlerParams struct {
-	pageTitle       string
-	defaultUsername string
+	pageTitle string
 }
 
 func GetIndexHandler() *getIndexHandlerParams {
 	return &getIndexHandlerParams{
-		pageTitle:       "Index",
-		defaultUsername: "User",
+		pageTitle: "Index",
 	}
 }
 
@@ -29,20 +24,12 @@ func (h getIndexHandlerParams) Serve(c echo.Context) error {
 	// 	return c.Redirect(http.StatusSeeOther, "/login")
 	// 	// return templates.LoginPage("Login", false, "").Render(c.Request().Context(), c.Response())
 	// }
-	// userName := h.defaultUsername
+	// userName := "User"
 	// if value, ok := session.Values["firstname"].(string); ok {
 	// 	userName = value
 	// }
 	// return templates.IndexPage(h.pageTitle, userName).Render(c.Request().Context(), c.Response())
 
-	session, err := session.Get("authenticate-sessions", c)
-	if err != nil {
-		log.Printf("Error getting session: %v\n", err)
-		return err
-	}
-	userName := h.defaultUsername
-	if value, ok := session.Values["firstname"].(string); ok {
-		userName = value
-	}
+	userName := c.Get("userName").(string)
 	return templates.IndexPage(c, h.pageTitle, userName).Render(c.Request().Context(), c.Response())
 }

@@ -13,8 +13,8 @@ func Start(db *gorm.DB) *gormstore.Store {
 	store := gormstore.NewOptions(
 		db,
 		gormstore.Options{
-			TableName:       "sessions", // "sessions" is default
-			SkipCreateTable: false,      // false is default
+			TableName:       "sessions",
+			SkipCreateTable: false,
 		},
 		[]byte(securecookie.GenerateRandomKey(64)), // 32 or 64 bytes recommended, required
 		[]byte(securecookie.GenerateRandomKey(32)), // nil, 16, 24 or 32 bytes, optional
@@ -25,6 +25,7 @@ func Start(db *gorm.DB) *gormstore.Store {
 	store.SessionOpts.HttpOnly = true
 	store.SessionOpts.Secure = false
 	store.SessionOpts.SameSite = http.SameSiteLaxMode
+	// store.SessionOpts.Domain = ""
 
 	quit := make(chan struct{})
 	go store.PeriodicCleanup(1*time.Hour, quit)

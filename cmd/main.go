@@ -69,19 +69,25 @@ func main() {
 
 	// Handlers
 	notLoggedGroup.GET("/login", handlers.GetLoginHandler().Serve)
+	notLoggedGroup.POST("/login", handlers.PostLoginHandler().Serve)
+	notLoggedGroup.GET("/register", handlers.GetRegisterHandler().Serve)
+	notLoggedGroup.POST("/register", handlers.PostRegisterHandler().Serve)
 
 	loggedGroup.GET("/", handlers.GetIndexHandler().Serve)
 	loggedGroup.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.NoCache())
 
-	app.GET("/register", handlers.GetRegisterHandler().Serve)
-	app.POST("/register", handlers.PostRegisterHandler().Serve)
+	// app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
+	// app.GET("/register", handlers.GetRegisterHandler().Serve)
+	// app.POST("/register", handlers.PostRegisterHandler().Serve)
 	app.GET("/activate", handlers.GetActivateHandler().Serve)
 	app.GET("/newactivation", handlers.GetNewActivationHandler().Serve)
 	app.GET("/reset", handlers.GetResetHandler().Serve)
 	app.POST("/reset", handlers.PostResetHandler().Serve)
 	app.GET("/resetform", handlers.GetResetformHandler().Serve)
 	app.POST("/resetform", handlers.PostResetformHandler().Serve)
-	app.POST("/login", handlers.PostLoginHandler().Serve)
+	// app.GET("/login", handlers.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
+	// app.POST("/login", handlers.PostLoginHandler().Serve)
+	// app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCache())
 	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
 
 	echo.NotFoundHandler = func(c echo.Context) error {

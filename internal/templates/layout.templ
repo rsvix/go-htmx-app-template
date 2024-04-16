@@ -10,7 +10,7 @@ templ header(c echo.Context, pageTitle string) {
 		<title>{ pageTitle }</title>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" nonce={ middlewares.GetNavBarNonce(c) }/>
 		<script src="/static/script/htmx.min.js" nonce={ middlewares.GetHtmxNonce(c) }></script>
 		<script src="/static/script/response-targets.js" nonce={ middlewares.GetResponseTargetsNonce(c) }></script>
 		<link rel="stylesheet" href="/static/css/style.min.css" nonce={ middlewares.GetTwNonce(c) }/>

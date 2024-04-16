@@ -56,9 +56,9 @@ func CSPMiddlewareCP(next http.Handler) http.Handler {
 			nonceSet.ResponseTargets,
 			nonceSet.Tw,
 			nonceSet.Fa,
-			nonceSet.HtmxCSSHash)
+			nonceSet.HtmxCSSHash,
+		)
 		w.Header().Set("Content-Security-Policy", cspHeader)
-
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

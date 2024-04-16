@@ -36,24 +36,25 @@ func main() {
 	// app.IPExtractor = echo.ExtractIPFromRealIPHeader()
 
 	// Middlewares
-	app.Use(middleware.Logger())
-	app.Use(middleware.Recover())
-	app.Use(middlewares.DatabaseMiddleware(db))
-	app.Use(session.Middleware(cookiestore.Start(db)))
-	app.Use(middlewares.CSPMiddleware())
+	app.Use(
+		middleware.Logger(),
+		middleware.Recover(),
+		middlewares.DatabaseMiddleware(db),
+		session.Middleware(cookiestore.Start(db)),
+		middleware.SecureWithConfig(middleware.SecureConfig{
+			XSSProtection:      "1; mode=block",
+			ContentTypeNosniff: "nosniff",
+			XFrameOptions:      "",
+			HSTSMaxAge:         3600,
+			// ContentSecurityPolicy: "default-src 'self'",
+		}),
+		middlewares.CSPMiddleware(),
+	)
 
 	// app.Use(middlewares.TextHTMLMiddleware())
 	// app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 	// 	TokenLookup: "header:X-XSRF-TOKEN",
 	// }))
-
-	app.Use(middleware.SecureWithConfig(middleware.SecureConfig{
-		XSSProtection:      "1; mode=block",
-		ContentTypeNosniff: "nosniff",
-		XFrameOptions:      "",
-		HSTSMaxAge:         3600,
-		// ContentSecurityPolicy: "default-src 'self';",
-	}))
 
 	// app.Pre(middleware.HTTPSRedirect())
 
@@ -94,7 +95,7 @@ func main() {
 	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
 
 	echo.NotFoundHandler = func(c echo.Context) error {
-		return templates.NotfoundPage("Not Found", "Page not found").Render(c.Request().Context(), c.Response())
+		return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
 	}
 
 	log.Printf("Starting %v server on port %v", appName, appPort)

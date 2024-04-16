@@ -1,15 +1,19 @@
 package templates
 
-templ NotfoundPage(pageTitle string, message string) {
+import (
+	"github.com/labstack/echo/v4"
+	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
+)
+
+templ NotfoundPage(c echo.Context, pageTitle string, message string) {
 	<!DOCTYPE html>
     <html lang="en">
 	<head>
 		<title>{ pageTitle }</title>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<link rel="icon" type="image/x-icon" href="favicon.ico"/>
-
-		<link rel="stylesheet" type="text/css" href="static/css/nf.css" nonce="2726c7f26s"/>
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" nonce={ middlewares.GetNavBarNonce(c) }/>
+		<link rel="stylesheet" href="/static/css/nf.css" nonce={ middlewares.GetNavBarNonce(c) }/>
 	</head>
 	<body class="notfoundbody">
 		<div class="divpos">

@@ -1,6 +1,7 @@
 package cookiestore
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/gorilla/securecookie"
@@ -24,6 +25,7 @@ func Start(db *gorm.DB) *gormstore.Store {
 	store.SessionOpts.MaxAge = 86400
 	store.SessionOpts.HttpOnly = true
 	store.SessionOpts.Secure = false
+	store.SessionOpts.SameSite = http.SameSiteLaxMode
 
 	quit := make(chan struct{})
 	go store.PeriodicCleanup(1*time.Hour, quit)

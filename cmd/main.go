@@ -30,7 +30,7 @@ func main() {
 	db := db.Connect()
 
 	// Ip extractor - https://echo.labstack.com/docs/ip-address
-	// Not using - Cehck github.com/rsvix/go-htmx-app-template/internal/utils/env_var.go
+	// Not using - Check github.com/rsvix/go-htmx-app-template/internal/utils/env_var.go
 	// app.IPExtractor = echo.ExtractIPDirect()
 	// app.IPExtractor = echo.ExtractIPFromXFFHeader()
 	// app.IPExtractor = echo.ExtractIPFromRealIPHeader()
@@ -41,12 +41,21 @@ func main() {
 	app.Use(middlewares.DatabaseMiddleware(db))
 	app.Use(session.Middleware(cookiestore.Start(db)))
 
+	// app.Use(middlewares.TextHTMLMiddleware())
+	// app.Use(middlewares.CSPMiddleware())
+
 	// app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 	// 	TokenLookup: "header:X-XSRF-TOKEN",
 	// }))
 
-	// Enable in production
-	// app.Use(middleware.Secure())
+	app.Use(middleware.SecureWithConfig(middleware.SecureConfig{
+		XSSProtection:         "1; mode=block",
+		ContentTypeNosniff:    "nosniff",
+		XFrameOptions:         "",
+		HSTSMaxAge:            3600,
+		ContentSecurityPolicy: "default-src 'self'; script-src 'nonce-2726c7f26c'; style-src 'nonce-2726c7f26s' 'sha256-pgn1TCGZX6O77zDvy0oTODMOxemn0oj0LeCnQTRj7Kg=';",
+	}))
+
 	// app.Pre(middleware.HTTPSRedirect())
 
 	// Allow CORS For testing - Comment this in production
@@ -67,8 +76,10 @@ func main() {
 	app.POST("/resetform", handlers.PostResetformHandler().Serve)
 	app.GET("/login", handlers.GetLoginHandler().Serve)
 	app.POST("/login", handlers.PostLoginHandler().Serve)
-	app.GET("/logout", handlers.GetLogoutHandler().Serve)
+	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.NoCache())
 	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
+
+	// noCacheGroup := app.Group(func(c echo.Context), middlewares.NoCache())
 
 	echo.NotFoundHandler = func(c echo.Context) error {
 		return templates.NotfoundPage("Not Found", "Page not found").Render(c.Request().Context(), c.Response())

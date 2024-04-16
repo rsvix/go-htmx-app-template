@@ -30,9 +30,9 @@ func (h getLogoutHandlerParams) Serve(c echo.Context) error {
 	}
 
 	// Set no cache response headers
-	c.Response().Header().Set("Cache-Control", "no-cache, private, max-age=0")
-	c.Response().Header().Set("Pragma", "no-cache")
-	c.Response().Header().Set("X-Accel-Expires", "0")
+	// c.Response().Header().Set("Cache-Control", "no-cache, private, max-age=0")
+	// c.Response().Header().Set("Pragma", "no-cache")
+	// c.Response().Header().Set("X-Accel-Expires", "0")
 
 	// Set session values
 	session.Values["authenticated"] = false

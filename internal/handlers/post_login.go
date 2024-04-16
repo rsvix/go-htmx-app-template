@@ -28,7 +28,6 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 	email := c.Request().FormValue("email")
 	password := c.Request().FormValue("password")
 	remember := c.Request().FormValue("remember")
-	log.Printf("remember: %v\n", remember)
 
 	// https://stackoverflow.com/questions/2185951/how-do-i-keep-a-user-logged-into-my-site-for-months
 
@@ -67,6 +66,9 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 			session.Values["email"] = email
 			session.Values["id"] = strconv.FormatUint(uint64(result.Id), 10)
 			session.Values["firstname"] = result.Firstname
+			if remember == "true" {
+				session.Options.MaxAge = 84600 * 30
+			}
 
 			// Save updated session
 			if err := session.Save(c.Request(), c.Response()); err != nil {

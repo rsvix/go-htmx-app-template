@@ -56,6 +56,7 @@ func Connect() *gorm.DB {
 			"passwordchangetokenexpiration TIMESTAMP,"+
 			"pinnumber INTEGER,"+
 			"registerip VARCHAR(64),"+
+			"lastip VARCHAR(64),"+
 			"enabled INTEGER NOT NULL DEFAULT '0'"+
 			")",
 		tableName)

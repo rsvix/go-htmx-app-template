@@ -33,40 +33,16 @@ const (
 
 templ sideNav(c echo.Context, pageTitle string, authenticated bool, userName string) {
 <div class={ sidebarRet }>
-    <a class={ topbarIcon } title="&#128161; Expandir menu" href="#" id="bars-menu-icon-closed">
+    <a class={ topbarIcon } title="&#128161; Expand menu" href="#" id="bars-menu-icon-closed">
         <i class="fa-solid fa-bars"></i>
     </a>
     <a class={ generalcon } title="&#128161; Home" href="/">
         <i class="fa-solid fa-house"></i>
     </a>
-    <a class={ generalcon } title="&#128161; Bots" href="/botspg">
-        <i class="fa-solid fa-robot"></i>
-    </a>
-    <a class={ generalcon } title="&#128161; Execução por agendamento" href="/agendamento">
-        <i class="fa-regular fa-calendar-days"></i>
-    </a>
-    <a class={ generalcon } title="&#128161; Execução por arquivo inserido" href="/gat_arquivo">
-        <i class="fa-solid fa-laptop-file"></i>
-    </a>
-    <a class={ generalcon } title="&#128161; Credenciais" href="/credenciais">
-        <i class="fa-solid fa-key"></i>
-    </a>
-    <a class={ generalcon } title="&#128161; Configurações git" href="/git_config">
-        <i class="fa-brands fa-square-git"></i>
-    </a>
-    <a class={ generalcon } title="&#128161; Execuções" href="/execs">
-        <i class="fa-solid fa-play"></i>
-    </a>
-    <a class={ generalcon } title="&#128161; Fila de execuções" href="/fila">
-        <i class="fa-solid fa-list"></i>
-    </a>
     <a class={ generalcon } title="&#128161; Code snippets" href="/snippets">
         <i class="fa-solid fa-code"></i>
     </a>
-    <a class={ generalcon } title="&#128161; Swagger da API" href="/swagger/#">
-        <i class="fa-solid fa-file-code"></i>
-    </a>
-    <a class={ generalcon } title="&#128161; Painel Admin" href="/admin">
+    <a class={ generalcon } title="&#128161; Account" href="/account">
         <i class="fa-solid fa-wrench"></i>
     </a> 
     <a class={ logoutIcon } title="&#128161; Logout" href="/logout">
@@ -75,19 +51,12 @@ templ sideNav(c echo.Context, pageTitle string, authenticated bool, userName str
 </div>
 
 <div id="sidebarExtension" class={ sidebarExt }>
-    <a class={ topbarText } title="&#128161; Colapsar menu" href="#" id="bars-menu-icon-opened">
+    <a class={ topbarText } title="&#128161; Close menu" href="#" id="bars-menu-icon-opened">
         <i class="fa-solid fa-bars"></i>
     </a>
     <a class={ generalText } href="/">Home</a>
-    <a class={ generalText } href="/botspg">Bots</a>
-    <a class={ generalText } href="/agendamento">Agendamento</a>
-    <a class={ generalText } href="/gat_arquivo">Arquivo</a>
-    <a class={ generalText } href="/credenciais">Credenciais</a>
-    <a class={ generalText } href="/git_config">ConfiguraçõesGit</a>
-    <a class={ generalText } href="/execs">Execuções</a>
-    <a class={ generalText } href="/fila">Fila</a>
     <a class={ generalText } href="/snippets">Code snippets</a>
-    <a class={ generalText } href="/swagger/#">Swagger</a>
+    <a class={ generalText } href="/account">Account</a>
     <a class={ logoutText } href="/logout">Logout</a>
 </div>
 

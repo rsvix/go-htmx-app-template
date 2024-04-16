@@ -26,8 +26,7 @@ func main() {
 	utils.GetSetEnv("POSTGRES_HOST", "localhost")
 
 	app := echo.New()
-	// Debug mode
-	app.Debug = true
+	app.Debug = true // Debug mode
 	app.Static("static", "./static")
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()
@@ -41,7 +40,6 @@ func main() {
 	// Needs certificate for https
 	// app.Pre(middleware.HTTPSRedirect())
 
-	// Middlewares
 	app.Use(
 		middleware.Logger(),
 		middleware.Recover(),
@@ -57,29 +55,17 @@ func main() {
 		middlewares.CSPMiddleware(),
 	)
 
-	// https://echo.labstack.com/docs/middleware/csrf
-
 	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-		TokenLookup:    "form:_csrf",
+		TokenLookup: "form:_csrf",
+		// TokenLookup:    "cookie:_csrf",
 		CookiePath:     "/",
 		CookieDomain:   "localhost",
-		CookieMaxAge:   3600,
+		CookieMaxAge:   84600,
 		CookieSecure:   false,
 		CookieHTTPOnly: true,
 		CookieSameSite: http.SameSiteDefaultMode,
 	}))
 
-	// app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-	// 	TokenLookup:    "cookie:_csrf",
-	// 	CookiePath:     "/",
-	// 	CookieDomain:   "localhost",
-	// 	CookieMaxAge:   84600,
-	// 	CookieSecure:   false,
-	// 	CookieHTTPOnly: true,
-	// 	CookieSameSite: http.SameSiteDefaultMode,
-	// }))
-
-	// Allow CORS For testing - Comment this in production
 	// app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 	// 	AllowOrigins: []string{"*"},
 	// 	AllowMethods: []string{"*"},

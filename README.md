@@ -62,6 +62,9 @@ docker run -p 8080:8080 go-htmx-app-template:latest
 ### To build and run the docker compose
 ```
 docker compose up
+# or
+docker-compose -f docker-compose-complete.yml up
+# then
 docker compose down
 .
 # Clean docker cache

@@ -16,9 +16,11 @@ type key string
 var NonceKey key = "nonces"
 
 type Nonces struct {
+	NavBar          string
 	Htmx            string
 	ResponseTargets string
 	Tw              string
+	Fa              string
 	HtmxCSSHash     string
 }
 
@@ -42,16 +44,18 @@ func CSPMiddlewareCP(next http.Handler) http.Handler {
 			Htmx:            generateRandomString(16),
 			ResponseTargets: generateRandomString(16),
 			Tw:              generateRandomString(16),
+			Fa:              generateRandomString(16),
 			HtmxCSSHash:     "sha256-pgn1TCGZX6O77zDvy0oTODMOxemn0oj0LeCnQTRj7Kg=",
 		}
 
 		// set nonces in context
 		ctx := context.WithValue(r.Context(), NonceKey, nonceSet)
 		// insert the nonces into the content security policy header
-		cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s' 'nonce-%s' ; style-src 'nonce-%s' '%s';",
+		cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s' 'nonce-%s' ; style-src 'nonce-%s' 'nonce-%s' '%s';",
 			nonceSet.Htmx,
 			nonceSet.ResponseTargets,
 			nonceSet.Tw,
+			nonceSet.Fa,
 			nonceSet.HtmxCSSHash)
 		w.Header().Set("Content-Security-Policy", cspHeader)
 
@@ -66,24 +70,26 @@ func CSPMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			nonceSet := Nonces{
+				NavBar:          generateRandomString(16),
 				Htmx:            generateRandomString(16),
 				ResponseTargets: generateRandomString(16),
 				Tw:              generateRandomString(16),
+				Fa:              generateRandomString(16),
 				HtmxCSSHash:     "sha256-pgn1TCGZX6O77zDvy0oTODMOxemn0oj0LeCnQTRj7Kg=",
 			}
 
 			v := reflect.ValueOf(nonceSet)
 			typeOfS := v.Type()
-
 			for i := 0; i < v.NumField(); i++ {
 				c.Set(typeOfS.Field(i).Name, v.Field(i).Interface())
 			}
 
-			// insert the nonces into the content security policy header
-			cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s' 'nonce-%s' ; style-src 'nonce-%s' '%s';",
+			cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s' 'nonce-%s' 'nonce-%s' ; style-src 'nonce-%s' 'nonce-%s' '%s';",
+				nonceSet.NavBar,
 				nonceSet.Htmx,
 				nonceSet.ResponseTargets,
 				nonceSet.Tw,
+				nonceSet.Fa,
 				nonceSet.HtmxCSSHash)
 			c.Response().Header().Set("Content-Security-Policy", cspHeader)
 
@@ -92,23 +98,27 @@ func CSPMiddleware() echo.MiddlewareFunc {
 	}
 }
 
-// func GetNonces(c echo.Context) Nonces {
-// 	nonceSet := c.Value(NonceKey)
-// 	if nonceSet == nil {
-// 		log.Fatal("error getting nonce set - is nil")
-// 	}
-
-// 	nonces, ok := nonceSet.(Nonces)
-
-// 	if !ok {
-// 		log.Fatal("error getting nonce set - not ok")
-// 	}
-
-// 	return nonces
-// }
+func GetNavBarNonce(c echo.Context) string {
+	nonce := c.Get("NavBar").(string)
+	return nonce
+}
 
 func GetHtmxNonce(c echo.Context) string {
-	htmxValue := c.Request().Context().Value("Htmx").(string)
-	// c.Value("Htmx")
-	return htmxValue
+	nonce := c.Get("Htmx").(string)
+	return nonce
+}
+
+func GetResponseTargetsNonce(c echo.Context) string {
+	nonce := c.Get("ResponseTargets").(string)
+	return nonce
+}
+
+func GetTwNonce(c echo.Context) string {
+	nonce := c.Get("Tw").(string)
+	return nonce
+}
+
+func GetFaNonce(c echo.Context) string {
+	nonce := c.Get("Fa").(string)
+	return nonce
 }

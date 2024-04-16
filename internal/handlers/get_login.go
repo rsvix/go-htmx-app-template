@@ -29,5 +29,5 @@ func (h getLoginHandlerParams) Serve(c echo.Context) error {
 	// }
 	// return c.Redirect(http.StatusSeeOther, "/")
 
-	return templates.LoginPage(h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
+	return templates.LoginPage(c, h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
 }

@@ -44,5 +44,5 @@ func (h getIndexHandlerParams) Serve(c echo.Context) error {
 	if value, ok := session.Values["firstname"].(string); ok {
 		userName = value
 	}
-	return templates.IndexPage(h.pageTitle, userName).Render(c.Request().Context(), c.Response())
+	return templates.IndexPage(c, h.pageTitle, userName).Render(c.Request().Context(), c.Response())
 }

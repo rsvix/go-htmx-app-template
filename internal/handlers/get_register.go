@@ -29,5 +29,5 @@ func (h getRegisterHandlerParams) Serve(c echo.Context) error {
 	// }
 	// return c.Redirect(http.StatusSeeOther, "/")
 
-	return templates.RegisterPage(h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
+	return templates.RegisterPage(c, h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
 }

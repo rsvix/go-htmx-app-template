@@ -31,10 +31,10 @@ func (h activateHandlerParams) Serve(c echo.Context) error {
 			// id := session.Values["id"].(string)
 			en_err := session.Values["en_error"].(string)
 			// return templates.ActivatePage("Activate", false, id, en_err).Render(c.Request().Context(), c.Response())
-			return templates.ActivatePage(h.pageTitle, false, en_err).Render(c.Request().Context(), c.Response())
+			return templates.ActivatePage(c, h.pageTitle, false, en_err).Render(c.Request().Context(), c.Response())
 		}
 		// return templates.ActivatePage("Activate", true, "", "Account activated").Render(c.Request().Context(), c.Response())
-		return templates.ActivatePage(h.pageTitle, true, "Account activated").Render(c.Request().Context(), c.Response())
+		return templates.ActivatePage(c, h.pageTitle, true, "Account activated").Render(c.Request().Context(), c.Response())
 	}
 	return c.Redirect(http.StatusSeeOther, "/login")
 }

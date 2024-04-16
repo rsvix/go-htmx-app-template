@@ -29,5 +29,5 @@ func (h getResetHandlerParams) Serve(c echo.Context) error {
 	// }
 	// return c.Redirect(http.StatusSeeOther, "/")
 
-	return templates.ResetPage(h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
+	return templates.ResetPage(c, h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
 }

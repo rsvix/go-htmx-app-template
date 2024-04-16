@@ -1,20 +1,22 @@
 package templates
 
-templ header(pageTitle string) {
+import (
+	"github.com/labstack/echo/v4"
+    "github.com/rsvix/go-htmx-app-template/internal/middlewares"
+)
+
+templ header(c echo.Context, pageTitle string) {
 	<head>
 		<title>{ pageTitle }</title>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="icon" type="image/x-icon" href="favicon.ico"/>
 
-		<script src="/static/script/htmx.min.js" nonce="2726c7f26c"></script>
-		<script src="/static/script/response-targets.js" nonce="2726c7f26c"></script>
-		<link rel="stylesheet" href="/static/css/style.min.css" nonce="2726c7f26s"/>
-		<link rel="stylesheet" href="/static/font-awesome-6.5.2/css/all.min.css" nonce="2726c7f26s"/>
+		<script src="/static/script/htmx.min.js" nonce={ middlewares.GetHtmxNonce(c) }></script>
+		<script src="/static/script/response-targets.js" nonce={ middlewares.GetResponseTargetsNonce(c) }></script>
+		<link rel="stylesheet" href="/static/css/style.min.css" nonce={ middlewares.GetTwNonce(c) }/>
+		<link rel="stylesheet" href="/static/font-awesome-6.5.2/css/all.min.css" nonce={ middlewares.GetFaNonce(c) }/>
 
-		// <script src="static/script/htmx.min.js" nonce={ middleware.GetHtmxNonce(ctx) }></script>
-		// <script src="static/script/response-targets.js" nonce={ middleware.GetResponseTargetsNonce(ctx) }></script>
-		// <link rel="stylesheet" href="static/css/style.min.css" nonce={ middleware.GetTwNonce(ctx) }/>
 	</head>
 }
 
@@ -31,7 +33,7 @@ const (
 	logoutText = "flex mx-5 my-2 text-white font-medium font-bold py-6 justify-start absolute bottom-0"
 )
 
-templ sideNav(pageTitle string, authenticated bool, userName string) {
+templ sideNav(c echo.Context, pageTitle string, authenticated bool, userName string) {
 <div class={ sidebarRet }>
     <a class={ topbarIcon } title="&#128161; Expandir menu" href="#" id="bars-menu-icon-closed">
         <i class="fa-solid fa-bars"></i>
@@ -91,9 +93,7 @@ templ sideNav(pageTitle string, authenticated bool, userName string) {
     <a class={ logoutText } href="/logout">Logout</a>
 </div>
 
-// https://rohitbels.medium.com/scrip-src-nonce-or-hash-algorithm-e43a6681f188
-
-<script type="text/javascript" nonce="2726c7f26c">
+<script type="text/javascript" nonce={ middlewares.GetNavBarNonce(c) }>
 
     document.getElementById("bars-menu-icon-closed").addEventListener("click",openCloseNav);
     document.getElementById("bars-menu-icon-opened").addEventListener("click",openCloseNav);
@@ -115,13 +115,13 @@ templ footer() {
 }
 
 
-templ Layout(pageTitle string, authenticated bool, userName string, showNavbar bool) {
+templ Layout(c echo.Context, pageTitle string, authenticated bool, userName string, showNavbar bool) {
     <!DOCTYPE html>
     <html lang="en">
-	@header(pageTitle)
+	@header(c, pageTitle)
 	<body hx-ext="response-targets" id="pagebody" class="flex flex-col h-full bg-gray-50 dark:bg-gray-900">
 		if showNavbar {
-			@sideNav(pageTitle, authenticated, userName)
+			@sideNav(c, pageTitle, authenticated, userName)
 			<main class="flex-1 w-full">
                 // <div id="main" class="main" style="margin-left: 56px">
 				<div id="main" class="ml-14">

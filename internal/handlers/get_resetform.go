@@ -32,10 +32,10 @@ func (h getResetformHandlerParams) Serve(c echo.Context) error {
 	if session.Values["pwreset"] != nil {
 		if auth, ok := session.Values["pwreset"].(bool); !ok || !auth {
 			en_err := session.Values["en_error"].(string)
-			return templates.ResetFormPage(h.appName, h.pageTitle, false, "", en_err).Render(c.Request().Context(), c.Response())
+			return templates.ResetFormPage(c, h.appName, h.pageTitle, false, "", en_err).Render(c.Request().Context(), c.Response())
 		}
 		id := session.Values["user_id"].(string)
-		return templates.ResetFormPage(h.appName, h.pageTitle, true, id, "Reset your password").Render(c.Request().Context(), c.Response())
+		return templates.ResetFormPage(c, h.appName, h.pageTitle, true, id, "Reset your password").Render(c.Request().Context(), c.Response())
 	}
 	return c.Redirect(http.StatusSeeOther, "/login")
 }

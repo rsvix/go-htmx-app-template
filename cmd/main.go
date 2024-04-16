@@ -40,19 +40,19 @@ func main() {
 	app.Use(middleware.Recover())
 	app.Use(middlewares.DatabaseMiddleware(db))
 	app.Use(session.Middleware(cookiestore.Start(db)))
-	// app.Use(middlewares.TextHTMLMiddleware())
-	// app.Use(middlewares.CSPMiddleware())
+	app.Use(middlewares.CSPMiddleware())
 
+	// app.Use(middlewares.TextHTMLMiddleware())
 	// app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 	// 	TokenLookup: "header:X-XSRF-TOKEN",
 	// }))
 
 	app.Use(middleware.SecureWithConfig(middleware.SecureConfig{
-		XSSProtection:         "1; mode=block",
-		ContentTypeNosniff:    "nosniff",
-		XFrameOptions:         "",
-		HSTSMaxAge:            3600,
-		ContentSecurityPolicy: "default-src 'self'; script-src 'nonce-2726c7f26c'; style-src 'nonce-2726c7f26s' 'sha256-pgn1TCGZX6O77zDvy0oTODMOxemn0oj0LeCnQTRj7Kg=';",
+		XSSProtection:      "1; mode=block",
+		ContentTypeNosniff: "nosniff",
+		XFrameOptions:      "",
+		HSTSMaxAge:         3600,
+		// ContentSecurityPolicy: "default-src 'self';",
 	}))
 
 	// app.Pre(middleware.HTTPSRedirect())

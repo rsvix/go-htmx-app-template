@@ -62,7 +62,7 @@ func (h *postResetformHandlerParams) Serve(c echo.Context) error {
 			log.Printf("Save: %v\n", err)
 
 			appName := os.Getenv("APP_NAME")
-			return templates.MessagePage(appName, "Reset", "Your password was reset", true, false).Render(c.Request().Context(), c.Response())
+			return templates.MessagePage(c, appName, "Reset", "Your password was reset", true, false).Render(c.Request().Context(), c.Response())
 		}
 		return c.HTML(http.StatusUnprocessableEntity, "<h2>Passwords dont match</h2>")
 	}

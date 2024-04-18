@@ -56,14 +56,14 @@ func main() {
 	)
 
 	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-		TokenLookup: "form:_csrf",
-		// TokenLookup:    "cookie:_csrf",
+		// TokenLookup: "form:_csrf",
+		TokenLookup:    "cookie:_csrf",
 		CookiePath:     "/",
 		CookieDomain:   "localhost",
 		CookieMaxAge:   84600,
 		CookieSecure:   false,
 		CookieHTTPOnly: true,
-		CookieSameSite: http.SameSiteDefaultMode,
+		CookieSameSite: http.SameSiteStrictMode,
 	}))
 
 	// app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -73,8 +73,19 @@ func main() {
 
 	// 404 Handler
 	echo.NotFoundHandler = func(c echo.Context) error {
-		return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
+		return c.Redirect(http.StatusSeeOther, "/404")
+		// return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
 	}
+
+	// Not found
+	app.GET("/404", func(c echo.Context) error {
+		return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
+	})
+
+	// Internal server error
+	app.GET("/500", func(c echo.Context) error {
+		return templates.NotfoundPage(c, "Error", "Page not found").Render(c.Request().Context(), c.Response())
+	})
 
 	// Groups
 	notLoggedGroup := app.Group("", middlewares.MustNotBeLogged())

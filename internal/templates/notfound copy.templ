@@ -1,0 +1,31 @@
+package templates
+
+import (
+	"github.com/labstack/echo/v4"
+	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
+)
+
+templ NotfoundPageOld(c echo.Context, pageTitle string, message string) {
+	<!DOCTYPE html>
+    <html lang="en">
+	<head>
+		<title>{ pageTitle }</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+		<link rel="stylesheet" href="/static/css/notfoundpage.css" nonce={ middlewares.GetRandomNonce(c) }/>
+	</head>
+	<body class="notfoundbody">
+		<div class="divpos">
+			<div class="divstl">
+				404
+			</div>
+			<span class="msg">{ message }</span>
+			<br/>
+			<div class="divlink">
+				<a href="/" class="anchor">Go to home page</a>
+			</div>
+		</div>
+	</body>
+	</html>
+}

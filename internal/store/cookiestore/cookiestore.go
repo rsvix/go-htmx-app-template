@@ -25,7 +25,7 @@ func Start(db *gorm.DB) *gormstore.Store {
 	store.SessionOpts.MaxAge = 86400
 	store.SessionOpts.Secure = false
 	store.SessionOpts.HttpOnly = true
-	store.SessionOpts.SameSite = http.SameSiteDefaultMode
+	store.SessionOpts.SameSite = http.SameSiteStrictMode
 
 	quit := make(chan struct{})
 	go store.PeriodicCleanup(1*time.Hour, quit)

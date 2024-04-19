@@ -37,7 +37,6 @@ func main() {
 	// app.IPExtractor = echo.ExtractIPFromXFFHeader()
 	// app.IPExtractor = echo.ExtractIPFromRealIPHeader()
 
-	// Needs certificate for https
 	// app.Pre(middleware.HTTPSRedirect())
 
 	app.Use(
@@ -73,17 +72,22 @@ func main() {
 
 	// 404 Handler
 	echo.NotFoundHandler = func(c echo.Context) error {
-		return c.Redirect(http.StatusSeeOther, "/404")
+		return c.Redirect(http.StatusSeeOther, "/nf")
 		// return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
 	}
 
 	// Not found
-	app.GET("/404", func(c echo.Context) error {
+	app.GET("/nf", func(c echo.Context) error {
 		return templates.NotfoundPage(c, "Not Found", "Sorry, we can't find that page").Render(c.Request().Context(), c.Response())
 	})
 
 	// Internal server error
-	app.GET("/500", func(c echo.Context) error {
+	app.GET("/se", func(c echo.Context) error {
+		return templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
+	})
+
+	// Terms and Conditions
+	app.GET("/terms", func(c echo.Context) error {
 		return templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
 	})
 

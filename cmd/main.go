@@ -68,7 +68,6 @@ func main() {
 	// 	AllowMethods: []string{"*"},
 	// }))
 
-	//Handlers
 	echo.NotFoundHandler = func(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/notfound")
 	}

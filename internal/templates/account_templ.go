@@ -33,7 +33,7 @@ func AccountPage(c echo.Context, pageTitle string, email string, firstname strin
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased\"><div class=\"max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-16 lg:py-24\"><div class=\"max-w-3xl mx-auto text-center\"><h2 class=\"text-4xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white\">Account settings</h2></div><div class=\"flow-root max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16\"><div class=\"-my-4 divide-y divide-gray-200 dark:divide-gray-700\"><div class=\"flex flex-col gap-2 py-4 sm:gap-6 sm:flex-row sm:items-center\"><p class=\"w-28 text-lg font-normal text-gray-500 sm:text-right dark:text-gray-400 shrink-0\">Firstname:</p><p class=\"text-lg font-semibold text-gray-900 dark:text-white\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased\"><div class=\"max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-16 lg:py-24\"><div class=\"max-w-3xl mx-auto text-center\"><h2 class=\"text-4xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white\">Account settings</h2></div><div class=\"flow-root max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16\"><div id=\"account-info\" class=\"-my-4 divide-y divide-gray-200 dark:divide-gray-700\"><div class=\"flex flex-col gap-2 py-4 sm:gap-6 sm:flex-row sm:items-center\"><p class=\"w-28 text-lg font-normal text-gray-500 sm:text-right dark:text-gray-400 shrink-0\">Firstname:</p><p class=\"text-lg font-semibold text-gray-900 dark:text-white\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -72,7 +72,7 @@ func AccountPage(c echo.Context, pageTitle string, email string, firstname strin
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"flex flex-col items-center py-4\"><button type=\"submit\" class=\"w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Edit</button></div></div></div></div></section>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"flex flex-col items-center py-4\"><button hx-get=\"/edit_account\" hx-target=\"#account-info\" class=\"w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Edit account</button></div></div></div></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

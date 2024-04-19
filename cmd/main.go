@@ -91,6 +91,7 @@ func main() {
 
 	app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/account", handlers.GetAccountHandler().Serve, middlewares.MustBeLogged())
+	app.GET("/edit_account", handlers.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCacheHeaders())
 
 	log.Printf("Starting %v server on port %v", appName, appPort)

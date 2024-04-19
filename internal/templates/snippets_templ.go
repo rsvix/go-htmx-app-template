@@ -14,7 +14,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func IndexPage(c echo.Context, pageTitle string, userName string) templ.Component {
+func SnippetsPage(c echo.Context, pageTitle string, userName string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -33,20 +33,7 @@ func IndexPage(c echo.Context, pageTitle string, userName string) templ.Componen
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased\"><div class=\"max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-9 lg:py-12\"><div class=\"max-w-3xl mx-auto text-center\"><h2 class=\"text-3xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white\">Hello ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(userName)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/index.templ`, Line: 13, Col: 40}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(", you are authenticated!</h2></div><div class=\"flow-root max-w-3xl mx-auto mt-6 sm:mt-9 lg:mt-12\"></div></div></section>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased\"><div class=\"max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-9 lg:py-12\"><div class=\"max-w-3xl mx-auto text-center\"><h2 class=\"text-3xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white\">Snippets page</h2></div><div class=\"flow-root max-w-3xl mx-auto mt-6 sm:mt-9 lg:mt-12\"></div></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

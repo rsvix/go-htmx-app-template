@@ -62,7 +62,8 @@ func (h postEditAccountHandlerParams) Serve(c echo.Context) error {
 	var result struct {
 		Password string
 	}
-	db.Table("users").Select("password").Where("id = ?", email).Scan(&result)
+	db.Table("users").Select("password").Where("id = ?", id).Scan(&result)
+	log.Printf("\nPassword: %s\n", result.Password)
 
 	if hash.CheckPasswordHashV2(password, result.Password) {
 		res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"email": email, "firstname": firstname, "lastname": lastname})

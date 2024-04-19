@@ -66,7 +66,7 @@ func EditAccountPage(c echo.Context, pageTitle string, email string, firstname s
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></div><div class=\"flex items-center p-4 justify-center inline-block\"><button hx-get=\"/account\" hx-target=\"#pagebody\" class=\"w-32 mx-6 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Cancel</button> <button hx-post=\"/edit_account\" hx-include=\"#account-info\" hx-target=\"#pagebody\" hx-target-error=\"#any-errors\" class=\"w-32 mx-6 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Save</button></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></div><div class=\"flex items-center p-4 justify-center inline-block\"><button hx-get=\"/account\" hx-target=\"#pagebody\" class=\"w-32 mx-6 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Cancel</button> <button hx-post=\"/edit_account\" hx-include=\"#account-info\" hx-prompt=\"Enter your password to confirm\" hx-target=\"#pagebody\" hx-target-error=\"#any-errors\" class=\"w-32 mx-6 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Save</button></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -76,3 +76,6 @@ func EditAccountPage(c echo.Context, pageTitle string, email string, firstname s
 		return templ_7745c5c3_Err
 	})
 }
+
+// hx-confirm="Are you sure you want to update the info?"
+// hx-prompt="Enter your password to confirm"

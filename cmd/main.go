@@ -30,8 +30,7 @@ func main() {
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()
 
-	// Ip extractor - https://echo.labstack.com/docs/ip-address
-	// Not using - Check github.com/rsvix/go-htmx-app-template/internal/utils/env_var.go
+	// Ip extractor (https://echo.labstack.com/docs/ip-address) - Not using, check /internal/utils/env_var.go
 	// app.IPExtractor = echo.ExtractIPDirect()
 	// app.IPExtractor = echo.ExtractIPFromXFFHeader()
 	// app.IPExtractor = echo.ExtractIPFromRealIPHeader()
@@ -92,8 +91,8 @@ func main() {
 	app.GET("/terms", handlers.GetTermsHandlerParams().Serve)
 
 	app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
-	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCache())
 	app.GET("/account", handlers.GetAccountHandler().Serve, middlewares.MustBeLogged())
+	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCacheHeaders())
 
 	log.Printf("Starting %v server on port %v", appName, appPort)
 	app.Logger.Fatal(app.Start(":" + appPort))

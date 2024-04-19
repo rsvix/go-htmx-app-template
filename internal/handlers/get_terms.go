@@ -11,10 +11,10 @@ type getTermsHandlerParams struct {
 
 func GetTermsHandlerParams() *getTermsHandlerParams {
 	return &getTermsHandlerParams{
-		pageTitle: "NotFound",
+		pageTitle: "Terms",
 	}
 }
 
 func (h getTermsHandlerParams) Serve(c echo.Context) error {
-	return templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
+	return templates.TermsPage(c, h.pageTitle).Render(c.Request().Context(), c.Response())
 }

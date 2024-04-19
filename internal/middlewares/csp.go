@@ -4,7 +4,9 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"log"
 
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
@@ -29,7 +31,22 @@ func CSPMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			randomNonce := generateRandomString(16)
-			c.Set("randomNonce", randomNonce)
+
+			// Storing nonce in the context
+			// c.Set("randomNonce", randomNonce)
+
+			// Storing nonce in session cookie
+			session, err := session.Get("authenticate-sessions", c)
+			if err != nil {
+				log.Printf("Error getting session: %v\n", err)
+				return err
+			}
+			session.Values["randomNonce"] = randomNonce
+			if err := session.Save(c.Request(), c.Response()); err != nil {
+				log.Printf("Error saving session: %s", err)
+				return err
+			}
+
 			cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s'; style-src 'nonce-%s' '%s'; img-src '%s';",
 				randomNonce,
 				randomNonce,
@@ -44,6 +61,18 @@ func CSPMiddleware() echo.MiddlewareFunc {
 }
 
 func GetRandomNonce(c echo.Context) string {
-	nonce := c.Get("randomNonce").(string)
-	return nonce
+	// Getting nonce from context
+	// nonce := c.Get("randomNonce").(string)
+	// return nonce
+
+	// Getting nonce from session cookie
+	session, err := session.Get("authenticate-sessions", c)
+	if err != nil {
+		log.Printf("Error getting session: %v\n", err)
+		return ""
+	}
+	if value, ok := session.Values["randomNonce"].(string); ok {
+		return value
+	}
+	return ""
 }

@@ -9,6 +9,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// https://www.alexedwards.net/blog/working-with-cookies-in-go
+
 func Start(db *gorm.DB) *gormstore.Store {
 	store := gormstore.NewOptions(
 		db,

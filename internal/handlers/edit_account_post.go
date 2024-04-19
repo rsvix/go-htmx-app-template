@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/rsvix/go-htmx-app-template/internal/templates"
 	"gorm.io/gorm"
 )
 
@@ -40,5 +40,5 @@ func (h postEditAccountHandlerParams) Serve(c echo.Context) error {
 	}
 	db.Table("users").Select("email", "firstname", "lastname").Where("id = ?", id).Scan(&result)
 
-	return templates.EditAccountPage(c, h.pageTitle, result.Email, result.Firstname, result.Lastname).Render(c.Request().Context(), c.Response())
+	return c.Redirect(http.StatusSeeOther, "/account")
 }

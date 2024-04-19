@@ -12,7 +12,6 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
 	"github.com/rsvix/go-htmx-app-template/internal/store/db"
-	"github.com/rsvix/go-htmx-app-template/internal/templates"
 	"github.com/rsvix/go-htmx-app-template/internal/utils"
 )
 
@@ -70,57 +69,31 @@ func main() {
 	// 	AllowMethods: []string{"*"},
 	// }))
 
-	// 404 Handler
+	//Handlers
 	echo.NotFoundHandler = func(c echo.Context) error {
-		return c.Redirect(http.StatusSeeOther, "/nf")
-		// return templates.NotfoundPage(c, "Not Found", "Page not found").Render(c.Request().Context(), c.Response())
+		return c.Redirect(http.StatusSeeOther, "/notfound")
 	}
 
-	// Not found
-	app.GET("/nf", func(c echo.Context) error {
-		return templates.NotfoundPage(c, "Not Found", "Sorry, we can't find that page").Render(c.Request().Context(), c.Response())
-	})
+	app.GET("/login", handlers.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
+	app.POST("/login", handlers.PostLoginHandler().Serve, middlewares.MustNotBeLogged())
+	app.GET("/register", handlers.GetRegisterHandler().Serve, middlewares.MustNotBeLogged())
+	app.POST("/register", handlers.PostRegisterHandler().Serve, middlewares.MustNotBeLogged())
+	app.GET("/reset", handlers.GetResetHandler().Serve, middlewares.MustNotBeLogged())
+	app.POST("/reset", handlers.PostResetHandler().Serve, middlewares.MustNotBeLogged())
 
-	// Internal server error
-	app.GET("/se", func(c echo.Context) error {
-		return templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
-	})
-
-	// Terms and Conditions
-	app.GET("/terms", func(c echo.Context) error {
-		return templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
-	})
-
-	// Groups
-	notLoggedGroup := app.Group("", middlewares.MustNotBeLogged())
-	loggedGroup := app.Group("", middlewares.MustBeLogged())
-
-	// Not logged handlers
-	notLoggedGroup.GET("/login", handlers.GetLoginHandler().Serve)
-	notLoggedGroup.POST("/login", handlers.PostLoginHandler().Serve)
-	notLoggedGroup.GET("/register", handlers.GetRegisterHandler().Serve)
-	notLoggedGroup.POST("/register", handlers.PostRegisterHandler().Serve)
-	notLoggedGroup.GET("/reset", handlers.GetResetHandler().Serve)
-	notLoggedGroup.POST("/reset", handlers.PostResetHandler().Serve)
-
-	// Logged handlers
-	loggedGroup.GET("/", handlers.GetIndexHandler().Serve)
-	loggedGroup.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.NoCache())
-	loggedGroup.GET("/account", handlers.GetAccountHandler().Serve)
-
-	// app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
-	// app.GET("/register", handlers.GetRegisterHandler().Serve)
-	// app.POST("/register", handlers.PostRegisterHandler().Serve)
+	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
 	app.GET("/activate", handlers.GetActivateHandler().Serve)
 	app.GET("/newactivation", handlers.GetNewActivationHandler().Serve)
-	// app.GET("/reset", handlers.GetResetHandler().Serve)
-	// app.POST("/reset", handlers.PostResetHandler().Serve)
 	app.GET("/resetform", handlers.GetResetformHandler().Serve)
 	app.POST("/resetform", handlers.PostResetformHandler().Serve)
-	// app.GET("/login", handlers.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
-	// app.POST("/login", handlers.PostLoginHandler().Serve)
-	// app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCache())
-	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
+
+	app.GET("/notfound", handlers.GetNotfoundHandler().Serve)
+	app.GET("/error", handlers.GetInternalErrorHandler().Serve)
+	app.GET("/terms", handlers.GetTermsHandlerParams().Serve)
+
+	app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
+	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCache())
+	app.GET("/account", handlers.GetAccountHandler().Serve, middlewares.MustBeLogged())
 
 	log.Printf("Starting %v server on port %v", appName, appPort)
 	app.Logger.Fatal(app.Start(":" + appPort))

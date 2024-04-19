@@ -25,7 +25,7 @@ func main() {
 	utils.GetSetEnv("POSTGRES_HOST", "localhost")
 
 	app := echo.New()
-	app.Debug = true // Debug mode
+	app.Debug = true
 	app.Static("static", "./static")
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()

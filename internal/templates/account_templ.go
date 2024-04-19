@@ -33,46 +33,46 @@ func AccountPage(c echo.Context, pageTitle string, email string, firstname strin
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-gray-50 dark:bg-gray-900\"><div hx-ext=\"response-targets\" class=\"flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0\"><h1 class=\"text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center\"><p>Email: ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased\"><div class=\"max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-16 lg:py-24\"><div class=\"max-w-3xl mx-auto text-center\"><h2 class=\"text-4xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white\">Account settings</h2></div><div class=\"flow-root max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16\"><div class=\"-my-4 divide-y divide-gray-200 dark:divide-gray-700\"><div class=\"flex flex-col gap-2 py-4 sm:gap-6 sm:flex-row sm:items-center\"><p class=\"w-28 text-lg font-normal text-gray-500 sm:text-right dark:text-gray-400 shrink-0\">Firstname:</p><p class=\"text-lg font-semibold text-gray-900 dark:text-white\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(email)
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(firstname)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/account.templ`, Line: 12, Col: 33}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/account.templ`, Line: 23, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><p>First name: ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"flex flex-col gap-2 py-4 sm:gap-6 sm:flex-row sm:items-center\"><p class=\"w-28 text-lg font-normal text-gray-500 sm:text-right dark:text-gray-400 shrink-0\">Lastname:</p><p class=\"text-lg font-semibold text-gray-900 dark:text-white\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(firstname)
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(lastname)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/account.templ`, Line: 13, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/account.templ`, Line: 31, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><p>Last name: ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"flex flex-col gap-2 py-4 sm:gap-6 sm:flex-row sm:items-center\"><p class=\"w-28 text-lg font-normal text-gray-500 sm:text-right dark:text-gray-400 shrink-0\">Email:</p><p class=\"text-lg font-semibold text-gray-900 dark:text-white\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(lastname)
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(email)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/account.templ`, Line: 14, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/account.templ`, Line: 39, Col: 39}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></h1></div></section>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div class=\"flex flex-col items-center py-4\"><button type=\"submit\" class=\"w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Edit</button></div></div></div></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -91,3 +91,13 @@ func AccountPage(c echo.Context, pageTitle string, email string, firstname strin
 		return templ_7745c5c3_Err
 	})
 }
+
+// <section class="bg-gray-50 dark:bg-gray-900">
+//     <div hx-ext="response-targets" class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+//         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+//             <p>Email: { email }</p>
+//             <p>First name: { firstname }</p>
+//             <p>Last name: { lastname }</p>
+//         </h1>
+//   	</div>
+// </section>

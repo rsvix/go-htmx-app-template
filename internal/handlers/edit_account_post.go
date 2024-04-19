@@ -3,8 +3,10 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"net/mail"
 
 	"github.com/labstack/echo/v4"
+	"github.com/rsvix/go-htmx-app-template/internal/utils"
 	"gorm.io/gorm"
 )
 
@@ -28,17 +30,28 @@ func (h postEditAccountHandlerParams) Serve(c echo.Context) error {
 
 	log.Printf("email: %s\nfirstname: %s\nlastname: %s\n", email, firstname, lastname)
 
+	if _, err := mail.ParseAddress(email); err != nil {
+		return c.HTML(http.StatusUnprocessableEntity, "<p>Invalid email</p>")
+	}
+
+	if !utils.IsValidName(firstname) {
+		return c.HTML(http.StatusUnprocessableEntity, "<p>Invalid first name</p>")
+	}
+
+	if !utils.IsValidName(lastname) {
+		return c.HTML(http.StatusUnprocessableEntity, "<p>Invalid lastname</p>")
+	}
+
 	var id string
 	if value, ok := c.Get("userId").(string); ok {
 		id = value
 	}
+
 	db := c.Get(h.dbKey).(*gorm.DB)
-	var result struct {
-		Email     string
-		Firstname string
-		Lastname  string
+	res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"email": email, "firstname": firstname, "lastname": lastname})
+	if res.Error != nil {
+		return c.HTML(http.StatusUnprocessableEntity, "<p>Error updating account</p>")
 	}
-	db.Table("users").Select("email", "firstname", "lastname").Where("id = ?", id).Scan(&result)
 
 	return c.Redirect(http.StatusSeeOther, "/account")
 }

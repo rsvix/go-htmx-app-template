@@ -33,20 +33,20 @@ func IndexPage(c echo.Context, pageTitle string, userName string) templ.Componen
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased\"><div class=\"max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-9 lg:py-12\"><div class=\"max-w-3xl mx-auto text-center\"><h2 class=\"text-3xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white\">Hello ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-8 xl:m-10 2xl:m-12\"><!-- Page title --><div class=\"text-center p-0 mt-0 mb-2 md:mb-4 lg:mb-8 xl:mb-10 2xl:mb-12\"><h2 class=\"text-3xl m-0 p-0 font-bold leading-tight tracking-tight text-gray-900 dark:text-white\">Hello ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(userName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/index.templ`, Line: 13, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/index.templ`, Line: 13, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(", you are authenticated!</h2></div><div class=\"flow-root max-w-3xl mx-auto mt-6 sm:mt-9 lg:mt-12\"></div></div></section>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(", you are authenticated!</h2></div><!-- Page content --><div class=\"flow-root\"></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

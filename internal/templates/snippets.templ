@@ -4,13 +4,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// sm:mx-6 lg:mx-24 
-
 templ SnippetsPage(c echo.Context, pageTitle string, userName string){
     @Layout(c, pageTitle, true, userName, true) {
-        <section class="bg-white dark:bg-gray-900 antialiased m-1 sm:m-2 md:m-4 lg:m-8 xl:m-10">
+        <section class="bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-8 xl:m-10 2xl:m-12">
             <!-- Page title -->
-            <div class="text-center p-0 mt-0 mb-1 sm:mb-2 md:mb-4 lg:mb-8 xl:mb-10">
+            <div class="text-center p-0 mt-0 mb-2 md:mb-4 lg:mb-8 xl:mb-10 2xl:mb-12">
                 <h2 class="text-3xl m-0 p-0 font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
                     Snippets pages
                 </h2>

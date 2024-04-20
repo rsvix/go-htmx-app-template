@@ -108,12 +108,12 @@ const (
 	sidebarRet = "h-full w-14 bg-gray-800 fixed z-40 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r-2 dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
 	sidebarExt = "h-full w-0 bg-gray-800 fixed z-50 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r-2 dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
 
-	topbarIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-4"
-	generalcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-2"
-	logoutIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6 absolute bottom-0 left-0 right-0 mx-auto"
+	topbarIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6"
+	generalcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-3"
+	logoutIcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-6 absolute bottom-0 left-0 right-0 mx-auto"
 
-	topbarText  = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-4 justify-start"
-	generalText = "flex mx-5 my-2 text-white font-medium font-bold py-1.5 justify-start"
+	topbarText  = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6 justify-start"
+	generalText = "flex mx-5 my-2 text-white font-medium font-bold py-2 justify-start"
 	logoutText  = "flex mx-5 my-2 text-white font-medium font-bold py-6 justify-start absolute bottom-0"
 )
 

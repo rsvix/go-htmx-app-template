@@ -6,15 +6,16 @@ import (
 
 templ IndexPage(c echo.Context, pageTitle string, userName string){
     @Layout(c, pageTitle, true, userName, true) {
-        <section class="bg-white dark:bg-gray-900 antialiased">
-            <div class="max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-9 lg:py-12">
-                <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
-                        Hello { userName }, you are authenticated!
-                    </h2>
-                </div>
-                <div class="flow-root max-w-3xl mx-auto mt-6 sm:mt-9 lg:mt-12">
-                </div>
+        <section class="bg-white dark:bg-gray-900 antialiased m-1 sm:m-2 md:m-4 lg:m-8 xl:m-10">
+            <!-- Page title -->
+            <div class="text-center p-0 mt-0 mb-1 sm:mb-2 md:mb-4 lg:mb-8 xl:mb-10">
+                <h2 class="text-3xl m-0 p-0 font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
+                    Hello { userName }, you are authenticated!
+                </h2>
+            </div>
+            <!-- Page content -->
+            <div class="flow-root">
+
             </div>
         </section>
     }

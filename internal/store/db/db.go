@@ -23,6 +23,9 @@ func Connect() *gorm.DB {
 		log.Panic(err)
 	}
 
+	usersTableName := "users"
+	snippetsTableName := "users"
+
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, dbName, port)
 	database, e := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if e != nil {
@@ -41,9 +44,7 @@ func Connect() *gorm.DB {
 		}
 	}
 
-	tableName := "users"
-
-	createTableCommand := fmt.Sprintf(
+	createUsersTable := fmt.Sprintf(
 		"CREATE TABLE IF NOT EXISTS %s ("+
 			"id SERIAL PRIMARY KEY,"+
 			"email VARCHAR(64) UNIQUE NOT NULL,"+
@@ -59,10 +60,26 @@ func Connect() *gorm.DB {
 			"lastip VARCHAR(64),"+
 			"enabled INTEGER NOT NULL DEFAULT '0'"+
 			")",
-		tableName)
-	tx2 := database.Exec(createTableCommand)
+		usersTableName)
+	tx2 := database.Exec(createUsersTable)
 	if tx2.Error != nil {
 		log.Println(tx2.Error)
+	}
+
+	createSnippetsTable := fmt.Sprintf(
+		"CREATE TABLE IF NOT EXISTS %s ("+
+			"id SERIAL PRIMARY KEY,"+
+			"owner INTEGER,"+
+			"name VARCHAR(64) UNIQUE NOT NULL,"+
+			"language VARCHAR(64) NOT NULL,"+
+			"code VARCHAR(5000) NOT NULL,"+
+			"tags VARCHAR(256) NOT NULL,"+
+			"ispublic INTEGER NOT NULL DEFAULT '0'"+
+			")",
+		snippetsTableName)
+	tx3 := database.Exec(createSnippetsTable)
+	if tx3.Error != nil {
+		log.Println(tx3.Error)
 	}
 
 	return database

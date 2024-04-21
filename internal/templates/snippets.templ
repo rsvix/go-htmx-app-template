@@ -4,7 +4,18 @@ import (
     "strconv"
 	"github.com/labstack/echo/v4"
     "github.com/rsvix/go-htmx-app-template/internal/structs"
+    "github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
+
+script buttonEventListener(snippetId string) {
+	document.getElementById("myBtn"+snippetId).addEventListener("click", onButtonCLick(snippetId))
+    console.log(snippetId)
+}
+
+script onButtonCLick(snippetId string) {
+	document.getElementById("myModal"+snippetId).style.display = "block"
+    console.log(snippetId)
+}
 
 templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []structs.Snippet){
     @Layout(c, pageTitle, true, userName, true) {
@@ -111,26 +122,53 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                             <!-- Table body -->
                             <tbody>
                                 <!-- Loop -->
-                                for _, item := range snippets {
+                                for _, snippet := range snippets {
                                     <tr class="border-b dark:border-gray-700">
-                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{ item.Name }</th>
-                                        <td class="px-4 py-3">{ item.Category }</td>
-                                        <td class="px-4 py-3">{ item.Language }</td>
-                                        <td class="px-4 py-3">{ item.Owner }</td>
+                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{ snippet.Name }</th>
+                                        <td class="px-4 py-3">{ snippet.Category }</td>
+                                        <td class="px-4 py-3">{ snippet.Language }</td>
+                                        <td class="px-4 py-3">{ snippet.Owner }</td>
                                         <!-- View -->
                                         <td class="px-4 py-3">
                                             <button
                                                 class="inline-block rounded bg-indigo-600 hover:bg-indigo-700 cursor-pointer text-lg"
-                                                id={ "myBtn"+strconv.FormatUint(uint64(item.Id), 10) }
+                                                id={ "myBtn"+strconv.FormatUint(uint64(snippet.Id), 10) }
+                                                onload={ buttonEventListener(strconv.FormatUint(uint64(snippet.Id), 10)) }
+                                                onClick={ buttonEventListener(strconv.FormatUint(uint64(snippet.Id), 10)) }
                                                 >
                                                 <i class="fa-regular fa-eye"></i>
                                             </button>
+                                            <div id={ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) } class="hidden fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black/75">
+                                                <div class="mx-20 my-auto p-0 w-4/5 text-left text-sm">
+                                                    <pre>
+                                                    <span id={ "closeModal"+strconv.FormatUint(uint64(snippet.Id), 10) } class="close">&times;</span>
+                                                    <code style="width: 100%; font-weight: 600;" class={ "language"+snippet.Language }>{ snippet.Content }</code>
+                                                    </pre>
+                                                </div>
+                                            </div>
+                                            <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
+
+                                                document.getElementById("bars-menu-icon-closed").addEventListener("click",onButtonCLick);
+
+                                                document.getElementById("{ "myBtn"+strconv.FormatUint(uint64(snippet.Id), 10) }").onclick = function() {
+                                                    document.getElementById({ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = "block";
+                                                }
+
+                                                document.getElementById({ "closeModal"+strconv.FormatUint(uint64(snippet.Id), 10) }).onclick = function() {
+                                                    document.getElementById({ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = "none";
+                                                }
+                                                window.addEventListener('click', function(eventexit) {
+                                                    if (eventexit.target == document.getElementById({ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) })) {
+                                                        document.getElementById({ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = "none";
+                                                    }
+                                                });
+                                            </script>
                                         </td>
                                         <!-- Edit -->
                                         <td class="px-4 py-3">
                                             <button
                                                 class="inline-block rounded bg-indigo-600 hover:bg-indigo-700 cursor-pointer text-lg"
-                                                id={ "myBtn"+strconv.FormatUint(uint64(item.Id), 10) }
+                                                id={ "myBtn"+strconv.FormatUint(uint64(snippet.Id), 10) }
                                                 >
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </button>

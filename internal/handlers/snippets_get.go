@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"log"
-
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/structs"
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
@@ -46,7 +44,7 @@ func (h getSnippetsHandlerParams) Serve(c echo.Context) error {
 			Content:  "1231231232",
 		},
 	}
-	log.Println(snippets)
+	// log.Println(snippets)
 
 	userName := c.Get("userName").(string)
 	return templates.SnippetsPage(c, h.pageTitle, userName, snippets).Render(c.Request().Context(), c.Response())

@@ -63,10 +63,10 @@ func main() {
 		CookieSameSite: http.SameSiteStrictMode,
 	}))
 
-	// app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-	// 	AllowOrigins: []string{"*"},
-	// 	AllowMethods: []string{"*"},
-	// }))
+	app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"*"},
+	}))
 
 	echo.NotFoundHandler = func(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/notfound")

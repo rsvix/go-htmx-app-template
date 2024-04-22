@@ -1,0 +1,113 @@
+package templates
+
+templ SnippetFormModal(languages []string){
+    <div
+        id="modal"
+        _="on closeSnippetModal remove me"
+        class="fixed top-0 bottom-0 left-0 right-0 bg-black/75 z-50 flex flex-col items-center transition-all"
+        >
+        <!-- Background -->
+        <div
+            class="absolute z-0 top-0 bottom-0 left-0 right-0"
+            _="on click trigger closeSnippetModal">
+        </div>
+        <!-- Modal -->
+			<div class="m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-5 rounded-lg">
+				<h2 
+					id="any-errors" 
+					class="text-base font-medium leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center mb-4"
+					>
+					Create new snippet
+				</h2>
+				<form
+					class="space-y-4 md:space-y-6"
+					hx-post="/login"
+					hx-trigger="submit"
+					hx-target=""
+					hx-target-error="#any-errors"
+					>
+					<div class="grid gap-4 mb-4 sm:grid-cols-2">
+						<div>
+							<label 
+								for="snippetName" 
+								class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+								>
+								Name
+							</label>
+							<input 
+								type="text"
+								name="snippetName"
+								id="snippetName"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+								placeholder="Your snippet name"
+								required=""
+								/>
+						</div>
+						<div>
+							<label 
+								for="snippetLanguage" 
+								class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+								>
+								Language
+							</label>
+							<select 
+								type="text" 
+								name="snippetLanguage" 
+								id="snippetLanguage" 
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+								placeholder=""
+								required=""
+								>
+								for _, language := range languages {
+									<option value={ language }>{ language }</option>
+								}
+							</select>
+						</div>
+					</div>
+
+					<div>
+						<label 
+							for="snippetContent"
+							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							>
+							Content
+						</label>
+						<textarea 
+							class="h-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+							type="text"
+							name="snippetContent"
+							id="snippetContent"
+							placeholder="Your code"
+							required=""
+							>
+						</textarea>
+					</div>
+
+					<div class="flex items-center justify-between">
+						<div class="flex items-start">
+							<div class="flex items-center h-5">
+							<input 
+								type="checkbox"
+								name="remember"
+								id="remember" 
+								aria-describedby="remember" 
+								class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+								value="true"
+								/>
+							</div>
+							<div class="ml-3 text-sm">
+							<label for="remember" class="text-gray-500 dark:text-gray-300">Public</label>
+							</div>
+						</div>
+					</div>
+
+					<button 
+						type="submit"
+						class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+						>
+						Save
+					</button>
+				</form>
+        	</div>
+    </div>
+}

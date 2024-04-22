@@ -14,15 +14,15 @@ templ SnippetEditModal(snippetId string, snippetName string, snippetLang string,
         <!-- Modal -->
         <div class="m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-5 rounded-lg">
             <h2
+                id="any-errors" 
                 class="text-base font-medium leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center mb-4"
                 >
                 { snippetName }
             </h2>
-            <div
-                class="p-4 text-sm rounded-lg w-full rounded-lg">
-                <form 
-                    hx-encoding='application/x-www-form-urlencoded' 
-                    hx-put={ "/snippetedit/"+snippetId }
+            // <div class="p-4 text-sm rounded-lg w-full rounded-lg">
+                <form
+                    hx-encoding="application/x-www-form-urlencoded"
+                    hx-put="/snippetedit"
                     hx-target="body"
                     >
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your code</label>
@@ -46,7 +46,7 @@ templ SnippetEditModal(snippetId string, snippetName string, snippetLang string,
                         </button>
                     </div>
                 </form>
-            </div>
+            // </div>
         </div>
     </div>
 }

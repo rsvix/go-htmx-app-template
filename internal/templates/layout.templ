@@ -14,12 +14,13 @@ templ header(c echo.Context, pageTitle string) {
 		// HTMX
 		<script src="/static/script/htmx.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
 		<script src="/static/script/response-targets.js" nonce={ middlewares.GetRandomNonce(c) }></script>
+		<meta name="htmx-config" content='{"includeIndicatorStyles":"false"}'/>
 		// Hyperscript
 		<script src="/static/script/hyperscript.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
 		// Highlight.js
 		<script src="/static/highlight/highlight.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
-		// <link rel="stylesheet" href="/static/highlight/styles/default.css" nonce={ middlewares.GetRandomNonce(c) }/>
-		<link rel="stylesheet" href="/static/highlight/styles/github-dark-dimmed.css" nonce={ middlewares.GetRandomNonce(c) }/>
+		<link rel="stylesheet" href="/static/highlight/styles/default.css" nonce={ middlewares.GetRandomNonce(c) }/>
+		// <link rel="stylesheet" href="/static/highlight/styles/github-dark-dimmed.css" nonce={ middlewares.GetRandomNonce(c) }/>
 		// Tailwind
 		<link rel="stylesheet" href="/static/css/style.min.css" nonce={ middlewares.GetRandomNonce(c) }/>
 		// FontAwesome

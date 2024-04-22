@@ -12,8 +12,19 @@ import "bytes"
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
+	// "github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
+
+func testhl() templ.ComponentScript {
+	return templ.ComponentScript{
+		Name: `__templ_testhl_1484`,
+		Function: `function __templ_testhl_1484(){console.log("highlight33");
+    hljs.highlightAll();
+}`,
+		Call:       templ.SafeScript(`__templ_testhl_1484`),
+		CallInline: templ.SafeScriptInline(`__templ_testhl_1484`),
+	}
+}
 
 func SnippetModal(c echo.Context, snippetName string, snippetLang string, snippetContent string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -28,6 +39,10 @@ func SnippetModal(c echo.Context, snippetName string, snippetLang string, snippe
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = testhl().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modal\" _=\"on closeSnippetModal remove me\" class=\"fixed top-0 bottom-0 left-0 right-0 bg-black/75 z-50 flex flex-col items-center transition-all\"><div class=\"absolute z-0 top-0 bottom-0 left-0 right-0\" _=\"on click trigger closeSnippetModal\"></div><div class=\"m-auto z-40 w-4/5 max-w-3xl border border-gray-700 shadow bg-gray-800 p-5 rounded-lg\"><h2 class=\"text-base font-medium leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center mb-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -35,13 +50,13 @@ func SnippetModal(c echo.Context, snippetName string, snippetLang string, snippe
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(snippetName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet.templ`, Line: 22, Col: 29}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet.templ`, Line: 29, Col: 29}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><div class=\"m-2 p-2 w-4/5 text-left text-sm\"><pre>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><div class=\"m-2 p-2 w-4/5 text-left text-sm rounded-lg\"><pre>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -70,26 +85,13 @@ func SnippetModal(c echo.Context, snippetName string, snippetLang string, snippe
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(snippetContent)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet.templ`, Line: 27, Col: 40}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet.templ`, Line: 34, Col: 40}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</code></pre></div><br><div class=\"flex flex-col items-center my-4\"><button _=\"on click trigger closeSnippetModal\" class=\"w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Close</button></div></div></div><script type=\"text/javascript\" nonce=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet.templ`, Line: 42, Col: 72}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        console.log(\"highlight\");\n        hljs.highlightAll();\n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</code></pre></div><br><div class=\"flex flex-col items-center my-4\"><button _=\"on click trigger closeSnippetModal\" class=\"w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\">Close</button></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

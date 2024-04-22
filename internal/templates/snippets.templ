@@ -4,6 +4,7 @@ import (
     "strconv"
 	"github.com/labstack/echo/v4"
     "github.com/rsvix/go-htmx-app-template/internal/structs"
+    "github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
 
 script buttonEventListener(snippetId string) {
@@ -133,9 +134,8 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                                 hx-get={ "/snippet/"+strconv.FormatUint(uint64(snippet.Id), 10) }
                                                 hx-target="body"
                                                 hx-swap="beforeend"
-                                                hx-on::after-request="console.log('highlight11');hljs.highlightAll();"
                                                 class="inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl"
-                                                id={ "myBtn"+strconv.FormatUint(uint64(snippet.Id), 10) }
+                                                id="view-snippet"
                                                 >
                                                 <i class="fa-regular fa-eye"></i>
                                             </button>
@@ -199,5 +199,12 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                 </div>
             </div>
         </section>
+        <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
+            document.getElementById("view-snippet").addEventListener("click",runHL);
+            function runHL() {
+                console.log("highlight11");
+                hljs.highlightAll();
+            }
+        </script>
     }
 }

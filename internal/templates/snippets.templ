@@ -7,16 +7,6 @@ import (
     "github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
 
-script buttonEventListener(snippetId string) {
-	document.getElementById("myBtn"+snippetId).addEventListener("click", onButtonCLick(snippetId))
-    console.log(snippetId)
-}
-
-script onButtonCLick(snippetId string) {
-	document.getElementById("myModal"+snippetId).style.display = "block"
-    console.log(snippetId)
-}
-
 templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []structs.Snippet){
     @Layout(c, pageTitle, true, userName, true) {
         <section class="bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-6 xl:m-8 2xl:m-10">
@@ -200,11 +190,9 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
             </div>
         </section>
         <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
-            document.getElementById("view-snippet").addEventListener("click",runHL);
-            function runHL() {
-                console.log("highlight11");
+            document.addEventListener('htmx:afterRequest', function(evt) {
                 hljs.highlightAll();
-            }
+            });
         </script>
     }
 }

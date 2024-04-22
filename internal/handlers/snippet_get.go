@@ -23,8 +23,7 @@ func (h getSnippetHandlerParams) Serve(c echo.Context) error {
 
 	snippetName := "Test snippet"
 	snippetLang := "go"
-	snippetContent := `
-package main
+	snippetContent := `package main
 
 import (
 	"fmt"
@@ -43,5 +42,5 @@ func main() {
 }
 `
 
-	return templates.SnippetModal(c, snippetName, snippetLang, snippetContent).Render(c.Request().Context(), c.Response())
+	return templates.SnippetModal(snippetName, snippetLang, snippetContent).Render(c.Request().Context(), c.Response())
 }

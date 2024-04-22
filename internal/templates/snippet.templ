@@ -1,18 +1,6 @@
 package templates
 
-import (
-	"github.com/labstack/echo/v4"
-    // "github.com/rsvix/go-htmx-app-template/internal/middlewares"
-)
-
-script testhl() {
-    console.log("highlight33");
-    hljs.highlightAll();
-}
-
-templ SnippetModal(c echo.Context, snippetName string, snippetLang string, snippetContent string){
-    @testhl()
-    // <body onload={ testhl() }></body>
+templ SnippetModal(snippetName string, snippetLang string, snippetContent string){
     <div
         id="modal"
         _="on closeSnippetModal remove me"
@@ -28,7 +16,9 @@ templ SnippetModal(c echo.Context, snippetName string, snippetLang string, snipp
                 >
                 { snippetName }
             </h2>
-            <div class="m-2 p-2 w-4/5 text-left text-sm rounded-lg">
+            <div 
+                id="snippet-view-modal"
+                class="m-3 p-1 text-sm rounded-lg w-full rounded-lg">
                 <pre>
                     <code class={ "language-"+snippetLang }>
                         { snippetContent }
@@ -46,8 +36,4 @@ templ SnippetModal(c echo.Context, snippetName string, snippetLang string, snipp
             </div>
         </div>
     </div>
-    // <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
-    //     console.log("highlight22");
-    //     hljs.highlightAll();
-    // </script>
 }

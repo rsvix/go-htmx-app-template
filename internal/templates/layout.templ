@@ -19,8 +19,8 @@ templ header(c echo.Context, pageTitle string) {
 		<script src="/static/script/hyperscript.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
 		// Highlight.js
 		<script src="/static/highlight/highlight.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
-		<link rel="stylesheet" href="/static/highlight/styles/default.css" nonce={ middlewares.GetRandomNonce(c) }/>
-		// <link rel="stylesheet" href="/static/highlight/styles/github-dark-dimmed.css" nonce={ middlewares.GetRandomNonce(c) }/>
+		// <link rel="stylesheet" href="/static/highlight/styles/default.css" nonce={ middlewares.GetRandomNonce(c) }/>
+		<link rel="stylesheet" href="/static/highlight/styles/github-dark-dimmed.css" nonce={ middlewares.GetRandomNonce(c) }/>
 		// Tailwind
 		<link rel="stylesheet" href="/static/css/style.min.css" nonce={ middlewares.GetRandomNonce(c) }/>
 		// FontAwesome
@@ -71,12 +71,8 @@ templ sideNav(c echo.Context, pageTitle string, authenticated bool, userName str
 </div>
 
 <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
-
     document.getElementById("bars-menu-icon-closed").addEventListener("click",openCloseNav);
     document.getElementById("bars-menu-icon-opened").addEventListener("click",openCloseNav);
-
-	console.log("highlight00");
-	hljs.highlightAll();
 
 	function openCloseNav() {
 		if (document.getElementById("sidebarExtension").style.width == 0 || document.getElementById("sidebarExtension").style.width == "0px") {

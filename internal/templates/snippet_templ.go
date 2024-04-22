@@ -41,7 +41,7 @@ func SnippetModal(c echo.Context, snippetName string, snippetLang string, snippe
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><div class=\"w-full text-xs font-normal leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center my-4\"><pre>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><div class=\"m-2 p-2 w-4/5 text-left text-sm\"><pre>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -89,7 +89,7 @@ func SnippetModal(c echo.Context, snippetName string, snippetLang string, snippe
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        hljs.highlightAll();\n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        console.log(\"highlight\");\n        hljs.highlightAll();\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

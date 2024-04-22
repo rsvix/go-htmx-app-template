@@ -74,6 +74,9 @@ templ sideNav(c echo.Context, pageTitle string, authenticated bool, userName str
     document.getElementById("bars-menu-icon-closed").addEventListener("click",openCloseNav);
     document.getElementById("bars-menu-icon-opened").addEventListener("click",openCloseNav);
 
+	console.log("highlight00");
+	hljs.highlightAll();
+
 	function openCloseNav() {
 		if (document.getElementById("sidebarExtension").style.width == 0 || document.getElementById("sidebarExtension").style.width == "0px") {
 			document.getElementById("sidebarExtension").style.width = "195px";

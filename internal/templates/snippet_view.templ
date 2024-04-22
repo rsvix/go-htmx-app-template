@@ -1,6 +1,6 @@
 package templates
 
-templ SnippetModal(snippetName string, snippetLang string, snippetContent string){
+templ SnippetViewModal(snippetName string, snippetLang string, snippetContent string){
     <div
         id="modal"
         _="on closeSnippetModal remove me"
@@ -16,7 +16,7 @@ templ SnippetModal(snippetName string, snippetLang string, snippetContent string
                 >
                 { snippetName }
             </h2>
-            <div 
+            <div
                 id="snippet-view-modal"
                 class="m-3 p-1 text-sm rounded-lg w-full rounded-lg">
                 <pre>

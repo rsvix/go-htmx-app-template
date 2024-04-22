@@ -98,28 +98,28 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var7 string
-				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs("/snippet/" + strconv.FormatUint(uint64(snippet.Id), 10))
+				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetview/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 124, Col: 111}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 124, Col: 115}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl\" id=\"view-snippet\"><i class=\"fa-regular fa-eye\"></i></button></td><!-- Edit --><td class=\"px-4 py-3\"><button class=\"inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl\" id=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl\"><i class=\"fa-regular fa-eye\"></i></button></td><!-- Edit --><td class=\"px-4 py-3\"><button hx-get=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var8 string
-				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs("myBtn" + strconv.FormatUint(uint64(snippet.Id), 10))
+				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetedit/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 137, Col: 103}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 135, Col: 115}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><i class=\"fa-regular fa-pen-to-square\"></i></button></td></tr>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl\"><i class=\"fa-regular fa-pen-to-square\"></i></button></td></tr>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -131,7 +131,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 192, Col: 76}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 193, Col: 76}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {

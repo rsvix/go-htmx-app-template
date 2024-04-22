@@ -91,7 +91,8 @@ func main() {
 
 	app.GET("/", handlers.GetIndexHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/snippets", handlers.GetSnippetsHandler().Serve, middlewares.MustBeLogged())
-	app.GET("/snippet/:id", handlers.GetSnippetHandler().Serve, middlewares.MustBeLogged())
+	app.GET("/snippetview/:id", handlers.GetSnippetViewHandler().Serve, middlewares.MustBeLogged())
+	app.GET("/snippetedit/:id", handlers.GetSnippetEditHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/account", handlers.GetAccountHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/edit_account", handlers.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
 	app.POST("/edit_account", handlers.PostEditAccountHandler().Serve, middlewares.MustBeLogged())

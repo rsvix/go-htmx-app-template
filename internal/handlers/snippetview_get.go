@@ -7,17 +7,17 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type getSnippetHandlerParams struct {
+type getSnippetViewHandlerParams struct {
 	pageTitle string
 }
 
-func GetSnippetHandler() *getSnippetHandlerParams {
-	return &getSnippetHandlerParams{
+func GetSnippetViewHandler() *getSnippetViewHandlerParams {
+	return &getSnippetViewHandlerParams{
 		pageTitle: "Snippets",
 	}
 }
 
-func (h getSnippetHandlerParams) Serve(c echo.Context) error {
+func (h getSnippetViewHandlerParams) Serve(c echo.Context) error {
 	snippetId := c.Param("id")
 	log.Println(snippetId)
 
@@ -42,5 +42,5 @@ func main() {
 }
 `
 
-	return templates.SnippetModal(snippetName, snippetLang, snippetContent).Render(c.Request().Context(), c.Response())
+	return templates.SnippetViewModal(snippetName, snippetLang, snippetContent).Render(c.Request().Context(), c.Response())
 }

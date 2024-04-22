@@ -13,6 +13,7 @@ templ header(c echo.Context, pageTitle string) {
         <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
 		<script src="/static/script/htmx.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
 		<script src="/static/script/response-targets.js" nonce={ middlewares.GetRandomNonce(c) }></script>
+		<script src="/static/script/hyperscript.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
 		<link rel="stylesheet" href="/static/css/style.min.css" nonce={ middlewares.GetRandomNonce(c) }/>
 		<link rel="stylesheet" href="/static/font-awesome-6.5.2/css/all.min.css" nonce={ middlewares.GetRandomNonce(c) }/>
 	</head>

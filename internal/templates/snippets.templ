@@ -131,8 +131,8 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                         <!-- View -->
                                         <td class="px-4 py-3">
                                             <button
-                                                hx-get={ "/mymodal"+strconv.FormatUint(uint64(snippet.Id), 10) }
-                                                hx-target="#pagebody"
+                                                hx-get={ "/snippet/"+strconv.FormatUint(uint64(snippet.Id), 10) }
+                                                hx-target="body"
                                                 hx-swap="beforeend"
                                                 class="inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl"
                                                 id={ "myBtn"+strconv.FormatUint(uint64(snippet.Id), 10) }

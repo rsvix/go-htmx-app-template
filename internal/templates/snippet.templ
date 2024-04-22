@@ -1,0 +1,38 @@
+package templates
+
+import (
+	"github.com/labstack/echo/v4"
+)
+
+templ SnippetModal(c echo.Context, pageTitle string, snippetId string){
+    <div
+        id="modal"
+        _="on closeModal remove me"
+        class="fixed top-0 bottom-0 left-0 right-0 bg-black/75 z-50 flex flex-col items-center transition-all"
+        >
+        <div
+            class="absolute z-0 top-0 bottom-0 left-0 right-0"
+            _="on click trigger closeModal">
+        </div>
+        <div class="m-auto z-40 w-4/5 max-w-xl border border-gray-700 shadow bg-gray-800 p-5 rounded-lg">
+            <h2
+                class="text-base font-medium leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
+                >
+                Snippet { snippetId }
+            </h2>
+            <p
+                class="text-sm font-normal leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
+                >
+                This is the modal content.
+                You can put anything here, like text, or a form, or an image.
+            </p>
+            <br/>
+            <br/>
+            <button
+                _="on click trigger closeModal"
+                >
+                Close
+            </button>
+        </div>
+    </div>
+}

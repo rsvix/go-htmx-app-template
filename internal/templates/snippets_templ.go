@@ -120,15 +120,15 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var7 string
-				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs("/mymodal" + strconv.FormatUint(uint64(snippet.Id), 10))
+				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs("/snippet/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 134, Col: 110}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 134, Col: 111}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#pagebody\" hx-swap=\"beforeend\" class=\"inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl\" id=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl\" id=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -215,7 +215,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n\n                                                document.getElementById(\"bars-menu-icon-closed\").addEventListener(\"click\",onButtonCLick);\n\n                                                document.getElementById(\"{ \"myBtn\"+strconv.FormatUint(uint64(snippet.Id), 10) }\").onclick = function() {\n                                                    document.getElementById({ \"myModal\"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = \"block\";\n                                                }\n\n                                                document.getElementById({ \"closeModal\"+strconv.FormatUint(uint64(snippet.Id), 10) }).onclick = function() {\n                                                    document.getElementById({ \"myModal\"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = \"none\";\n                                                }\n                                                window.addEventListener('click', function(eventexit) {\n                                                    if (eventexit.target == document.getElementById({ \"myModal\"+strconv.FormatUint(uint64(snippet.Id), 10) })) {\n                                                        document.getElementById({ \"myModal\"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = \"none\";\n                                                    }\n                                                });\n                                            </script></td><!-- Edit --><td class=\"px-4 py-3\"><button class=\"inline-block rounded hover:bg-indigo-700 cursor-pointer text-lg\" id=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n\n                                                document.getElementById(\"bars-menu-icon-closed\").addEventListener(\"click\",onButtonCLick);\n\n                                                document.getElementById(\"{ \"myBtn\"+strconv.FormatUint(uint64(snippet.Id), 10) }\").onclick = function() {\n                                                    document.getElementById({ \"myModal\"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = \"block\";\n                                                }\n\n                                                document.getElementById({ \"closeModal\"+strconv.FormatUint(uint64(snippet.Id), 10) }).onclick = function() {\n                                                    document.getElementById({ \"myModal\"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = \"none\";\n                                                }\n                                                window.addEventListener('click', function(eventexit) {\n                                                    if (eventexit.target == document.getElementById({ \"myModal\"+strconv.FormatUint(uint64(snippet.Id), 10) })) {\n                                                        document.getElementById({ \"myModal\"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = \"none\";\n                                                    }\n                                                });\n                                            </script></td><!-- Edit --><td class=\"px-4 py-3\"><button class=\"inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl\" id=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

@@ -23,7 +23,7 @@ func SnippetEditModal(snippetId string, snippetName string, snippetLang string, 
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modal\" _=\"on closeSnippetModal remove me\" class=\"fixed top-0 bottom-0 left-0 right-0 bg-black/75 z-50 flex flex-col items-center transition-all\"><!-- Background --><div class=\"absolute z-0 top-0 bottom-0 left-0 right-0\" _=\"on click trigger closeSnippetModal\"></div><!-- Modal --><div class=\"m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-5 rounded-lg h-3/4\"><h2 class=\"text-base font-medium leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center mb-4\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modal\" _=\"on closeSnippetModal remove me\" class=\"fixed top-0 bottom-0 left-0 right-0 bg-black/75 z-50 flex flex-col items-center transition-all\"><!-- Background --><div class=\"absolute z-0 top-0 bottom-0 left-0 right-0\" _=\"on click trigger closeSnippetModal\"></div><!-- Modal --><div class=\"m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-5 rounded-lg\"><h2 class=\"text-base font-medium leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center mb-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -36,20 +36,20 @@ func SnippetEditModal(snippetId string, snippetName string, snippetLang string, 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><div id=\"snippet-view-modal\" class=\"p-4 text-sm rounded-lg w-full rounded-lg\"><form hx-encoding=\"application/x-www-form-urlencoded\" hx-put=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><div class=\"p-4 text-sm rounded-lg w-full rounded-lg\"><form hx-encoding=\"application/x-www-form-urlencoded\" hx-put=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetedit/" + snippetId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet_edit.templ`, Line: 26, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet_edit.templ`, Line: 25, Col: 54}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\"><textarea type=\"text\" name=\"snippetContent\" value=\"snippetContent\" class=\"px-4 w-full h-1/2 rounded-lg\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\"><textarea type=\"text\" name=\"snippetContent\" value=\"snippetContent\" class=\"p-2 w-full rounded-lg h-4/6\" style=\"height: 600px;\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

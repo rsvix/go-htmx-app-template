@@ -36,7 +36,7 @@ func SnippetViewModal(snippetName string, snippetLang string, snippetContent str
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><div id=\"snippet-view-modal\" class=\"p-4 text-sm rounded-lg w-full rounded-lg\"><pre>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><div class=\"p-4 text-sm rounded-lg w-full rounded-lg\"><pre>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -65,7 +65,7 @@ func SnippetViewModal(snippetName string, snippetLang string, snippetContent str
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(snippetContent)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet_view.templ`, Line: 24, Col: 40}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet_view.templ`, Line: 23, Col: 40}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {

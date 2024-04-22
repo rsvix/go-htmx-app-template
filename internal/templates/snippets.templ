@@ -139,35 +139,6 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                                 >
                                                 <i class="fa-regular fa-eye"></i>
                                             </button>
-                                            <div
-                                                id={ "mymodal"+strconv.FormatUint(uint64(snippet.Id), 10) } 
-                                                class="hidden fixed z-50 left-0 top-0 w-full h-full overflow-auto bg-black/75"
-                                                _="on closeModal add .closing then wait for animationend then remove me"
-                                                >
-                                                <div class="mx-20 my-auto p-0 w-4/5 text-left text-sm">
-                                                    <pre>
-                                                        <span id={ "closeModal"+strconv.FormatUint(uint64(snippet.Id), 10) } class="close">&times;</span>
-                                                        <code style="width: 100%; font-weight: 600;" class={ "language"+snippet.Language }>{ snippet.Content }</code>
-                                                    </pre>
-                                                </div>
-                                            </div>
-                                            <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
-
-                                                document.getElementById("bars-menu-icon-closed").addEventListener("click",onButtonCLick);
-
-                                                document.getElementById("{ "myBtn"+strconv.FormatUint(uint64(snippet.Id), 10) }").onclick = function() {
-                                                    document.getElementById({ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = "block";
-                                                }
-
-                                                document.getElementById({ "closeModal"+strconv.FormatUint(uint64(snippet.Id), 10) }).onclick = function() {
-                                                    document.getElementById({ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = "none";
-                                                }
-                                                window.addEventListener('click', function(eventexit) {
-                                                    if (eventexit.target == document.getElementById({ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) })) {
-                                                        document.getElementById({ "myModal"+strconv.FormatUint(uint64(snippet.Id), 10) }).style.display = "none";
-                                                    }
-                                                });
-                                            </script>
                                         </td>
                                         <!-- Edit -->
                                         <td class="px-4 py-3">

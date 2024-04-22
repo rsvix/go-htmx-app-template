@@ -20,5 +20,28 @@ func GetSnippetHandler() *getSnippetHandlerParams {
 func (h getSnippetHandlerParams) Serve(c echo.Context) error {
 	snippetId := c.Param("id")
 	log.Println(snippetId)
-	return templates.SnippetModal(snippetId).Render(c.Request().Context(), c.Response())
+
+	snippetName := "Test snippet"
+	snippetLang := "go"
+	snippetContent := `
+package main
+
+import (
+	"fmt"
+	"net/http"
+
+	"github.com/a-h/templ"
+)
+
+func main() {
+	component := hello("John")
+	
+	http.Handle("/", templ.Handler(component))
+
+	fmt.Println("Listening on :3000")
+	http.ListenAndServe(":3000", nil)
+}
+`
+
+	return templates.SnippetModal(c, snippetName, snippetLang, snippetContent).Render(c.Request().Context(), c.Response())
 }

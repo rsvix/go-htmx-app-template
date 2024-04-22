@@ -47,8 +47,9 @@ func CSPMiddleware() echo.MiddlewareFunc {
 				return err
 			}
 
-			cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s'; style-src 'nonce-%s' '%s'; img-src '%s';",
+			cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s' '%s'; style-src 'nonce-%s' '%s'; img-src '%s';",
 				randomNonce,
+				htmxCssHash,
 				randomNonce,
 				htmxCssHash,
 				// randomNonce,

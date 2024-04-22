@@ -21,9 +21,9 @@ templ SnippetFormModal(languages []string){
 				</h2>
 				<form
 					class="space-y-4 md:space-y-6"
-					hx-post="/login"
+					hx-post="/snippetform"
 					hx-trigger="submit"
-					hx-target=""
+					hx-target="body"
 					hx-target-error="#any-errors"
 					>
 					<div class="grid gap-4 mb-4 sm:grid-cols-2">
@@ -64,7 +64,6 @@ templ SnippetFormModal(languages []string){
 							</select>
 						</div>
 					</div>
-
 					<div>
 						<label 
 							for="snippetContent"
@@ -82,31 +81,33 @@ templ SnippetFormModal(languages []string){
 							>
 						</textarea>
 					</div>
-
 					<div class="flex items-center justify-between">
 						<div class="flex items-start">
 							<div class="flex items-center h-5">
-							<input 
-								type="checkbox"
-								name="remember"
-								id="remember" 
-								aria-describedby="remember" 
-								class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-								value="true"
-								/>
+								<input 
+									type="checkbox"
+									name="publicSnippet"
+									id="publicSnippet" 
+									aria-describedby="Make snippet publicly available" 
+									class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+									value="true"
+									/>
 							</div>
 							<div class="ml-3 text-sm">
-							<label for="remember" class="text-gray-500 dark:text-gray-300">Public</label>
+								<label for="publicSnippet" class="text-gray-500 dark:text-gray-300">
+									Public
+								</label>
 							</div>
 						</div>
 					</div>
-
-					<button 
-						type="submit"
-						class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-						>
-						Save
-					</button>
+					<div class="flex flex-col items-center my-4">
+						<button 
+							type="submit"
+							class="w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+							>
+							Save
+						</button>
+					</div>
 				</form>
         	</div>
     </div>

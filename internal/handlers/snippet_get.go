@@ -20,5 +20,5 @@ func GetSnippetHandler() *getSnippetHandlerParams {
 func (h getSnippetHandlerParams) Serve(c echo.Context) error {
 	snippetId := c.Param("id")
 	log.Println(snippetId)
-	return templates.SnippetModal(c, h.pageTitle, snippetId).Render(c.Request().Context(), c.Response())
+	return templates.SnippetModal(snippetId).Render(c.Request().Context(), c.Response())
 }

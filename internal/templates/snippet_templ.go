@@ -10,11 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-import (
-	"github.com/labstack/echo/v4"
-)
-
-func SnippetModal(c echo.Context, pageTitle string, snippetId string) templ.Component {
+func SnippetModal(snippetId string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -34,7 +30,7 @@ func SnippetModal(c echo.Context, pageTitle string, snippetId string) templ.Comp
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(snippetId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet.templ`, Line: 21, Col: 35}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet.templ`, Line: 17, Col: 35}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {

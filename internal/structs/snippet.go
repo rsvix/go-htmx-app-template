@@ -3,8 +3,8 @@ package structs
 type Snippet struct {
 	Id       uint
 	Name     string
-	Category string
+	Ispublic string
 	Language string
 	Owner    string
-	Content  string
+	Code     string
 }

@@ -17,9 +17,10 @@ templ header(c echo.Context, pageTitle string) {
 		<meta name="htmx-config" content='{"includeIndicatorStyles":"false"}'/>
 		// Hyperscript
 		<script src="/static/script/hyperscript.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
+		// Sweetalert
+		// <script src="/static/script/sweetalert.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
 		// Highlight.js
 		<script src="/static/highlight/highlight.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
-		// <link rel="stylesheet" href="/static/highlight/styles/default.css" nonce={ middlewares.GetRandomNonce(c) }/>
 		<link rel="stylesheet" href="/static/highlight/styles/github-dark-dimmed.css" nonce={ middlewares.GetRandomNonce(c) }/>
 		// Tailwind
 		<link rel="stylesheet" href="/static/css/style.min.css" nonce={ middlewares.GetRandomNonce(c) }/>
@@ -29,8 +30,8 @@ templ header(c echo.Context, pageTitle string) {
 }
 
 const (
-	sidebarRet = "h-full w-14 bg-gray-800 fixed z-30 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r-2 dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
-	sidebarExt = "h-full w-0 bg-gray-800 fixed z-40 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r-2 dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
+	sidebarRet = "h-full w-14 bg-gray-800 fixed z-30 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
+	sidebarExt = "h-full w-0 bg-gray-800 fixed z-40 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
 
 	topbarIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6"
 	generalcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-3"

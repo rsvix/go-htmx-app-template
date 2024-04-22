@@ -46,7 +46,7 @@ func IndexPage(c echo.Context, pageTitle string, userName string) templ.Componen
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(", you are authenticated!</h2></div><!-- Page content --><div class=\"flow-root\"></div></section>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(", this is your home page!</h2></div><!-- Page content --><div class=\"flow-root\"></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

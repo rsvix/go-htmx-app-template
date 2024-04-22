@@ -24,7 +24,7 @@ func Connect() *gorm.DB {
 	}
 
 	usersTableName := "users"
-	snippetsTableName := "users"
+	snippetsTableName := "snippets"
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, dbName, port)
 	database, e := gorm.Open(postgres.Open(dsn), &gorm.Config{})

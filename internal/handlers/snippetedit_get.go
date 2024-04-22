@@ -42,5 +42,5 @@ func main() {
 }
 `
 
-	return templates.SnippetEditModal(snippetName, snippetLang, snippetContent).Render(c.Request().Context(), c.Response())
+	return templates.SnippetEditModal(snippetId, snippetName, snippetLang, snippetContent).Render(c.Request().Context(), c.Response())
 }

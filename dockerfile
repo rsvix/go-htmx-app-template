@@ -12,5 +12,5 @@ RUN go build ./cmd/main.go
 # FROM alpine:latest AS production
 FROM gcr.io/distroless/static-debian11 AS release-stage
 COPY --from=build-stage /app ./
-EXPOSE 9001
+EXPOSE 8080
 CMD ["./main"]

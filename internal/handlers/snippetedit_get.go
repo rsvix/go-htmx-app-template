@@ -1,10 +1,9 @@
 package handlers
 
 import (
-	"log"
-
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
+	"gorm.io/gorm"
 )
 
 type getSnippetEditHandlerParams struct {
@@ -19,28 +18,14 @@ func GetSnippetEditHandler() *getSnippetEditHandlerParams {
 
 func (h getSnippetEditHandlerParams) Serve(c echo.Context) error {
 	snippetId := c.Param("id")
-	log.Println(snippetId)
 
-	snippetName := "Test snippet"
-	snippetLang := "go"
-	snippetContent := `package main
+	db := c.Get("__db").(*gorm.DB)
+	var result struct {
+		Name     string
+		Language string
+		Code     string
+	}
+	db.Raw("SELECT name, language, code FROM snippets WHERE id = ?;", snippetId).Scan(&result)
 
-import (
-	"fmt"
-	"net/http"
-
-	"github.com/a-h/templ"
-)
-
-func main() {
-	component := hello("John")
-	
-	http.Handle("/", templ.Handler(component))
-
-	fmt.Println("Listening on :3000")
-	http.ListenAndServe(":3000", nil)
-}
-`
-
-	return templates.SnippetEditModal(snippetId, snippetName, snippetLang, snippetContent).Render(c.Request().Context(), c.Response())
+	return templates.SnippetEditModal(snippetId, result.Name, result.Language, result.Code).Render(c.Request().Context(), c.Response())
 }

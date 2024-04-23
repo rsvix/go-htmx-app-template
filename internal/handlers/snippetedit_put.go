@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 type putSnippetEditHandlerParams struct {
@@ -18,11 +19,18 @@ func PutSnippetEditHandler() *putSnippetEditHandlerParams {
 }
 
 func (h putSnippetEditHandlerParams) Serve(c echo.Context) error {
+	snippetId := c.Param("id")
 	snippetContent := c.Request().FormValue("snippetContent")
-	log.Println(snippetContent)
-
 	currentUrl := c.Request().Header.Get("HX-Current-URL")
 	log.Println(currentUrl)
+
+	db := c.Get("__db").(*gorm.DB)
+	var result struct {
+		Name     string
+		Language string
+		Code     string
+	}
+	db.Raw("UPDATE snippets SET code = ? WHERE id = ?;", snippetContent, snippetId).Scan(&result)
 
 	return c.Redirect(http.StatusSeeOther, "/snippets")
 }

@@ -22,7 +22,7 @@ templ SnippetEditModal(snippetId string, snippetName string, snippetLang string,
             // <div class="p-4 text-sm rounded-lg w-full rounded-lg">
                 <form
                     hx-encoding="application/x-www-form-urlencoded"
-                    hx-put="/snippetedit"
+                    hx-put={ "/snippetedit/"+snippetId }
                     hx-target="body"
                     >
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your code</label>
@@ -31,7 +31,7 @@ templ SnippetEditModal(snippetId string, snippetName string, snippetLang string,
                         name="snippetContent"
                         value="snippetContent"
                         class="p-2 w-full rounded-lg"
-                        rows="18"
+                        rows="15"
                         >
                         { snippetContent }
                     </textarea>

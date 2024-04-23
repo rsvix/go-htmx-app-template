@@ -36,16 +36,29 @@ func SnippetEditModal(snippetId string, snippetName string, snippetLang string, 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><form hx-encoding=\"application/x-www-form-urlencoded\" hx-put=\"/snippetedit\" hx-target=\"body\"><label for=\"message\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your code</label> <textarea type=\"text\" name=\"snippetContent\" value=\"snippetContent\" class=\"p-2 w-full rounded-lg\" rows=\"18\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><form hx-encoding=\"application/x-www-form-urlencoded\" hx-put=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(snippetContent)
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetedit/" + snippetId)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet_edit.templ`, Line: 25, Col: 54}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\"><label for=\"message\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your code</label> <textarea type=\"text\" name=\"snippetContent\" value=\"snippetContent\" class=\"p-2 w-full rounded-lg\" rows=\"18\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(snippetContent)
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippet_edit.templ`, Line: 36, Col: 40}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

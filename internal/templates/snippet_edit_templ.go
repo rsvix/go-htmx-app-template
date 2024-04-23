@@ -49,7 +49,7 @@ func SnippetEditModal(snippetId string, snippetName string, snippetLang string, 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\"><label for=\"message\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your code</label> <textarea type=\"text\" name=\"snippetContent\" value=\"snippetContent\" class=\"p-2 w-full rounded-lg\" rows=\"18\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\"><label for=\"message\" class=\"block mb-2 text-sm font-medium text-gray-900 dark:text-white\">Your code</label> <textarea type=\"text\" name=\"snippetContent\" value=\"snippetContent\" class=\"p-2 w-full rounded-lg\" rows=\"15\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

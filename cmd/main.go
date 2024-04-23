@@ -96,6 +96,7 @@ func main() {
 	app.GET("/snippetview/:id", handlers.GetSnippetViewHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/snippetedit/:id", handlers.GetSnippetEditHandler().Serve, middlewares.MustBeLogged())
 	app.PUT("/snippetedit/:id", handlers.PutSnippetEditHandler().Serve, middlewares.MustBeLogged())
+	app.DELETE("/snippetedit/:id", handlers.DeleteSnippetEditHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/account", handlers.GetAccountHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/edit_account", handlers.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
 	app.POST("/edit_account", handlers.PostEditAccountHandler().Serve, middlewares.MustBeLogged())

@@ -8,7 +8,7 @@ RUN go mod download
 COPY . ./
 RUN go build ./cmd/main.go
 
-# Deploy
+# Runtime
 # FROM alpine:latest AS production
 FROM gcr.io/distroless/static-debian11 AS release-stage
 COPY --from=build-stage /app ./

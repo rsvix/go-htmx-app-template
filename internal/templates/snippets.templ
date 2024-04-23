@@ -122,9 +122,13 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                 for _, snippet := range snippets {
                                     <tr class="border-b dark:border-gray-700">
                                         <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{ snippet.Name }</th>
-                                        <td class="px-4 py-3">{ snippet.Ispublic }</td>
+                                        if snippet.Ispublic == 0 {
+                                            <td class="px-4 py-3">Private</td>
+                                        } else {
+                                            <td class="px-4 py-3">Public</td>
+                                        }
                                         <td class="px-4 py-3">{ snippet.Language }</td>
-                                        <td class="px-4 py-3">{ snippet.Owner }</td>
+                                        <td class="px-4 py-3">{ snippet.Ownername }</td>
                                         <!-- View -->
                                         <td class="px-4 py-3">
                                             <button

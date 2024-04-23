@@ -70,10 +70,11 @@ func Connect() *gorm.DB {
 		"CREATE TABLE IF NOT EXISTS %s ("+
 			"id SERIAL PRIMARY KEY,"+
 			"owner INTEGER,"+
+			"ownername VARCHAR(64) NOT NULL,"+
 			"name VARCHAR(64) UNIQUE NOT NULL,"+
 			"language VARCHAR(64) NOT NULL,"+
 			"code VARCHAR(5000) NOT NULL,"+
-			"tags VARCHAR(256) NOT NULL,"+
+			"tags VARCHAR(256),"+
 			"ispublic INTEGER NOT NULL DEFAULT '0'"+
 			")",
 		snippetsTableName)

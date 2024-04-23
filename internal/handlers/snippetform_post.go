@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -28,9 +30,22 @@ func (h postSnippetFormHandlerParams) Serve(c echo.Context) error {
 		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
 	}
 
-	var userId string
+	var userIdString string
 	if value, ok := session.Values["id"].(string); ok {
-		userId = value
+		userIdString = value
+	} else {
+		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+	}
+	userIdInt, err := strconv.ParseUint(userIdString, 10, 32)
+	if err != nil {
+		fmt.Println(err)
+		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+	}
+	userIdUint := uint(userIdInt)
+
+	var userName string
+	if value, ok := session.Values["firstname"].(string); ok {
+		userName = value
 	} else {
 		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
 	}
@@ -44,18 +59,23 @@ func (h postSnippetFormHandlerParams) Serve(c echo.Context) error {
 	snippetContent := c.Request().FormValue("snippetContent")
 	log.Println(snippetContent)
 
-	publicSnippet := c.Request().FormValue("publicSnippet")
-	log.Println(publicSnippet)
+	publicFlag := c.Request().FormValue("publicSnippet")
+	log.Println(publicFlag)
+	var publicSnippet uint = 0
+	if publicFlag == "true" {
+		publicSnippet = 1
+	}
 
 	currentUrl := c.Request().Header.Get("HX-Current-URL")
 	log.Println(currentUrl)
 
 	snippet := structs.Snippet{
-		Name:     snippetName,
-		Ispublic: publicSnippet,
-		Language: snippetLanguage,
-		Owner:    userId,
-		Code:     snippetContent,
+		Owner:     userIdUint,
+		Ownername: userName,
+		Name:      snippetName,
+		Language:  snippetLanguage,
+		Code:      snippetContent,
+		Ispublic:  publicSnippet,
 	}
 
 	db := c.Get("__db").(*gorm.DB)

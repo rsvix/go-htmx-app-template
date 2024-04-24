@@ -9,6 +9,10 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/rsvix/go-htmx-app-template/internal/handlers"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/accounthandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/loginhandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/registerhandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/resethandler"
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
 	"github.com/rsvix/go-htmx-app-template/internal/store/db"
@@ -72,18 +76,20 @@ func main() {
 		return c.Redirect(http.StatusSeeOther, "/notfound")
 	}
 
-	app.GET("/login", handlers.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
-	app.POST("/login", handlers.PostLoginHandler().Serve, middlewares.MustNotBeLogged())
-	app.GET("/register", handlers.GetRegisterHandler().Serve, middlewares.MustNotBeLogged())
-	app.POST("/register", handlers.PostRegisterHandler().Serve, middlewares.MustNotBeLogged())
-	app.GET("/reset", handlers.GetResetHandler().Serve, middlewares.MustNotBeLogged())
-	app.POST("/reset", handlers.PostResetHandler().Serve, middlewares.MustNotBeLogged())
+	app.GET("/login", loginhandler.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
+	app.POST("/login", loginhandler.PostLoginHandler().Serve, middlewares.MustNotBeLogged())
+
+	app.GET("/register", registerhandler.GetRegisterHandler().Serve, middlewares.MustNotBeLogged())
+	app.POST("/register", registerhandler.PostRegisterHandler().Serve, middlewares.MustNotBeLogged())
+
+	app.GET("/reset", resethandler.GetResetHandler().Serve, middlewares.MustNotBeLogged())
+	app.POST("/reset", resethandler.PostResetHandler().Serve, middlewares.MustNotBeLogged())
+	app.GET("/resetform", resethandler.GetResetformHandler().Serve)
+	app.POST("/resetform", resethandler.PostResetformHandler().Serve)
 
 	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
 	app.GET("/activate", handlers.GetActivateHandler().Serve)
 	app.GET("/newactivation", handlers.GetNewActivationHandler().Serve)
-	app.GET("/resetform", handlers.GetResetformHandler().Serve)
-	app.POST("/resetform", handlers.PostResetformHandler().Serve)
 
 	app.GET("/notfound", handlers.GetNotfoundHandler().Serve)
 	app.GET("/error", handlers.GetInternalErrorHandler().Serve)
@@ -98,9 +104,11 @@ func main() {
 	app.PUT("/snippetedit/:id", handlers.PutSnippetEditHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/snippetdelete/:id", handlers.GetSnippetDeleteModalEditHandler().Serve, middlewares.MustBeLogged())
 	app.DELETE("/snippetdelete/:id", handlers.DeleteSnippetEditHandler().Serve, middlewares.MustBeLogged())
-	app.GET("/account", handlers.GetAccountHandler().Serve, middlewares.MustBeLogged())
-	app.GET("/edit_account", handlers.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
-	app.POST("/edit_account", handlers.PostEditAccountHandler().Serve, middlewares.MustBeLogged())
+
+	app.GET("/account", accounthandler.GetAccountHandler().Serve, middlewares.MustBeLogged())
+	app.GET("/edit_account", accounthandler.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
+	app.POST("/edit_account", accounthandler.PostEditAccountHandler().Serve, middlewares.MustBeLogged())
+
 	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCacheHeaders())
 
 	log.Printf("Starting %v server on port %v", appName, appPort)

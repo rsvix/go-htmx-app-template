@@ -1,4 +1,4 @@
-package handlers
+package registerhandler
 
 import (
 	"os"
@@ -8,25 +8,25 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
-type getResetHandlerParams struct {
+type getRegisterHandlerParams struct {
 	appName   string
 	pageTitle string
 }
 
-func GetResetHandler() *getResetHandlerParams {
-	return &getResetHandlerParams{
+func GetRegisterHandler() *getRegisterHandlerParams {
+	return &getRegisterHandlerParams{
 		appName:   os.Getenv("APP_NAME"),
 		pageTitle: "Register",
 	}
 }
 
-func (h getResetHandlerParams) Serve(c echo.Context) error {
+func (h getRegisterHandlerParams) Serve(c echo.Context) error {
 	// session, err := session.Get("authenticate-sessions", c)
 	// if err != nil {
 	// 	log.Printf("Error getting session: %v\n", err)
 	// }
 	// if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-	// 	return templates.ResetPage(h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
+	// 	return templates.RegisterPage(h.appName, h.pageTitle).Render(c.Request().Context(), c.Response())
 	// }
 	// return c.Redirect(http.StatusSeeOther, "/")
 
@@ -34,5 +34,5 @@ func (h getResetHandlerParams) Serve(c echo.Context) error {
 	if value, ok := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string); ok {
 		csrfToken = value
 	}
-	return templates.ResetPage(c, h.appName, h.pageTitle, csrfToken).Render(c.Request().Context(), c.Response())
+	return templates.RegisterPage(c, h.appName, h.pageTitle, csrfToken).Render(c.Request().Context(), c.Response())
 }

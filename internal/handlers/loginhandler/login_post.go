@@ -1,4 +1,4 @@
-package handlers
+package loginhandler
 
 import (
 	"log"

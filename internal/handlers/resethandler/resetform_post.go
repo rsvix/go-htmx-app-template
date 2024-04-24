@@ -1,4 +1,4 @@
-package handlers
+package resethandler
 
 import (
 	"log"

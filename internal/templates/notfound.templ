@@ -2,10 +2,11 @@ package templates
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/rsvix/go-htmx-app-template/internal/templates/layout"
 )
 
 templ NotfoundPage(c echo.Context, pageTitle string, message string) {
-	@Layout(c, pageTitle, false, "", false) {
+	@layout.Layout(c, pageTitle, false, "", false) {
 	<section class="bg-white dark:bg-gray-900">
 		<div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
 			<div class="mx-auto max-w-screen-sm text-center">

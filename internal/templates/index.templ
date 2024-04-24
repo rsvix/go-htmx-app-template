@@ -2,10 +2,11 @@ package templates
 
 import (
 	"github.com/labstack/echo/v4"
+    "github.com/rsvix/go-htmx-app-template/internal/templates/layout"
 )
 
 templ IndexPage(c echo.Context, pageTitle string, userName string){
-    @Layout(c, pageTitle, true, userName, true) {
+    @layout.Layout(c, pageTitle, true, userName, true) {
         <section class="bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-6 xl:m-8 2xl:m-10">
             <!-- Page title -->
             <div class="text-center p-0 mt-0 mb-2 md:mb-4 lg:mb-6 xl:mb-8 2xl:mb-10">

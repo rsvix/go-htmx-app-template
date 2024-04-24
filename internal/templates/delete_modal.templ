@@ -19,7 +19,7 @@ templ DeleteModal(snippetId string){
                 >
                 Confirm you want to delete the snippet
             </h2>
-            <div class="flex items-center p-4 justify-center inline-block">
+            <div class="flex items-center py-4 justify-center inline-block">
                 <button 
                     hx-get="/snippets"
                     hx-target="#pagebody"
@@ -29,8 +29,8 @@ templ DeleteModal(snippetId string){
                 </button>
                 <button
                     hx-delete={ "/snippetdelete/"+snippetId }
-                    hx-target="body"
-                    class="w-32 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    hx-target="#pagebody"
+                    class="w-32 mx-6 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     >
                     Delete
                 </button>

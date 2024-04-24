@@ -48,6 +48,7 @@ func Connect() *gorm.DB {
 		"CREATE TABLE IF NOT EXISTS %s ("+
 			"id SERIAL PRIMARY KEY,"+
 			"email VARCHAR(64) UNIQUE NOT NULL,"+
+			"username VARCHAR(64) NOT NULL,"+
 			"firstname VARCHAR(64) NOT NULL,"+
 			"lastname VARCHAR(64) NOT NULL,"+
 			"password VARCHAR(128) NOT NULL,"+

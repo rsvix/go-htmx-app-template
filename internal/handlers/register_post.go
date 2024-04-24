@@ -28,6 +28,7 @@ func PostRegisterHandler() *postRegisterHandlerParams {
 func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 
 	email := c.Request().FormValue("email")
+	username := c.Request().FormValue("username")
 	firstname := c.Request().FormValue("firstname")
 	lastname := c.Request().FormValue("lastname")
 	password := c.Request().FormValue("password")
@@ -71,6 +72,7 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 
 	user := structs.User{
 		Email:     email,
+		Username:  username,
 		Firstname: firstname,
 		Lastname:  lastname,
 		Password:  hashPassword,

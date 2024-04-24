@@ -39,6 +39,10 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid email</h2>")
 	}
 
+	if !utils.IsValidName(username) {
+		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid username</h2>")
+	}
+
 	if !utils.IsValidName(firstname) {
 		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid first name</h2>")
 	}

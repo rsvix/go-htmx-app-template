@@ -26,7 +26,7 @@ import (
 func main() {
 	appPort := utils.GetSetEnv("APP_PORT", "8080")
 	appName := utils.GetSetEnv("APP_NAME", "GoBot")
-	dbName := utils.GetSetEnv("POSTGRES_DB", "postgres")
+	utils.GetSetEnv("POSTGRES_DB", "postgres")
 	utils.GetSetEnv("POSTGRES_PORT", "5432")
 	utils.GetSetEnv("POSTGRES_USER", "admin")
 	utils.GetSetEnv("POSTGRES_PASSWORD", "123")
@@ -39,13 +39,24 @@ func main() {
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()
 
-	var dbApps []string
-	db.Raw("SELECT application_name FROM pg_stat_activity WHERE state = 'active' OR state = 'idle' AND datname = ?;", dbName).Scan(&dbApps)
+	var dbApps []struct {
+		Pid             uint
+		Datname         string
+		Usename         string
+		ApplicationName string
+		// ClientHostname  string
+		ClientPort   uint
+		BackendStart string
+		// QueryStart      string
+		// Query           string
+		State string
+	}
+	db.Raw("SELECT pid, datname, usename, application_name, client_port, backend_start, state FROM pg_stat_activity ORDER BY pid;").Scan(&dbApps)
 	// https://stackoverflow.com/questions/27435839/how-to-list-active-connections-on-postgresql
-	log.Printf("Apps connected: %v\n", dbApps)
+	// log.Printf("Apps connected: %v\n", dbApps)
 	for _, value := range dbApps {
-		if value == "app-01" {
-			log.Printf("This is the main instance of the app, it will manage the cronjobs\n")
+		if value.ApplicationName == "app-01" {
+			log.Printf("This is the main instance of the app, it will manage cronjobs\n")
 		}
 	}
 

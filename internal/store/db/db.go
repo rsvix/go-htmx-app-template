@@ -16,6 +16,7 @@ func Connect() *gorm.DB {
 	dbName, _ := os.LookupEnv("POSTGRES_DB")
 	user, _ := os.LookupEnv("POSTGRES_USER")
 	password, _ := os.LookupEnv("POSTGRES_PASSWORD")
+	appName, _ := os.LookupEnv("APP_NAME")
 
 	p, _ := os.LookupEnv("POSTGRES_PORT")
 	port, err := strconv.Atoi(p)
@@ -26,13 +27,13 @@ func Connect() *gorm.DB {
 	usersTableName := "users"
 	snippetsTableName := "snippets"
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, dbName, port)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d application_name='%s' sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, dbName, port, appName)
 	database, e := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if e != nil {
 		// Create database if it doesn't exists
 		if strings.Contains(e.Error(), "does not exist") {
 			log.Printf("Creating Postgres database '%s'", dbName)
-			dsn = fmt.Sprintf("host=%s user=%s password=%s port=%d sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, port)
+			dsn = fmt.Sprintf("host=%s user=%s password=%s port=%d application_name='%s' sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, port, appName)
 			database, e = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 			if e != nil {
 				log.Panic(e)

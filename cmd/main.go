@@ -38,9 +38,10 @@ func main() {
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()
 
-	var out string
+	// https://stackoverflow.com/questions/27435839/how-to-list-active-connections-on-postgresql
+	// var out string
 	// db.Raw("SELECT * FROM pg_stat_activity WHERE datname = 'postgres';").Scan(&out)
-	db.Raw("SELECT * FROM pg_stat_activity;").Scan(&out)
+	out := db.Exec("SELECT * FROM pg_stat_activity;")
 	log.Printf("Connections: %v\n", out)
 
 	// Ip extractor (https://echo.labstack.com/docs/ip-address) - Not using, check /internal/utils/env_var.go

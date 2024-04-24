@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -44,6 +45,15 @@ func Connect() *gorm.DB {
 			log.Panic(e)
 		}
 	}
+
+	// https://gorm.io/docs/connecting_to_the_database.html#Connection-Pool
+	dbConfig, err := database.DB()
+	if err != nil {
+		log.Panic(err)
+	}
+	dbConfig.SetMaxIdleConns(5)
+	dbConfig.SetMaxOpenConns(15)
+	dbConfig.SetConnMaxLifetime(time.Hour)
 
 	createUsersTable := fmt.Sprintf(
 		"CREATE TABLE IF NOT EXISTS %s ("+

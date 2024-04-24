@@ -31,7 +31,7 @@ func main() {
 	utils.GetSetEnv("POSTGRES_USER", "admin")
 	utils.GetSetEnv("POSTGRES_PASSWORD", "123")
 	utils.GetSetEnv("POSTGRES_HOST", "localhost")
-	utils.GetSetEnv("APP_NAME_DB", "GoBot1")
+	utils.GetSetEnv("APP_NAME_DB", "app-01")
 
 	app := echo.New()
 	app.Debug = true
@@ -44,7 +44,7 @@ func main() {
 	// https://stackoverflow.com/questions/27435839/how-to-list-active-connections-on-postgresql
 	log.Printf("Apps connected: %v\n", dbApps)
 	for _, value := range dbApps {
-		if value == "GoBot1" {
+		if value == "app-01" {
 			log.Printf("This is the main instance of the app, it will manage the cronjobs\n")
 		}
 	}

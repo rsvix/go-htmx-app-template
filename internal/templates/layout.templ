@@ -17,8 +17,6 @@ templ header(c echo.Context, pageTitle string) {
 		<meta name="htmx-config" content='{"includeIndicatorStyles":"false"}'/>
 		// Hyperscript
 		<script src="/static/script/hyperscript.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
-		// Sweetalert
-		// <script src="/static/script/sweetalert.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
 		// Highlight.js
 		<script src="/static/highlight/highlight.min.js" nonce={ middlewares.GetRandomNonce(c) }></script>
 		<link rel="stylesheet" href="/static/highlight/styles/github-dark-dimmed.css" nonce={ middlewares.GetRandomNonce(c) }/>

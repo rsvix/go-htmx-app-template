@@ -12,7 +12,6 @@ import "bytes"
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/rsvix/go-htmx-app-template/internal/templates/layout"
 )
 
 func NotfoundPage(c echo.Context, pageTitle string, message string) templ.Component {
@@ -41,7 +40,7 @@ func NotfoundPage(c echo.Context, pageTitle string, message string) templ.Compon
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(message)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/notfound.templ`, Line: 20, Col: 14}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/notfound.templ`, Line: 19, Col: 14}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -56,7 +55,7 @@ func NotfoundPage(c echo.Context, pageTitle string, message string) templ.Compon
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = layout.Layout(c, pageTitle, false, "", false).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Layout(c, pageTitle, false, "", false).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

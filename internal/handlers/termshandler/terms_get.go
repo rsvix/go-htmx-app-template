@@ -1,4 +1,4 @@
-package handlers
+package termshandler
 
 import (
 	"github.com/labstack/echo/v4"

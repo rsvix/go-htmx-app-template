@@ -1,4 +1,4 @@
-package handlers
+package indexhandler
 
 import (
 	"github.com/labstack/echo/v4"

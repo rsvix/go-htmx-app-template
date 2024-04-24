@@ -12,6 +12,7 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/accounthandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/indexhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/loginhandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/logouthandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/registerhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/resethandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/snippetshandler"
@@ -114,7 +115,7 @@ func main() {
 	app.GET("/edit_account", accounthandler.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
 	app.POST("/edit_account", accounthandler.PostEditAccountHandler().Serve, middlewares.MustBeLogged())
 
-	app.GET("/logout", handlers.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCacheHeaders())
+	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCacheHeaders())
 
 	log.Printf("Starting %v server on port %v", appName, appPort)
 	app.Logger.Fatal(app.Start(":" + appPort))

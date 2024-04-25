@@ -104,7 +104,8 @@ func main() {
 	// }))
 
 	echo.NotFoundHandler = func(c echo.Context) error {
-		return c.Redirect(http.StatusSeeOther, "/notfound")
+		// return c.Redirect(http.StatusSeeOther, "/notfound")
+		return c.Redirect(http.StatusSeeOther, "/")
 	}
 
 	app.GET("/login", loginhandler.GetLoginHandler().Serve, middlewares.MustNotBeLogged())

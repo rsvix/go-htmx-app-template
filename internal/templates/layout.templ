@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	sidebarRet = "h-full w-14 bg-gray-800 fixed z-30 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
-	sidebarExt = "h-full w-0 bg-gray-800 fixed z-40 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
+	retractedSidebar = "h-full w-14 bg-gray-800 fixed z-30 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
+	expandedSidebar = "h-full w-0 bg-gray-800 fixed z-40 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
 
 	topbarIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6"
 	generalcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-3"
@@ -24,7 +24,7 @@ templ Layout(c echo.Context, pageTitle string, authenticated bool, userName stri
 	@head(c, pageTitle)
 	<body hx-ext="response-targets" id="pagebody" class="flex flex-col h-full bg-gray-50 dark:bg-gray-900">
 		if showNavbar {
-			@sideNav(c, pageTitle, authenticated, userName)
+			@sidebar(c, pageTitle, authenticated, userName)
 			<main class="flex-1 w-full">
                 // <div id="main" class="main" style="margin-left: 56px">
 				<div id="main" class="ml-14">
@@ -65,8 +65,8 @@ templ head(c echo.Context, pageTitle string) {
 	</head>
 }
 
-templ sideNav(c echo.Context, pageTitle string, authenticated bool, userName string) {
-    <div class={ sidebarRet }>
+templ sidebar(c echo.Context, pageTitle string, authenticated bool, userName string) {
+    <div class={ retractedSidebar }>
         <a class={ topbarIcon } title="&#128161; Expand menu" href="#" id="bars-menu-icon-closed">
             <i class="fa-solid fa-bars"></i>
         </a>
@@ -84,7 +84,7 @@ templ sideNav(c echo.Context, pageTitle string, authenticated bool, userName str
         </a>
     </div>
 
-    <div id="sidebarExtension" class={ sidebarExt }>
+    <div id="sidebarExtended" class={ expandedSidebar }>
         <a class={ topbarText } title="&#128161; Close menu" href="#" id="bars-menu-icon-opened">
             <i class="fa-solid fa-bars"></i>
         </a>
@@ -99,11 +99,11 @@ templ sideNav(c echo.Context, pageTitle string, authenticated bool, userName str
         document.getElementById("bars-menu-icon-opened").addEventListener("click",openCloseNav);
 
         function openCloseNav() {
-            if (document.getElementById("sidebarExtension").style.width == 0 || document.getElementById("sidebarExtension").style.width == "0px") {
-                document.getElementById("sidebarExtension").style.width = "195px";
+            if (document.getElementById("sidebarExtended").style.width == 0 || document.getElementById("sidebarExtended").style.width == "0px") {
+                document.getElementById("sidebarExtended").style.width = "195px";
                 document.getElementById("main").style.marginLeft = "195px";
             } else {
-                document.getElementById("sidebarExtension").style.width = "0";
+                document.getElementById("sidebarExtended").style.width = "0";
                 document.getElementById("main").style.marginLeft= "56px";
             }
         }

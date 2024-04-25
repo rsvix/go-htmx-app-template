@@ -142,7 +142,7 @@ func main() {
 	app.GET("/edit_account", accounthandler.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
 	app.POST("/edit_account", accounthandler.PostEditAccountHandler().Serve, middlewares.MustBeLogged())
 
-	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged(), middlewares.NoCacheHeaders())
+	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged())
 
 	log.Printf("Starting %v server on port %v", appName, appPort)
 	app.Logger.Fatal(app.Start(":" + appPort))

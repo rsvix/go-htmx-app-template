@@ -13,6 +13,7 @@ Postgresql
 ```
 
 ---
+
 ### To install Go dependencies
 ```bash
 go mod download
@@ -28,7 +29,6 @@ go get gorm.io/driver/postgres
 go install github.com/a-h/templ/cmd/templ@latest
 ```
 
----
 ### To install Tailwind (on linux x64)
 ```bash
 curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
@@ -40,13 +40,11 @@ mv tailwindcss-linux-x64 tailwindcss
 # https://github.com/tailwindlabs/tailwindcss/releases
 ```
 
----
 ### To update your templates
 ```bash
 templ generate
 ```
 
----
 ### To update css files
 ```bash
 # Start a watcher
@@ -68,7 +66,6 @@ go run cmd/main.go
 # https://github.com/cosmtrek/air
 ```
 
----
 ### To build and run the dockerfile
 ```bash
 docker build -t go-htmx-app-template .

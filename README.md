@@ -53,6 +53,19 @@ templ generate
 # Compile and minify your CSS for production
 ./tailwindcss -i ./static/css/input.css -o ./static/css/style.min.css --minify
 ```
+
+### To update and run
+```bash
+make
+# or
+templ generate
+./tailwindcss -i ./static/css/input.css -o ./static/css/style.min.css --minify
+go run cmd/main.go
+# You can also configure air for hot reloading if you prefer
+# https://github.com/cosmtrek/air
+```
+
+```
 ---
 ### To build and run the dockerfile
 ```bash

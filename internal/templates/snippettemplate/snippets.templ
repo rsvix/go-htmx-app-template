@@ -108,13 +108,13 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                             <!-- Table head -->
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-4 py-3">Snippet name</th>
-                                    <th scope="col" class="px-4 py-3">Category</th>
-                                    <th scope="col" class="px-4 py-3">Language</th>
-                                    <th scope="col" class="px-4 py-3">Owner</th>
-                                    <th scope="col" class="px-4 py-3">View</th>
-                                    <th scope="col" class="px-4 py-3">Edit</th>
-                                    <th scope="col" class="px-4 py-3">Delete</th>
+                                    <th scope="col" class="px-4 py-3 text-left">Snippet name</th>
+                                    <th scope="col" class="px-4 py-3 text-center">Category</th>
+                                    <th scope="col" class="px-4 py-3 text-center">Language</th>
+                                    <th scope="col" class="px-4 py-3 text-center">Owner</th>
+                                    <th scope="col" class="px-4 py-3 text-center">View</th>
+                                    <th scope="col" class="px-4 py-3 text-center">Edit</th>
+                                    <th scope="col" class="px-4 py-3 text-center">Delete</th>
                                 </tr>
                             </thead>
                             <!-- Table body -->
@@ -122,43 +122,43 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                 <!-- Loop -->
                                 for _, snippet := range snippets {
                                     <tr class="border-b dark:border-gray-700">
-                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{ snippet.Name }</th>
+                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white text-left">{ snippet.Name }</th>
                                         if snippet.Ispublic == 0 {
-                                            <td class="px-4 py-3">Private</td>
+                                            <td class="px-4 py-3 text-center">Private</td>
                                         } else {
-                                            <td class="px-4 py-3">Public</td>
+                                            <td class="px-4 py-3 text-center">Public</td>
                                         }
-                                        <td class="px-4 py-3">{ snippet.Language }</td>
-                                        <td class="px-4 py-3">{ snippet.Ownername }</td>
+                                        <td class="px-4 py-3 text-center">{ snippet.Language }</td>
+                                        <td class="px-4 py-3 text-center">{ snippet.Ownername }</td>
                                         <!-- View -->
-                                        <td class="px-4 py-3">
+                                        <td class="px-4 py-3 text-center">
                                             <button
                                                 hx-get={ "/snippetview/"+strconv.FormatUint(uint64(snippet.Id), 10) }
                                                 hx-target="body"
                                                 hx-swap="beforeend"
-                                                class="inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                 >
                                                 <i class="fa-regular fa-eye"></i>
                                             </button>
                                         </td>
                                         <!-- Edit -->
-                                        <td class="px-4 py-3">
+                                        <td class="px-4 py-3 text-center">
                                             <button
                                                 hx-get={ "/snippetedit/"+strconv.FormatUint(uint64(snippet.Id), 10) }
                                                 hx-target="body"
                                                 hx-swap="beforeend"
-                                                class="inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                 >
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </button>
                                         </td>
                                         <!-- Delete -->
-                                        <td class="px-4 py-3">
+                                        <td class="px-4 py-3 text-center">
                                             <button
                                                 hx-get={ "/snippetdelete/"+strconv.FormatUint(uint64(snippet.Id), 10) }
                                                 hx-target="body"
                                                 hx-swap="beforeend"
-                                                class="inline-block rounded hover:bg-indigo-700 cursor-pointer text-xl"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                 >
                                                 <i class="fa-regular fa-trash-can"></i>
                                             </button>

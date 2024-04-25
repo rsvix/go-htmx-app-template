@@ -35,5 +35,5 @@ func (h activateHandlerParams) Serve(c echo.Context) error {
 			return templates.ActivatePage(c, h.pageTitle, false, "Token expired").Render(c.Request().Context(), c.Response())
 		}
 	}
-	return c.Redirect(http.StatusSeeOther, "/error")
+	return c.Redirect(http.StatusSeeOther, "/login")
 }

@@ -17,7 +17,6 @@ Postgresql
 ```bash
 go mod download
 go install github.com/a-h/templ/cmd/templ@latest
-go install github.com/cosmtrek/air@latest
 # Or
 go get github.com/labstack/echo/v4
 go get github.com/gorilla/sessions
@@ -27,8 +26,8 @@ go get -u gorm.io/gorm
 go get github.com/wader/gormstore/v2
 go get gorm.io/driver/postgres
 go install github.com/a-h/templ/cmd/templ@latest
-go install github.com/cosmtrek/air@latest
 ```
+
 ---
 ### To install Tailwind (on linux x64)
 ```bash
@@ -40,11 +39,13 @@ mv tailwindcss-linux-x64 tailwindcss
 # For different OS/Architecture check: 
 # https://github.com/tailwindlabs/tailwindcss/releases
 ```
+
 ---
 ### To update your templates
 ```bash
 templ generate
 ```
+
 ---
 ### To update css files
 ```bash
@@ -67,13 +68,13 @@ go run cmd/main.go
 # https://github.com/cosmtrek/air
 ```
 
-```
 ---
 ### To build and run the dockerfile
 ```bash
 docker build -t go-htmx-app-template .
 docker run -p 8080:8080 go-htmx-app-template:latest
 ```
+
 ### To build and run the docker compose
 ```bash
 docker compose up
@@ -81,7 +82,7 @@ docker compose up
 docker-compose -f docker-compose-complete.yml up
 # then
 docker compose down
-.
+
 # Clean docker cache
 docker system prune
 ``` 

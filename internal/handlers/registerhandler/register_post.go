@@ -117,7 +117,12 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 	timeNow := time.Now().UTC()
 	timeExp := timeNow.Add(24 * time.Hour)
 
-	result2 := db.Raw("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;", activationToken, timeExp, timeNow, id)
+	result2 := db.Raw("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;",
+		activationToken,
+		timeExp,
+		timeNow,
+		id,
+	)
 	log.Printf("Query result: %v\n", result2)
 
 	appPort, _ := os.LookupEnv("APP_PORT")

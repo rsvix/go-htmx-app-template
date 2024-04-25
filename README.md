@@ -1,5 +1,6 @@
-# go-htmx-app-template
+## go-htmx-app-template
 Because you don't need a bloated javascript framework :joy:
+---
 
 ### Template of a web application using:
 ```text
@@ -37,7 +38,8 @@ chmod +x tailwindcss-linux-x64
 mv tailwindcss-linux-x64 tailwindcss
 ./tailwindcss init
 
-# For different OS/Architecture check: https://github.com/tailwindlabs/tailwindcss/releases
+# For different OS/Architecture check: 
+# https://github.com/tailwindlabs/tailwindcss/releases
 ```
 ---
 ### To update your templates
@@ -61,7 +63,8 @@ make
 templ generate
 ./tailwindcss -i ./static/css/input.css -o ./static/css/style.min.css --minify
 go run cmd/main.go
-# You can also configure air for hot reloading if you prefer
+
+# You can also configure air for hot reloading if you prefer:
 # https://github.com/cosmtrek/air
 ```
 

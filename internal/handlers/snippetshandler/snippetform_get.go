@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/labstack/echo/v4"
-	"github.com/rsvix/go-htmx-app-template/internal/templates"
+	"github.com/rsvix/go-htmx-app-template/internal/templates/snippettemplate"
 )
 
 type getSnippetFormHandlerParams struct {
@@ -58,5 +58,5 @@ func (h getSnippetFormHandlerParams) Serve(c echo.Context) error {
 		"yaml",
 	}
 
-	return templates.SnippetFormModal(languages).Render(c.Request().Context(), c.Response())
+	return snippettemplate.AddSnippetModal(languages).Render(c.Request().Context(), c.Response())
 }

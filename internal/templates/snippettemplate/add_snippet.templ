@@ -1,6 +1,6 @@
-package templates
+package snippettemplate
 
-templ SnippetFormModal(languages []string){
+templ AddSnippetModal(languages []string){
     <div
         id="modal"
         _="on closeSnippetModal remove me"
@@ -11,14 +11,24 @@ templ SnippetFormModal(languages []string){
             class="absolute z-0 top-0 bottom-0 left-0 right-0"
             _="on click trigger closeSnippetModal">
         </div>
-        <!-- Modal -->
-			<div class="m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-5 rounded-lg">
-				<h2 
-					id="any-errors" 
-					class="text-base font-medium leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center mb-4"
-					>
-					Create new snippet
-				</h2>
+        <!-- Modal content -->
+			<div class="m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-6 rounded-lg">
+				<!-- Modal header -->
+				<div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+					<h3 
+						id="any-errors" 
+						class="pb-2 text-xl font-semibold text-gray-900 dark:text-white"
+						>
+						Create new snippet
+					</h3>
+					<button
+						type="button"
+						_="on click trigger closeSnippetModal"
+						class="pb-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+						>
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+				</div>
 				<form
 					class="space-y-4 md:space-y-6"
 					hx-post="/snippetform"

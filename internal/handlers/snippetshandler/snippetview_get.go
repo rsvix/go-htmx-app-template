@@ -2,7 +2,7 @@ package snippetshandler
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/rsvix/go-htmx-app-template/internal/templates"
+	"github.com/rsvix/go-htmx-app-template/internal/templates/snippettemplate"
 	"gorm.io/gorm"
 )
 
@@ -27,5 +27,5 @@ func (h getSnippetViewHandlerParams) Serve(c echo.Context) error {
 	}
 	db.Raw("SELECT name, language, code FROM snippets WHERE id = ?;", snippetId).Scan(&result)
 
-	return templates.SnippetViewModal(result.Name, result.Language, result.Code).Render(c.Request().Context(), c.Response())
+	return snippettemplate.SnippetViewModal(result.Name, result.Language, result.Code).Render(c.Request().Context(), c.Response())
 }

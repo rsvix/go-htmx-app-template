@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/structs"
-	"github.com/rsvix/go-htmx-app-template/internal/templates"
+	"github.com/rsvix/go-htmx-app-template/internal/templates/snippettemplate"
 	"gorm.io/gorm"
 )
 
@@ -78,5 +78,5 @@ func (h getSnippetsHandlerParams) Serve(c echo.Context) error {
 	var result []structs.Snippet
 	db.Raw("SELECT * FROM snippets WHERE owner = ? OR ispublic = ?;", userIdString, "1").Scan(&result)
 
-	return templates.SnippetsPage(c, h.pageTitle, userName, result).Render(c.Request().Context(), c.Response())
+	return snippettemplate.SnippetsPage(c, h.pageTitle, userName, result).Render(c.Request().Context(), c.Response())
 }

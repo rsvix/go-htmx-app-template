@@ -134,7 +134,7 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                         <td class="px-4 py-3 text-center">
                                             <button
                                                 hx-get={ "/snippetview/"+strconv.FormatUint(uint64(snippet.Id), 10) }
-                                                hx-target="body"
+                                                hx-target="#pagebody"
                                                 hx-swap="beforeend"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                 >

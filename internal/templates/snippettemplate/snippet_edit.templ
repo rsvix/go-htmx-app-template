@@ -11,26 +11,37 @@ templ SnippetEditModal(snippetId string, snippetName string, snippetLang string,
             class="absolute z-0 top-0 bottom-0 left-0 right-0"
             _="on click trigger closeSnippetModal">
         </div>
-        <!-- Modal -->
+        <!-- Modal content -->
         <div class="m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-5 rounded-lg">
-            <h2
-                id="any-errors" 
-                class="text-base font-medium leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center mb-4"
-                >
-                { snippetName }
-            </h2>
-            // <div class="p-4 text-sm rounded-lg w-full rounded-lg">
+            <!-- Modal header -->
+            <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                <h3 
+                    id="any-errors" 
+                    class="pb-2 text-xl font-semibold text-gray-900 dark:text-white"
+                    >
+                    { snippetName } - { snippetLang }
+                </h3>
+                <button
+                    type="button"
+                    _="on click trigger closeSnippetModal"
+                    class="pb-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="px-2 py-4">
                 <form
                     hx-encoding="application/x-www-form-urlencoded"
                     hx-put={ "/snippetedit/"+snippetId }
                     hx-target="body"
                     >
-                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your code</label>
+                    // <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Snippet code</label>
                     <textarea
                         type="text"
                         name="snippetContent"
                         value="snippetContent"
-                        class="p-2 w-full rounded-lg"
+                        class="p-4 w-full rounded-lg"
                         rows="15"
                         >
                         { snippetContent }
@@ -46,7 +57,7 @@ templ SnippetEditModal(snippetId string, snippetName string, snippetLang string,
                         </button>
                     </div>
                 </form>
-            // </div>
+            </div>
         </div>
     </div>
 }

@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/structs"
+	"github.com/rsvix/go-htmx-app-template/internal/utils"
 	"gorm.io/gorm"
 )
 
@@ -24,43 +24,22 @@ func PostSnippetFormHandler() *postSnippetFormHandlerParams {
 
 func (h postSnippetFormHandlerParams) Serve(c echo.Context) error {
 
-	session, err := session.Get("authenticate-sessions", c)
+	sessionInfo, err := utils.GetSessionInfo(c)
 	if err != nil {
-		log.Printf("Error getting session: %v\n", err)
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+		log.Printf("Error getting session info: %v\n", err)
+		return c.Redirect(http.StatusSeeOther, "/error")
 	}
 
-	var userIdString string
-	if value, ok := session.Values["id"].(string); ok {
-		userIdString = value
-	} else {
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
-	}
-	userIdInt, err := strconv.ParseUint(userIdString, 10, 32)
+	userIdInt, err := strconv.ParseUint(sessionInfo.Id, 10, 32)
 	if err != nil {
 		fmt.Println(err)
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
-	}
-	userIdUint := uint(userIdInt)
-
-	var userName string
-	if value, ok := session.Values["firstname"].(string); ok {
-		userName = value
-	} else {
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+		return c.Redirect(http.StatusSeeOther, "/error")
 	}
 
 	snippetName := c.Request().FormValue("snippetName")
-	log.Println(snippetName)
-
 	snippetLanguage := c.Request().FormValue("snippetLanguage")
-	log.Println(snippetLanguage)
-
 	snippetContent := c.Request().FormValue("snippetContent")
-	log.Println(snippetContent)
-
 	publicFlag := c.Request().FormValue("publicSnippet")
-	log.Println(publicFlag)
 	var publicSnippet uint = 0
 	if publicFlag == "true" {
 		publicSnippet = 1
@@ -70,8 +49,8 @@ func (h postSnippetFormHandlerParams) Serve(c echo.Context) error {
 	log.Println(currentUrl)
 
 	snippet := structs.Snippet{
-		Owner:     userIdUint,
-		Ownername: userName,
+		Owner:     uint(userIdInt),
+		Ownername: sessionInfo.Username,
 		Name:      snippetName,
 		Language:  snippetLanguage,
 		Code:      snippetContent,
@@ -82,8 +61,7 @@ func (h postSnippetFormHandlerParams) Serve(c echo.Context) error {
 	result := db.Create(&snippet)
 	if err := result.Error; err != nil {
 		log.Println(err.Error())
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+		return c.Redirect(http.StatusSeeOther, "/error")
 	}
-
 	return c.Redirect(http.StatusSeeOther, "/snippets")
 }

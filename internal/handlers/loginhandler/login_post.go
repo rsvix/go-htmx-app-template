@@ -32,7 +32,7 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 	// https://stackoverflow.com/questions/2185951/how-do-i-keep-a-user-logged-into-my-site-for-months
 
 	if _, err := mail.ParseAddress(email); err != nil {
-		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid credentials</h2>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid credentials")
 	}
 
 	db := c.Get(h.dbKey).(*gorm.DB)
@@ -47,7 +47,7 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 
 	if result.Id != 0 {
 		if result.Enabled == 0 {
-			return c.HTML(http.StatusUnprocessableEntity, "<h2>User not enabled<br/>Check your email</h2>")
+			return c.HTML(http.StatusUnprocessableEntity, "User not enabled<br/>Check your email")
 		}
 
 		// if hash.CheckPasswordHashV1(password, result.Password) {
@@ -56,29 +56,28 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 			session, err := session.Get("authenticate-sessions", c)
 			if err != nil {
 				log.Printf("Error getting session: %v\n", err)
-				return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+				return c.HTML(http.StatusInternalServerError, "Error, please try again")
 			}
 
 			session.Values["authenticated"] = true
-			session.Values["id"] = strconv.FormatUint(uint64(result.Id), 10)
-			session.Values["email"] = email
+			session.Values["user_id"] = strconv.FormatUint(uint64(result.Id), 10)
+			session.Values["user_email"] = email
 			session.Values["username"] = result.Username
 
 			if remember == "true" {
 				session.Options.MaxAge = 84600 * 30
 			}
 
-			// Save updated session
 			if err := session.Save(c.Request(), c.Response()); err != nil {
 				log.Printf("Error saving session: %s", err)
-				return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+				return c.HTML(http.StatusInternalServerError, "Error, please try again")
 			}
 
 			// return c.Redirect(http.StatusSeeOther, "/")
 			c.Response().Header().Set("HX-Redirect", "/")
 			return c.NoContent(http.StatusOK)
 		}
-		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid credentials</h2>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid credentials")
 	}
-	return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid credentials</h2>")
+	return c.HTML(http.StatusUnprocessableEntity, "Invalid credentials")
 }

@@ -1,8 +1,12 @@
 package indexhandler
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
+	"github.com/rsvix/go-htmx-app-template/internal/utils"
 )
 
 type getIndexHandlerParams struct {
@@ -16,20 +20,11 @@ func GetIndexHandler() *getIndexHandlerParams {
 }
 
 func (h getIndexHandlerParams) Serve(c echo.Context) error {
-	// session, err := session.Get("authenticate-sessions", c)
-	// if err != nil {
-	// 	log.Printf("Error getting session: %v\n", err)
-	// }
-	// if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-	// 	return c.Redirect(http.StatusSeeOther, "/login")
-	// 	// return templates.LoginPage("Login", false, "").Render(c.Request().Context(), c.Response())
-	// }
-	// userName := "User"
-	// if value, ok := session.Values["firstname"].(string); ok {
-	// 	userName = value
-	// }
-	// return templates.IndexPage(h.pageTitle, userName).Render(c.Request().Context(), c.Response())
+	sessionInfo, err := utils.GetSessionInfo(c)
+	if err != nil {
+		log.Printf("Error getting session info: %v\n", err)
+		return c.Redirect(http.StatusSeeOther, "/error")
+	}
 
-	userName := c.Get("userName").(string)
-	return templates.IndexPage(c, h.pageTitle, userName).Render(c.Request().Context(), c.Response())
+	return templates.IndexPage(c, h.pageTitle, sessionInfo.Username).Render(c.Request().Context(), c.Response())
 }

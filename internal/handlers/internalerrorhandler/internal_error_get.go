@@ -11,7 +11,7 @@ type getInternalErrorHandlerParams struct {
 
 func GetInternalErrorHandler() *getInternalErrorHandlerParams {
 	return &getInternalErrorHandlerParams{
-		pageTitle: "NotFound",
+		pageTitle: "Internal Error",
 	}
 }
 

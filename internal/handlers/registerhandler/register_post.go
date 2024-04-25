@@ -38,12 +38,12 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 		return c.HTML(http.StatusUnprocessableEntity, "Invalid email")
 	}
 
-	if !utils.IsValidName(username) {
+	if !utils.IsValidUsername(username) {
 		return c.HTML(http.StatusUnprocessableEntity, "Invalid username")
 	}
 
 	if !utils.IsValidName(firstname) {
-		return c.HTML(http.StatusUnprocessableEntity, "Invalid first name")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid firstname")
 	}
 
 	if !utils.IsValidName(lastname) {
@@ -76,7 +76,7 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 
 	// RAW
 	var ID int64
-	result := db.Raw("INSERT INTO users (email, username, firstname, lastname, password, registerip) VALUES (?, ?, ?, ?, ?, ?) RETURNING id",
+	result := db.Raw("INSERT INTO users (email, username, firstname, lastname, password, registerip) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;",
 		email,
 		username,
 		firstname,
@@ -100,19 +100,18 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 
 	if err := result.Error; err != nil {
 		log.Printf("Error creating user in database: %s\n", err.Error())
-		if strings.Contains(err.Error(), "value violates unique constraint \"users_email_key") {
+		if strings.Contains(err.Error(), "violates unique constraint \"users_email_key") {
 			return c.HTML(http.StatusInternalServerError, "Email already registered")
-		} else if strings.Contains(err.Error(), "for") {
-			return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
+		} else if strings.Contains(err.Error(), "violates unique constraint \"users_username_key") {
+			return c.HTML(http.StatusInternalServerError, "Username not available")
 		}
 		return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
 	}
-	log.Printf("Create user result: %v\n", result)
 
 	activationToken, err := hash.GenerateToken(true, id)
 	if err != nil {
 		log.Printf("Error generating activation token: %v\n", err)
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+		return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
 	}
 
 	timeNow := time.Now().UTC()

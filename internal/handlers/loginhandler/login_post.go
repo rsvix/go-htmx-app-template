@@ -34,22 +34,22 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 	}
 
 	db := c.Get(h.dbKey).(*gorm.DB)
-	var result struct {
+	var user struct {
 		Id       int
 		Username string
 		Password string
 		Enabled  int
 	}
-	db.Raw("SELECT id, username, password, enabled FROM users WHERE email = ?", email).Scan(&result)
-	// log.Printf("result: %v\n", result)
+	result := db.Raw("SELECT id, username, password, enabled FROM users WHERE email = ?;", email).Scan(&user)
+	log.Printf("result: %v\n", result)
 
-	if result.Id != 0 {
-		if result.Enabled == 0 {
+	if user.Id != 0 {
+		if user.Enabled == 0 {
 			return c.HTML(http.StatusUnprocessableEntity, "User not enabled<br/>Check your email")
 		}
 
 		// if hash.CheckPasswordHashV1(password, result.Password) {
-		if hash.CheckPasswordHashV2(password, result.Password) {
+		if hash.CheckPasswordHashV2(password, user.Password) {
 
 			session, err := session.Get("authenticate-sessions", c)
 			if err != nil {
@@ -58,9 +58,9 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 			}
 
 			session.Values["authenticated"] = true
-			session.Values["user_id"] = strconv.FormatUint(uint64(result.Id), 10)
+			session.Values["user_id"] = strconv.FormatUint(uint64(user.Id), 10)
 			session.Values["user_email"] = email
-			session.Values["username"] = result.Username
+			session.Values["username"] = user.Username
 
 			if remember == "true" {
 				session.Options.MaxAge = 84600 * 30

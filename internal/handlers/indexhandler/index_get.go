@@ -23,7 +23,8 @@ func (h getIndexHandlerParams) Serve(c echo.Context) error {
 	sessionInfo, err := utils.GetSessionInfo(c)
 	if err != nil {
 		log.Printf("Error getting session info: %v\n", err)
-		return c.Redirect(http.StatusSeeOther, "/error")
+		c.Response().Header().Set("HX-Redirect", "/error")
+		return c.NoContent(http.StatusSeeOther)
 	}
 
 	return templates.IndexPage(c, h.pageTitle, sessionInfo.Username).Render(c.Request().Context(), c.Response())

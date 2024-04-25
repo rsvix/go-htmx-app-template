@@ -72,7 +72,7 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 			}
 
 			c.Response().Header().Set("HX-Redirect", "/")
-			return c.NoContent(http.StatusOK)
+			return c.NoContent(http.StatusSeeOther)
 		}
 		return c.HTML(http.StatusUnprocessableEntity, "Invalid credentials")
 	}

@@ -17,7 +17,7 @@ func IsValidName(s string) bool {
 
 func IsValidUsername(s string) bool {
 	for _, r := range s {
-		if !unicode.IsLetter(r) || !unicode.IsNumber(r) {
+		if !unicode.IsLetter(r) && !unicode.IsNumber(r) {
 			return false
 		}
 	}

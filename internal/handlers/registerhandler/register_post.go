@@ -117,9 +117,7 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 	timeNow := time.Now().UTC()
 	timeExp := timeNow.Add(24 * time.Hour)
 
-	var emailResp string
-	result2 := db.Raw("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;", activationToken, timeExp, timeNow, id).Scan(&emailResp)
-	log.Printf("emailResp: %v\n", emailResp)
+	result2 := db.Raw("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;", activationToken, timeExp, timeNow, id)
 	log.Printf("Query result: %v\n", result2)
 
 	appPort, _ := os.LookupEnv("APP_PORT")
@@ -131,10 +129,10 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 		if err := emails.SendActivationMail(email, activationUrl, emails.DefaultParams()); err != nil {
 			log.Printf("Error sending email: %s\n", err)
 		}
-		msg := fmt.Sprintf("<h2>Activation email sent to<br/>%s</h2>", email)
+		msg := fmt.Sprintf("Activation email sent to<br/>%s", email)
 		return c.HTML(http.StatusOK, msg)
 	}
 	// For testing without email sender configured
-	msg := fmt.Sprintf("<h2><div style=\"text-decoration-line: underline;\"><a href=\"%s\">Activate your account<br/>by clicking here</a></div></h2>", activationUrl)
+	msg := fmt.Sprintf("<div style=\"text-decoration-line: underline;\"><a href=\"%s\">Activate your account<br/>by clicking here</a></div>", activationUrl)
 	return c.HTML(http.StatusOK, msg)
 }

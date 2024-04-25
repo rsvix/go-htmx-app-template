@@ -36,6 +36,7 @@ func GetSessionInfo(c echo.Context) (SessionInfo, error) {
 	if value, ok := session.Values["user_email"].(string); ok {
 		email = value
 	} else {
+
 		return SessionInfo{}, errors.New("couldn't get session info")
 	}
 

@@ -117,17 +117,15 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 	timeNow := time.Now().UTC()
 	timeExp := timeNow.Add(24 * time.Hour)
 
-	result2 := db.Raw("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;",
+	_ = db.Raw("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;",
 		activationToken,
 		timeExp,
 		timeNow,
 		id,
 	)
-	log.Printf("Query result: %v\n", result2)
 
 	appPort, _ := os.LookupEnv("APP_PORT")
 	activationUrl := fmt.Sprintf("http://localhost:%s/tkn/%s", appPort, activationToken)
-	// log.Printf("Activation Url: %s\n", activationUrl)
 
 	// Must configure SMTP server or other email sending service
 	if _, ok := os.LookupEnv("SENDER_PSWD"); ok {

@@ -7,11 +7,11 @@ import (
 	"net/mail"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/rsvix/go-htmx-app-template/internal/emails"
 	"github.com/rsvix/go-htmx-app-template/internal/hash"
-	"github.com/rsvix/go-htmx-app-template/internal/structs"
 	"github.com/rsvix/go-htmx-app-template/internal/utils"
 
 	"github.com/labstack/echo/v4"
@@ -33,71 +33,81 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 	lastname := c.Request().FormValue("lastname")
 	password := c.Request().FormValue("password")
 	password_conf := c.Request().FormValue("passwordconf")
-	// log.Printf("email: %s\nfirstname: %s\nlastname: %s\npassword: %s\npassword_conf: %s\n", email, firstname, lastname, password, password_conf)
 
 	if _, err := mail.ParseAddress(email); err != nil {
-		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid email</h2>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid email")
 	}
 
 	if !utils.IsValidName(username) {
-		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid username</h2>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid username")
 	}
 
 	if !utils.IsValidName(firstname) {
-		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid first name</h2>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid first name")
 	}
 
 	if !utils.IsValidName(lastname) {
-		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid lastname</h2>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid lastname")
 	}
 
 	if password != password_conf {
-		return c.HTML(http.StatusUnprocessableEntity, "<h2>Passwords do not match</h2>")
+		return c.HTML(http.StatusUnprocessableEntity, "Passwords do not match")
 	}
 
 	if !utils.IsValidPasswordV1(password) {
 		// if !utils.IsValidPasswordV2(password) {
-		return c.HTML(http.StatusUnprocessableEntity, "<h2>Invalid password</h2>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid password")
 	}
 
 	// hashPassword, err := hash.HashPasswordV1(password)
 	hashPassword, err := hash.HashPasswordV2(password)
 	if err != nil {
 		log.Printf("Error hashing password: %v\n", err)
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+		return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
 	}
-	// log.Printf("hashPassword: %s\n", hashPassword)
 
-	// ip := c.RealIP()
 	ip, ipErr := utils.GetIP(c.Request())
 	if ipErr != nil {
 		log.Printf("Error obtaining ip from request: %v\n", ipErr)
-	}
-
-	user := structs.User{
-		Email:     email,
-		Username:  username,
-		Firstname: firstname,
-		Lastname:  lastname,
-		Password:  hashPassword,
-		// Activationtoken:               activationToken,
-		// Activationtokenexpiration:     timeExp,
-		// Passwordchangetokenexpiration: timeNow,
-		Registerip: ip,
+		return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
 	}
 
 	db := c.Get("__db").(*gorm.DB)
-	// var ID int64
-	// db.Raw("INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id", email, hash_password).Scan(&ID)
-	// log.Printf("User %v created with ID: %v\n", email, ID)
-	result := db.Create(&user)
-	if err := result.Error; err != nil {
-		log.Println(err.Error())
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
-	}
-	// log.Printf("Create user result: %s\n", result)
 
-	id := strconv.FormatInt(int64(user.ID), 10)
+	// RAW
+	var ID int64
+	result := db.Raw("INSERT INTO users (email, username, firstname, lastname, password, registerip) VALUES (?, ?, ?, ?, ?, ?) RETURNING id",
+		email,
+		username,
+		firstname,
+		lastname,
+		hashPassword,
+		ip,
+	).Scan(&ID)
+	id := strconv.FormatInt(int64(ID), 10)
+
+	// // GORM
+	// user := structs.User{
+	// 	Email:      email,
+	// 	Username:   username,
+	// 	Firstname:  firstname,
+	// 	Lastname:   lastname,
+	// 	Password:   hashPassword,
+	// 	Registerip: ip,
+	// }
+	// result := db.Create(&user)
+	// id := strconv.FormatInt(int64(user.ID), 10)
+
+	if err := result.Error; err != nil {
+		log.Printf("Error creating user in database: %s\n", err.Error())
+		if strings.Contains(err.Error(), "value violates unique constraint \"users_email_key") {
+			return c.HTML(http.StatusInternalServerError, "Email already registered")
+		} else if strings.Contains(err.Error(), "for") {
+			return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
+		}
+		return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
+	}
+	log.Printf("Create user result: %v\n", result)
 
 	activationToken, err := hash.GenerateToken(true, id)
 	if err != nil {

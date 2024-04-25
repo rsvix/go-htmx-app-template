@@ -29,8 +29,6 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 	password := c.Request().FormValue("password")
 	remember := c.Request().FormValue("remember")
 
-	// https://stackoverflow.com/questions/2185951/how-do-i-keep-a-user-logged-into-my-site-for-months
-
 	if _, err := mail.ParseAddress(email); err != nil {
 		return c.HTML(http.StatusUnprocessableEntity, "Invalid credentials")
 	}
@@ -73,7 +71,6 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 				return c.HTML(http.StatusInternalServerError, "Error, please try again")
 			}
 
-			// return c.Redirect(http.StatusSeeOther, "/")
 			c.Response().Header().Set("HX-Redirect", "/")
 			return c.NoContent(http.StatusOK)
 		}

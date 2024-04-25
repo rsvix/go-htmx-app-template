@@ -16,8 +16,8 @@ import (
 )
 
 const (
-	sidebarRet = "h-full w-14 bg-gray-800 fixed z-30 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
-	sidebarExt = "h-full w-0 bg-gray-800 fixed z-40 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
+	retractedSidebar = "h-full w-14 bg-gray-800 fixed z-30 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
+	expandedSidebar  = "h-full w-0 bg-gray-800 fixed z-40 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
 
 	topbarIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6"
 	generalcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-3"
@@ -54,7 +54,7 @@ func Layout(c echo.Context, pageTitle string, authenticated bool, userName strin
 			return templ_7745c5c3_Err
 		}
 		if showNavbar {
-			templ_7745c5c3_Err = sideNav(c, pageTitle, authenticated, userName).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = sidebar(c, pageTitle, authenticated, userName).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -223,7 +223,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 	})
 }
 
-func sideNav(c echo.Context, pageTitle string, authenticated bool, userName string) templ.Component {
+func sidebar(c echo.Context, pageTitle string, authenticated bool, userName string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -236,7 +236,7 @@ func sideNav(c echo.Context, pageTitle string, authenticated bool, userName stri
 			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var12 = []any{sidebarRet}
+		var templ_7745c5c3_Var12 = []any{retractedSidebar}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -368,12 +368,12 @@ func sideNav(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var24 = []any{sidebarExt}
+		var templ_7745c5c3_Var24 = []any{expandedSidebar}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var24...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"sidebarExtension\" class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"sidebarExtended\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -509,7 +509,7 @@ func sideNav(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        document.getElementById(\"bars-menu-icon-closed\").addEventListener(\"click\",openCloseNav);\n        document.getElementById(\"bars-menu-icon-opened\").addEventListener(\"click\",openCloseNav);\n\n        function openCloseNav() {\n            if (document.getElementById(\"sidebarExtension\").style.width == 0 || document.getElementById(\"sidebarExtension\").style.width == \"0px\") {\n                document.getElementById(\"sidebarExtension\").style.width = \"195px\";\n                document.getElementById(\"main\").style.marginLeft = \"195px\";\n            } else {\n                document.getElementById(\"sidebarExtension\").style.width = \"0\";\n                document.getElementById(\"main\").style.marginLeft= \"56px\";\n            }\n        }\n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        document.getElementById(\"bars-menu-icon-closed\").addEventListener(\"click\",openCloseNav);\n        document.getElementById(\"bars-menu-icon-opened\").addEventListener(\"click\",openCloseNav);\n\n        function openCloseNav() {\n            if (document.getElementById(\"sidebarExtended\").style.width == 0 || document.getElementById(\"sidebarExtended\").style.width == \"0px\") {\n                document.getElementById(\"sidebarExtended\").style.width = \"195px\";\n                document.getElementById(\"main\").style.marginLeft = \"195px\";\n            } else {\n                document.getElementById(\"sidebarExtended\").style.width = \"0\";\n                document.getElementById(\"main\").style.marginLeft= \"56px\";\n            }\n        }\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,4 +1,4 @@
-package handlers
+package tokenhandler
 
 import (
 	"encoding/hex"

@@ -8,15 +8,19 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
-	"github.com/rsvix/go-htmx-app-template/internal/handlers"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/accounthandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/activationhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/indexhandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/internalerrorhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/loginhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/logouthandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/notfoundhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/registerhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/resethandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/snippetshandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/termshandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/tokenhandler"
+
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
 	"github.com/rsvix/go-htmx-app-template/internal/store/db"
@@ -113,12 +117,13 @@ func main() {
 	app.GET("/resetform", resethandler.GetResetformHandler().Serve)
 	app.POST("/resetform", resethandler.PostResetformHandler().Serve)
 
-	app.GET("/tkn/:token", handlers.GetTokenHandler().Serve)
-	app.GET("/activate", handlers.GetActivateHandler().Serve)
-	app.GET("/newactivation", handlers.GetNewActivationHandler().Serve)
+	app.GET("/tkn/:token", tokenhandler.GetTokenHandler().Serve)
 
-	app.GET("/notfound", handlers.GetNotfoundHandler().Serve)
-	app.GET("/error", handlers.GetInternalErrorHandler().Serve)
+	app.GET("/activate", activationhandler.GetActivateHandler().Serve)
+	app.GET("/newactivation", activationhandler.GetNewActivationHandler().Serve)
+
+	app.GET("/notfound", notfoundhandler.GetNotfoundHandler().Serve)
+	app.GET("/error", internalerrorhandler.GetInternalErrorHandler().Serve)
 
 	app.GET("/terms", termshandler.GetTermsHandlerParams().Serve)
 

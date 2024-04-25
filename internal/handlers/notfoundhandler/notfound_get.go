@@ -1,4 +1,4 @@
-package handlers
+package notfoundhandler
 
 import (
 	"github.com/labstack/echo/v4"

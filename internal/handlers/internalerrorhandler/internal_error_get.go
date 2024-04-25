@@ -1,4 +1,4 @@
-package handlers
+package internalerrorhandler
 
 import (
 	"github.com/labstack/echo/v4"

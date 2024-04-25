@@ -1,6 +1,5 @@
-## go-htmx-app-template
+# go-htmx-app-template
 Because you don't need a bloated javascript framework :joy:
----
 
 ### Template of a web application using:
 ```text

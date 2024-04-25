@@ -5,7 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/rsvix/go-htmx-app-template/internal/templates"
+	"github.com/rsvix/go-htmx-app-template/internal/templates/registertemplate"
 )
 
 type getRegisterHandlerParams struct {
@@ -34,5 +34,5 @@ func (h getRegisterHandlerParams) Serve(c echo.Context) error {
 	if value, ok := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string); ok {
 		csrfToken = value
 	}
-	return templates.RegisterPage(c, h.appName, h.pageTitle, csrfToken).Render(c.Request().Context(), c.Response())
+	return registertemplate.RegisterPage(c, h.appName, h.pageTitle, csrfToken).Render(c.Request().Context(), c.Response())
 }

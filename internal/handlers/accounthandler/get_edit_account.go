@@ -1,8 +1,8 @@
 package accounthandler
 
 import (
-	"log"
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
@@ -18,14 +18,13 @@ type getEditAccountHandlerParams struct {
 func GetEditAccountHandler() *getEditAccountHandlerParams {
 	return &getEditAccountHandlerParams{
 		pageTitle: "Account",
-		dbKey:     "__db",
+		dbKey:     os.Getenv("DB_CONTEXT_KEY"),
 	}
 }
 
 func (h getEditAccountHandlerParams) Serve(c echo.Context) error {
 	sessionInfo, err := utils.GetSessionInfo(c)
 	if err != nil {
-		log.Println(err)
 		c.Response().Header().Set("HX-Redirect", "/error")
 		return c.NoContent(http.StatusSeeOther)
 	}

@@ -36,9 +36,10 @@ func main() {
 	utils.GetSetEnv("POSTGRES_PASSWORD", "123")
 	utils.GetSetEnv("POSTGRES_HOST", "localhost")
 	utils.GetSetEnv("APP_NAME_DB", "app-01")
+	utils.GetSetEnv("DB_CONTEXT_KEY", "__db")
 
 	app := echo.New()
-	app.Debug = true
+	// app.Debug = true
 	app.Static("static", "./static")
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()
@@ -72,7 +73,7 @@ func main() {
 	// app.Pre(middleware.HTTPSRedirect())
 
 	app.Use(
-		middleware.Logger(),
+		// middleware.Logger(),
 		middleware.Recover(),
 		middlewares.DatabaseMiddleware(db),
 		session.Middleware(cookiestore.Start(db)),
@@ -119,8 +120,9 @@ func main() {
 
 	app.GET("/tkn/:token", tokenhandler.GetTokenHandler().Serve)
 
-	app.GET("/activate", activationhandler.GetActivateHandler().Serve)
+	app.GET("/activate", activationhandler.GetActivateHandler().Serve, middlewares.MustNotBeLogged())
 	app.GET("/newactivation", activationhandler.GetNewActivationHandler().Serve)
+	app.GET("/activationtkn/:token", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
 
 	app.GET("/notfound", notfoundhandler.GetNotfoundHandler().Serve)
 	app.GET("/error", internalerrorhandler.GetInternalErrorHandler().Serve)

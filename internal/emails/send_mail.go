@@ -13,6 +13,7 @@ type mailParams struct {
 	password string
 	smtpHost string
 	smtpPort string
+	appName  string
 }
 
 func DefaultParams() *mailParams {
@@ -21,13 +22,14 @@ func DefaultParams() *mailParams {
 		password: os.Getenv("SMTP_PSWD"),
 		smtpHost: "smtp.gmail.com",
 		smtpPort: "587",
+		appName:  os.Getenv("APP_NAME"),
 	}
 }
 
 func SendActivationMail(to string, tokenUrl string, p *mailParams) error {
 	message := "From: " + p.from + "\n" +
 		"To: " + to + "\n" +
-		"Subject: GoBot - Account ativation\n\n" +
+		"Subject: " + p.appName + " - Account ativation\n\n" +
 		"Navigate to the url below to activate your account\n" + tokenUrl
 
 	auth := smtp.PlainAuth("", p.from, p.password, p.smtpHost)
@@ -43,7 +45,7 @@ func SendActivationMail(to string, tokenUrl string, p *mailParams) error {
 func SendResetMail(to string, tokenUrl string, p *mailParams) error {
 	message := "From: " + p.from + "\n" +
 		"To: " + to + "\n" +
-		"Subject: GoBot - Password reset\n\n" +
+		"Subject: " + p.appName + " - Password reset\n\n" +
 		"Navigate to the url below to reset your password\n" + tokenUrl
 
 	auth := smtp.PlainAuth("", p.from, p.password, p.smtpHost)

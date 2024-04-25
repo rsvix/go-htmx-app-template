@@ -1,11 +1,10 @@
 package accounthandler
 
 import (
-	"log"
 	"net/http"
 	"net/mail"
+	"os"
 
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/hash"
 	"github.com/rsvix/go-htmx-app-template/internal/utils"
@@ -20,7 +19,7 @@ type postEditAccountHandlerParams struct {
 func PostEditAccountHandler() *postEditAccountHandlerParams {
 	return &postEditAccountHandlerParams{
 		pageTitle: "Account",
-		dbKey:     "__db",
+		dbKey:     os.Getenv("DB_CONTEXT_KEY"),
 	}
 }
 
@@ -31,46 +30,36 @@ func (h postEditAccountHandlerParams) Serve(c echo.Context) error {
 	lastname := c.Request().FormValue("lastname")
 	password := c.Request().Header.Get("HX-Prompt")
 
-	log.Printf("\nemail: %s\nfirstname: %s\nlastname: %s\npassword: %s\n", email, firstname, lastname, password)
-
 	if _, err := mail.ParseAddress(email); err != nil {
-		return c.HTML(http.StatusUnprocessableEntity, "<p>Invalid email</p>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid email")
 	}
 
 	if !utils.IsValidName(firstname) {
-		return c.HTML(http.StatusUnprocessableEntity, "<p>Invalid first name</p>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid first name")
 	}
 
 	if !utils.IsValidName(lastname) {
-		return c.HTML(http.StatusUnprocessableEntity, "<p>Invalid lastname</p>")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid lastname")
 	}
 
-	session, err := session.Get("authenticate-sessions", c)
+	sessionInfo, err := utils.GetSessionInfo(c)
 	if err != nil {
-		log.Printf("Error getting session: %v\n", err)
-		return err
-	}
-
-	var id string
-	if value, ok := session.Values["id"].(string); ok {
-		id = value
-	} else {
-		return err
+		c.Response().Header().Set("HX-Redirect", "/error")
+		return c.NoContent(http.StatusSeeOther)
 	}
 
 	db := c.Get(h.dbKey).(*gorm.DB)
 	var result struct {
 		Password string
 	}
-	db.Table("users").Select("password").Where("id = ?", id).Scan(&result)
-	log.Printf("\nPassword: %s\n", result.Password)
+	db.Table("users").Select("password").Where("id = ?", sessionInfo.Id).Scan(&result)
 
 	if hash.CheckPasswordHashV2(password, result.Password) {
-		res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"email": email, "firstname": firstname, "lastname": lastname})
+		res := db.Table("users").Where("id = ?", sessionInfo.Id).Updates(map[string]interface{}{"email": email, "firstname": firstname, "lastname": lastname})
 		if res.Error != nil {
-			return c.HTML(http.StatusUnprocessableEntity, "<p>Error updating account</p>")
+			return c.HTML(http.StatusUnprocessableEntity, "Error updating account")
 		}
 		return c.Redirect(http.StatusSeeOther, "/account")
 	}
-	return c.HTML(http.StatusUnprocessableEntity, "<p>Invalid password</p>")
+	return c.HTML(http.StatusUnprocessableEntity, "Invalid password")
 }

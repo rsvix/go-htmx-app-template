@@ -20,13 +20,12 @@ func GetNewActivationHandler() *getNewActivationHandler {
 
 func (h getNewActivationHandler) Serve(c echo.Context) error {
 
-	// Get session
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
 		log.Printf("Error getting session: %v\n", err)
 	}
 
-	id := session.Values["id"].(string)
+	id := session.Values["user_id"].(string)
 	log.Printf("id: %v\n", id)
 
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {

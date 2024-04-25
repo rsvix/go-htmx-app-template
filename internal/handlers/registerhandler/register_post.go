@@ -75,7 +75,7 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 	db := c.Get("__db").(*gorm.DB)
 
 	// RAW
-	var ID int64
+	var ID int
 	result := db.Raw("INSERT INTO users (email, username, firstname, lastname, password, registerip) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;",
 		email,
 		username,
@@ -117,15 +117,18 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 	timeNow := time.Now().UTC()
 	timeExp := timeNow.Add(24 * time.Hour)
 
-	_ = db.Raw("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;",
+	// RAW
+	db.Exec("UPDATE users SET activationtoken = ?, activationtokenexpiration = ?, passwordchangetokenexpiration = ? WHERE id = ?;",
 		activationToken,
 		timeExp,
 		timeNow,
 		id,
 	)
+	// GORM
+	// db.Table("users").Where("WHERE id = ?", id).Updates(map[string]interface{}{"activationtoken": activationToken, "activationtokenexpiration": timeExp, "passwordchangetokenexpiration": timeNow})
 
 	appPort, _ := os.LookupEnv("APP_PORT")
-	activationUrl := fmt.Sprintf("http://localhost:%s/tkn/%s", appPort, activationToken)
+	activationUrl := fmt.Sprintf("http://localhost:%s/activationtkn/%s", appPort, activationToken)
 
 	// Must configure SMTP server or other email sending service
 	if _, ok := os.LookupEnv("SENDER_PSWD"); ok {

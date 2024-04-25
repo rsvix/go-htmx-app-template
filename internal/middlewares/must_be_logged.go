@@ -14,16 +14,10 @@ func MustBeLogged() echo.MiddlewareFunc {
 			session, err := session.Get("authenticate-sessions", c)
 			if err != nil {
 				log.Printf("Error getting session: %v\n", err)
-				return err
+				return c.Redirect(http.StatusSeeOther, "/error")
 			}
 			if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 				return c.Redirect(http.StatusSeeOther, "/login")
-			}
-			if value, ok := session.Values["firstname"].(string); ok {
-				c.Set("userName", value)
-			}
-			if value, ok := session.Values["id"].(string); ok {
-				c.Set("userId", value)
 			}
 			return next(c)
 		}

@@ -33,7 +33,7 @@ func GenerateToken(forActivation bool, id string) (string, error) {
 	EncodedRandomNumberHash := hex.EncodeToString(hash[:])
 
 	token := strings.TrimSpace(fmt.Sprintf("%sO%s", EncodedRandomNumberHash, idEncoded))
-	log.Printf("Encoded: %v", token)
+	// log.Printf("Encoded: %v", token)
 	return token, nil
 }
 

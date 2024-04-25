@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"net/mail"
-	"strconv"
 
 	"github.com/rsvix/go-htmx-app-template/internal/hash"
 
@@ -58,7 +57,8 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 			}
 
 			session.Values["authenticated"] = true
-			session.Values["user_id"] = strconv.FormatUint(uint64(user.Id), 10)
+			session.Values["user_id"] = user.Id
+			// session.Values["user_id"] = strconv.FormatUint(uint64(user.Id), 10)
 			session.Values["user_email"] = email
 			session.Values["username"] = user.Username
 

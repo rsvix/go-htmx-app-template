@@ -3,10 +3,9 @@ package snippetshandler
 import (
 	"log"
 	"net/http"
-	"strings"
 
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"github.com/rsvix/go-htmx-app-template/internal/utils"
 	"gorm.io/gorm"
 )
 
@@ -21,29 +20,20 @@ func DeleteSnippetEditHandler() *deleteSnippetEditHandlerParams {
 }
 
 func (h deleteSnippetEditHandlerParams) Serve(c echo.Context) error {
-	snippetId := c.Param("id")
-
-	session, err := session.Get("authenticate-sessions", c)
+	sessionInfo, err := utils.GetSessionInfo(c)
 	if err != nil {
-		log.Printf("Error getting session: %v\n", err)
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
+		log.Println(err)
+		c.Response().Header().Set("HX-Redirect", "/error")
+		return c.NoContent(http.StatusSeeOther)
 	}
 
-	var userIdString string
-	if value, ok := session.Values["id"].(string); ok {
-		userIdString = value
-	} else {
-		return c.HTML(http.StatusInternalServerError, "<h2>Error, please try again</h2>")
-	}
-	log.Println(userIdString)
-
+	snippetId := c.Param("id")
 	db := c.Get("__db").(*gorm.DB)
-
-	var owner string
+	var owner int
 	db.Raw("SELECT owner FROM snippets WHERE id = ?;", snippetId).Scan(&owner)
 	log.Println(owner)
 
-	if strings.Compare(strings.TrimSpace(owner), strings.TrimSpace(userIdString)) == 0 {
+	if owner == sessionInfo.Id {
 		db.Exec("DELETE FROM snippets WHERE id = ?;", snippetId)
 	}
 

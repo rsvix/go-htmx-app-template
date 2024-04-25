@@ -9,7 +9,7 @@ import (
 )
 
 type SessionInfo struct {
-	Id       string
+	Id       int
 	Email    string
 	Username string
 }
@@ -25,8 +25,8 @@ func GetSessionInfo(c echo.Context) (SessionInfo, error) {
 		return SessionInfo{}, errors.New("couldn't get session info")
 	}
 
-	var id string
-	if value, ok := session.Values["user_id"].(string); ok {
+	var id int
+	if value, ok := session.Values["user_id"].(int); ok {
 		id = value
 	} else {
 		return SessionInfo{}, errors.New("couldn't get session info")

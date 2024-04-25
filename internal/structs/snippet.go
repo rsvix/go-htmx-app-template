@@ -1,12 +1,12 @@
 package structs
 
 type Snippet struct {
-	Id        uint
-	Owner     uint
+	Id        int
+	Owner     int
 	Ownername string
 	Name      string
 	Language  string
 	Code      string
 	Tags      string
-	Ispublic  uint
+	Ispublic  int
 }

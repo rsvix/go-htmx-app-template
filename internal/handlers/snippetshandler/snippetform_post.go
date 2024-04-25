@@ -1,10 +1,8 @@
 package snippetshandler
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/structs"
@@ -30,17 +28,11 @@ func (h postSnippetFormHandlerParams) Serve(c echo.Context) error {
 		return c.Redirect(http.StatusSeeOther, "/error")
 	}
 
-	userIdInt, err := strconv.ParseUint(sessionInfo.Id, 10, 32)
-	if err != nil {
-		fmt.Println(err)
-		return c.Redirect(http.StatusSeeOther, "/error")
-	}
-
 	snippetName := c.Request().FormValue("snippetName")
 	snippetLanguage := c.Request().FormValue("snippetLanguage")
 	snippetContent := c.Request().FormValue("snippetContent")
 	publicFlag := c.Request().FormValue("publicSnippet")
-	var publicSnippet uint = 0
+	var publicSnippet int = 0
 	if publicFlag == "true" {
 		publicSnippet = 1
 	}
@@ -49,7 +41,7 @@ func (h postSnippetFormHandlerParams) Serve(c echo.Context) error {
 	log.Println(currentUrl)
 
 	snippet := structs.Snippet{
-		Owner:     uint(userIdInt),
+		Owner:     sessionInfo.Id,
 		Ownername: sessionInfo.Username,
 		Name:      snippetName,
 		Language:  snippetLanguage,

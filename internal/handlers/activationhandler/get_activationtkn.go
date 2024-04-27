@@ -8,39 +8,36 @@ import (
 	"strings"
 	"time"
 
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"github.com/rsvix/go-htmx-app-template/internal/templates"
 	"gorm.io/gorm"
 )
 
 type getActivationTokenHandlerParams struct {
 	queryParam string
 	dbKey      string
+	pageTitle  string
 }
 
 func GetActivationTokenHandler() *getActivationTokenHandlerParams {
 	return &getActivationTokenHandlerParams{
 		queryParam: "tkn",
 		dbKey:      os.Getenv("DB_CONTEXT_KEY"),
+		pageTitle:  "Activate",
 	}
 }
 
 // http://localhost:8080/actvtkn?tkn=123qwert987012
 
 func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
-	// Path param
-	// http://localhost:8080/actvtkn/123qwert987012
+	// Path param - http://localhost:8080/actvtkn/123qwert987012
 	// token := c.Param(h.queryParam)
 
-	// Query param
-	// http://localhost:8080/actvtkn?tkn=123qwert987012
+	// Query param - http://localhost:8080/actvtkn?tkn=123qwert987012
 	// token := c.QueryParam(h.queryParam)
 
-	// Raw query
-	// http://localhost:8080/actvtkn?123qwert987012
+	// Raw query - http://localhost:8080/actvtkn?123qwert987012
 	token := c.Request().URL.RawQuery
-
-	log.Printf("token: %v", token)
 
 	if !strings.Contains(token, "O") || token == "" {
 		return c.Redirect(http.StatusSeeOther, "/login")
@@ -55,12 +52,6 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 	decodedStr := string(decoded[:])
 	mode := strings.Split(decodedStr, "@")[0]
 	id := strings.Split(decodedStr, "@")[1]
-
-	session, err := session.Get("authenticate-sessions", c)
-	if err != nil {
-		log.Printf("Error getting session: %v\n", err)
-		return c.Redirect(http.StatusSeeOther, "/error")
-	}
 
 	if mode == "activate" {
 		db := c.Get(h.dbKey).(*gorm.DB)
@@ -84,23 +75,16 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 						log.Println("Error enabling user")
 						return c.Redirect(http.StatusSeeOther, "/error")
 					}
-					session.Values["user_enabled"] = "1"
+					return templates.ActivatePage(c, h.pageTitle, true, "Account activated").Render(c.Request().Context(), c.Response())
 				} else {
-					session.Values["user_enabled"] = "2"
-					c.Set("enabling_error", "Invalid token")
+					return templates.ActivatePage(c, h.pageTitle, false, "Invalid token").Render(c.Request().Context(), c.Response())
 				}
 			} else {
-				session.Values["user_enabled"] = "3"
-				c.Set("enabling_error", "Token expired")
+				return templates.ActivatePage(c, h.pageTitle, false, "Token expired").Render(c.Request().Context(), c.Response())
 			}
 		} else {
 			return c.Redirect(http.StatusSeeOther, "/login")
 		}
-		if err := session.Save(c.Request(), c.Response()); err != nil {
-			log.Printf("Error saving session: %s", err)
-			return c.Redirect(http.StatusSeeOther, "/error")
-		}
-		return c.Redirect(http.StatusSeeOther, "/activate")
 	}
 	return c.Redirect(http.StatusSeeOther, "/login")
 }

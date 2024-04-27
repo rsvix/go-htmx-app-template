@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 	"gorm.io/gorm"
@@ -80,6 +81,16 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 					return templates.ActivatePage(c, h.pageTitle, false, "Invalid token").Render(c.Request().Context(), c.Response())
 				}
 			} else {
+				session, err := session.Get("authenticate-sessions", c)
+				if err != nil {
+					log.Printf("Error getting session: %v\n", err)
+				}
+				session.Values["user_id"] = id
+				if err := session.Save(c.Request(), c.Response()); err != nil {
+					log.Printf("Error saving session: %s", err)
+					return c.Redirect(http.StatusSeeOther, "/error")
+				}
+
 				return templates.ActivatePage(c, h.pageTitle, false, "Token expired").Render(c.Request().Context(), c.Response())
 			}
 		} else {

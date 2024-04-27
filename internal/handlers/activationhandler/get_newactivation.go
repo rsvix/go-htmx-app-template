@@ -25,10 +25,16 @@ func (h getNewActivationHandler) Serve(c echo.Context) error {
 		log.Printf("Error getting session: %v\n", err)
 	}
 
-	id := session.Values["user_id"].(string)
+	// id := session.Values["user_id"].(string)
+	var id string
+	if value, ok := session.Values["user_id"].(string); !ok {
+		return c.Redirect(http.StatusSeeOther, "/login")
+	} else {
+		id = value
+	}
 	log.Printf("id: %v\n", id)
 
-	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+	if auth, _ := session.Values["authenticated"].(bool); !auth {
 		db := c.Get("__db").(*gorm.DB)
 		var result struct {
 			Email                     string

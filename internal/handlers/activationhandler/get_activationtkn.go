@@ -20,14 +20,29 @@ type getActivationTokenHandlerParams struct {
 
 func GetActivationTokenHandler() *getActivationTokenHandlerParams {
 	return &getActivationTokenHandlerParams{
-		queryParam: "token",
+		queryParam: "tkn",
 		dbKey:      os.Getenv("DB_CONTEXT_KEY"),
 	}
 }
 
+// http://localhost:8080/actvtkn?tkn=123qwert987012
+
 func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
-	token := c.Param(h.queryParam)
-	if !strings.Contains(token, "O") {
+	// Path param
+	// http://localhost:8080/actvtkn/123qwert987012
+	// token := c.Param(h.queryParam)
+
+	// Query param
+	// http://localhost:8080/actvtkn?tkn=123qwert987012
+	// token := c.QueryParam(h.queryParam)
+
+	// Raw query
+	// http://localhost:8080/actvtkn?123qwert987012
+	token := c.Request().URL.RawQuery
+
+	log.Printf("token: %v", token)
+
+	if !strings.Contains(token, "O") || token == "" {
 		return c.Redirect(http.StatusSeeOther, "/login")
 	}
 

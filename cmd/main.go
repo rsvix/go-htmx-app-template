@@ -121,10 +121,10 @@ func main() {
 
 	app.GET("/tkn/:token", tokenhandler.GetTokenHandler().Serve)
 
-	app.GET("/activate", activationhandler.GetActivateHandler().Serve, middlewares.MustNotBeLogged())
-	app.GET("/newactivation", activationhandler.GetNewActivationHandler().Serve, middlewares.MustNotBeLogged())
-	app.GET("/actvtkn", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
-	// app.GET("/actvtkn/:token", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
+	// app.GET("/activate", activationhandler.GetActivateHandler().Serve, middlewares.MustNotBeLogged())
+	// app.GET("/activation/:token", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
+	app.GET("/activation", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
+	app.GET("/newtoken", activationhandler.GetNewActivationHandler().Serve, middlewares.MustNotBeLogged())
 
 	app.GET("/notfound", notfoundhandler.GetNotfoundHandler().Serve)
 	app.GET("/error", internalerrorhandler.GetInternalErrorHandler().Serve)

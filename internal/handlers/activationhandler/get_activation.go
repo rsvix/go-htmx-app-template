@@ -22,22 +22,20 @@ type getActivationTokenHandlerParams struct {
 
 func GetActivationTokenHandler() *getActivationTokenHandlerParams {
 	return &getActivationTokenHandlerParams{
-		queryParam: "tkn",
+		queryParam: "token",
 		dbKey:      os.Getenv("DB_CONTEXT_KEY"),
 		pageTitle:  "Activate",
 	}
 }
 
-// http://localhost:8080/actvtkn?tkn=123qwert987012
-
 func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
-	// Path param - http://localhost:8080/actvtkn/123qwert987012
+	// Path param - http://localhost:8080/activation/123qwert987012
 	// token := c.Param(h.queryParam)
 
-	// Query param - http://localhost:8080/actvtkn?tkn=123qwert987012
+	// Query param - http://localhost:8080/activation?token=123qwert987012
 	// token := c.QueryParam(h.queryParam)
 
-	// Raw query - http://localhost:8080/actvtkn?123qwert987012
+	// Raw query - http://localhost:8080/activation?123qwert987012
 	token := c.Request().URL.RawQuery
 
 	if !strings.Contains(token, "O") || token == "" {
@@ -68,7 +66,8 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 			secs := diff.Seconds()
 			// log.Printf("diff: %v\nsecs: %v\n", diff, secs)
 
-			if secs > 0.0 {
+			// if secs > 0.0 {
+			if secs > 86400.0 {
 				if strings.Compare(strings.TrimSpace(result.Activationtoken), strings.TrimSpace(token)) == 0 {
 					timeNow := time.Now().UTC()
 					res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"enabled": 1, "activationtokenexpiration": timeNow})
@@ -76,9 +75,9 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 						log.Println("Error enabling user")
 						return c.Redirect(http.StatusSeeOther, "/error")
 					}
-					return templates.ActivatePage(c, h.pageTitle, true, "Account activated").Render(c.Request().Context(), c.Response())
+					return templates.ActivationPage(c, h.pageTitle, true, "Account activated").Render(c.Request().Context(), c.Response())
 				} else {
-					return templates.ActivatePage(c, h.pageTitle, false, "Invalid token").Render(c.Request().Context(), c.Response())
+					return templates.ActivationPage(c, h.pageTitle, false, "Invalid token").Render(c.Request().Context(), c.Response())
 				}
 			} else {
 				session, err := session.Get("authenticate-sessions", c)
@@ -90,8 +89,7 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 					log.Printf("Error saving session: %s", err)
 					return c.Redirect(http.StatusSeeOther, "/error")
 				}
-
-				return templates.ActivatePage(c, h.pageTitle, false, "Token expired").Render(c.Request().Context(), c.Response())
+				return templates.ActivationPage(c, h.pageTitle, false, "Token expired").Render(c.Request().Context(), c.Response())
 			}
 		} else {
 			return c.Redirect(http.StatusSeeOther, "/login")

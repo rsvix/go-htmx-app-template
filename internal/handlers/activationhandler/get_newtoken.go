@@ -25,7 +25,6 @@ func (h getNewActivationHandler) Serve(c echo.Context) error {
 		log.Printf("Error getting session: %v\n", err)
 	}
 
-	// id := session.Values["user_id"].(string)
 	var id string
 	if value, ok := session.Values["user_id"].(string); !ok {
 		return c.Redirect(http.StatusSeeOther, "/login")
@@ -50,12 +49,12 @@ func (h getNewActivationHandler) Serve(c echo.Context) error {
 			log.Printf("diff: %v\nsecs: %v\n", diff, secs)
 
 			if secs > 0.0 {
-				return c.HTML(http.StatusInternalServerError, "<h2>You already have a valid<br/>activation link in your email</h2>")
+				return c.HTML(http.StatusInternalServerError, "You already have a valid<br/>activation link in your email")
 			}
 			// send new email
-			return c.HTML(http.StatusInternalServerError, fmt.Sprintf("<h2>Activation link sent to<br/>%s</h2>", result.Email))
+			return c.HTML(http.StatusInternalServerError, fmt.Sprintf("Activation link sent to<br/>%s", result.Email))
 		}
-		return c.HTML(http.StatusInternalServerError, "<h2>Couldn't process your request</h2>")
+		return c.HTML(http.StatusInternalServerError, "Couldn't process your request")
 	}
 	return c.Redirect(http.StatusSeeOther, "/")
 }

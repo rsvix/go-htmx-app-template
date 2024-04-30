@@ -128,7 +128,7 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 	// db.Table("users").Where("WHERE id = ?", id).Updates(map[string]interface{}{"activationtoken": activationToken, "activationtokenexpiration": timeExp, "passwordchangetokenexpiration": timeNow})
 
 	appPort, _ := os.LookupEnv("APP_PORT")
-	activationUrl := fmt.Sprintf("http://localhost:%s/actvtkn?%s", appPort, activationToken)
+	activationUrl := fmt.Sprintf("http://localhost:%s/activation?%s", appPort, activationToken)
 
 	// Must configure SMTP server or other email sending service
 	if _, ok := os.LookupEnv("SENDER_PSWD"); ok {

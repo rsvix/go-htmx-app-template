@@ -22,7 +22,7 @@ func (h getNewActivationHandler) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
-		log.Printf("Error getting session: %v\n", err)
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	var id string
@@ -31,7 +31,6 @@ func (h getNewActivationHandler) Serve(c echo.Context) error {
 	} else {
 		id = value
 	}
-	log.Printf("id: %v\n", id)
 
 	if auth, _ := session.Values["authenticated"].(bool); !auth {
 		db := c.Get("__db").(*gorm.DB)
@@ -54,7 +53,7 @@ func (h getNewActivationHandler) Serve(c echo.Context) error {
 			// send new email
 			return c.HTML(http.StatusInternalServerError, fmt.Sprintf("Activation link sent to<br/>%s", result.Email))
 		}
-		return c.HTML(http.StatusInternalServerError, "Couldn't process your request")
+		return c.HTML(http.StatusInternalServerError, "Account already activated")
 	}
 	return c.Redirect(http.StatusSeeOther, "/")
 }

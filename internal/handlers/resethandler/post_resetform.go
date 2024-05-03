@@ -35,10 +35,9 @@ func (h *postResetformHandlerParams) Serve(c echo.Context) error {
 		password := c.Request().FormValue("password")
 		password_conf := c.Request().FormValue("passwordconf")
 		id := session.Values["user_id"].(string)
-
-		log.Printf("id: %v\n", id)
-		log.Printf("password: %v\n", password)
-		log.Printf("password_conf: %v\n", password_conf)
+		// log.Printf("id: %v\n", id)
+		// log.Printf("password: %v\n", password)
+		// log.Printf("password_conf: %v\n", password_conf)
 
 		if password == password_conf {
 			// hashPassword, err := hash.HashPasswordV1(password)
@@ -50,7 +49,6 @@ func (h *postResetformHandlerParams) Serve(c echo.Context) error {
 			log.Printf("hashPassword: %v\n", hashPassword)
 
 			db := c.Get("__db").(*gorm.DB)
-			// res := db.Table("users").Where("id = ?", id).Update("password", hashPassword)
 			timein := time.Now().UTC().Add(1 * time.Hour)
 			res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"password": hashPassword, "passwordchangetokenexpiration": timein})
 			if res.Error != nil {
@@ -58,8 +56,9 @@ func (h *postResetformHandlerParams) Serve(c echo.Context) error {
 			}
 
 			session.Values["pwreset"] = nil
-			err = session.Save(c.Request(), c.Response())
-			log.Printf("Save: %v\n", err)
+			if err := session.Save(c.Request(), c.Response()); err != nil {
+				return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+			}
 
 			appName := os.Getenv("APP_NAME")
 			return templates.MessagePage(c, appName, "Reset", "Your password was reset", true, false).Render(c.Request().Context(), c.Response())

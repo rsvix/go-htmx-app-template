@@ -1,7 +1,6 @@
 package logouthandler
 
 import (
-	"log"
 	"net/http"
 	"time"
 
@@ -17,7 +16,6 @@ func GetLogoutHandler() *getLogoutHandlerParams {
 }
 
 func (h getLogoutHandlerParams) Serve(c echo.Context) error {
-
 	c.Response().Header().Set("Cache-Control", "no-cache, private, max-age=0")
 	c.Response().Header().Set("Expires", time.Unix(0, 0).Format(http.TimeFormat))
 	c.Response().Header().Set("Pragma", "no-cache")
@@ -25,8 +23,7 @@ func (h getLogoutHandlerParams) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
-		log.Printf("Error getting session: %v\n", err)
-		return c.Redirect(http.StatusSeeOther, "/error")
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	session.Values["authenticated"] = false
@@ -36,8 +33,7 @@ func (h getLogoutHandlerParams) Serve(c echo.Context) error {
 	session.Options.MaxAge = -1
 
 	if err := session.Save(c.Request(), c.Response()); err != nil {
-		log.Printf("Error saving session: %s", err)
-		return c.Redirect(http.StatusSeeOther, "/error")
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.Redirect(http.StatusSeeOther, "/login")

@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -38,13 +39,12 @@ func CSPMiddleware() echo.MiddlewareFunc {
 			// Storing nonce in session cookie
 			session, err := session.Get("authenticate-sessions", c)
 			if err != nil {
-				log.Printf("Error getting session: %v\n", err)
-				return err
+				return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 			}
+
 			session.Values["randomNonce"] = randomNonce
 			if err := session.Save(c.Request(), c.Response()); err != nil {
-				log.Printf("Error saving session: %s", err)
-				return err
+				return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 			}
 
 			cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s'; style-src 'nonce-%s' '%s'; img-src '%s';",

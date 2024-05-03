@@ -1,7 +1,6 @@
 package resethandler
 
 import (
-	"log"
 	"net/http"
 	"os"
 
@@ -27,7 +26,7 @@ func (h getResetformHandlerParams) Serve(c echo.Context) error {
 
 	session, err := session.Get("authenticate-sessions", c)
 	if err != nil {
-		log.Printf("Session error: %v\n", err)
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	csrfToken := "none"

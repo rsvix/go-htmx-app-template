@@ -24,7 +24,6 @@ func PostEditAccountHandler() *postEditAccountHandlerParams {
 }
 
 func (h postEditAccountHandlerParams) Serve(c echo.Context) error {
-
 	email := c.Request().FormValue("email")
 	firstname := c.Request().FormValue("firstname")
 	lastname := c.Request().FormValue("lastname")
@@ -35,7 +34,7 @@ func (h postEditAccountHandlerParams) Serve(c echo.Context) error {
 	}
 
 	if !utils.IsValidName(firstname) {
-		return c.HTML(http.StatusUnprocessableEntity, "Invalid first name")
+		return c.HTML(http.StatusUnprocessableEntity, "Invalid firstname")
 	}
 
 	if !utils.IsValidName(lastname) {
@@ -44,8 +43,7 @@ func (h postEditAccountHandlerParams) Serve(c echo.Context) error {
 
 	sessionInfo, err := utils.GetSessionInfo(c)
 	if err != nil {
-		c.Response().Header().Set("HX-Redirect", "/error")
-		return c.NoContent(http.StatusSeeOther)
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	db := c.Get(h.dbKey).(*gorm.DB)

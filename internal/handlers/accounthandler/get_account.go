@@ -25,8 +25,7 @@ func GetAccountHandler() *getAccountHandlerParams {
 func (h getAccountHandlerParams) Serve(c echo.Context) error {
 	sessionInfo, err := utils.GetSessionInfo(c)
 	if err != nil {
-		c.Response().Header().Set("HX-Redirect", "/error")
-		return c.NoContent(http.StatusSeeOther)
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	db := c.Get(h.dbKey).(*gorm.DB)
@@ -35,6 +34,7 @@ func (h getAccountHandlerParams) Serve(c echo.Context) error {
 		Firstname string
 		Lastname  string
 	}
+
 	// RAW
 	_ = db.Raw("SELECT email, firstname, lastname FROM users WHERE id = ?;", sessionInfo.Id).Scan(&result)
 	// GORM

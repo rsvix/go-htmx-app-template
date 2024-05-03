@@ -26,7 +26,6 @@ func PostRegisterHandler() *postRegisterHandlerParams {
 }
 
 func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
-
 	email := c.Request().FormValue("email")
 	username := c.Request().FormValue("username")
 	firstname := c.Request().FormValue("firstname")

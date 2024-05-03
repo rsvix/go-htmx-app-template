@@ -45,9 +45,9 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 	extraInfo := strings.Split(token, "O")[1]
 	decoded, err := hex.DecodeString(extraInfo)
 	if err != nil {
-		log.Println(err)
-		return c.Redirect(http.StatusSeeOther, "/error")
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
+
 	decodedStr := string(decoded[:])
 	mode := strings.Split(decodedStr, "@")[0]
 	id := strings.Split(decodedStr, "@")[1]
@@ -66,8 +66,7 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 			secs := diff.Seconds()
 			// log.Printf("diff: %v\nsecs: %v\n", diff, secs)
 
-			// if secs > 0.0 {
-			if secs > 86400.0 {
+			if secs > 0.0 {
 				if strings.Compare(strings.TrimSpace(result.Activationtoken), strings.TrimSpace(token)) == 0 {
 					timeNow := time.Now().UTC()
 					res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"enabled": 1, "activationtokenexpiration": timeNow})
@@ -86,8 +85,7 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 				}
 				session.Values["user_id"] = id
 				if err := session.Save(c.Request(), c.Response()); err != nil {
-					log.Printf("Error saving session: %s", err)
-					return c.Redirect(http.StatusSeeOther, "/error")
+					return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 				}
 				return templates.ActivationPage(c, h.pageTitle, false, "Token expired").Render(c.Request().Context(), c.Response())
 			}

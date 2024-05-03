@@ -81,11 +81,6 @@ func main() {
 		}
 	}
 
-	// Ip extractor (https://echo.labstack.com/docs/ip-address) - Not using, check /internal/utils/env_var.go
-	// app.IPExtractor = echo.ExtractIPDirect()
-	// app.IPExtractor = echo.ExtractIPFromXFFHeader()
-	// app.IPExtractor = echo.ExtractIPFromRealIPHeader()
-
 	// app.Pre(middleware.HTTPSRedirect())
 
 	app.Use(

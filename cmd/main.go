@@ -19,12 +19,27 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/resethandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/snippetshandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/termshandler"
+	"github.com/rsvix/go-htmx-app-template/internal/templates"
 
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
 	"github.com/rsvix/go-htmx-app-template/internal/store/db"
 	"github.com/rsvix/go-htmx-app-template/internal/utils"
 )
+
+func customHTTPErrorHandler(err error, c echo.Context) {
+	msg := "We are working to fix the problem"
+	if m, ok := err.(*echo.HTTPError); ok {
+		msg = m.Message.(string)
+	}
+	// code := http.StatusInternalServerError
+	// if e, ok := err.(*echo.HTTPError); ok {
+	// 	code = e.Code
+	// }
+	// log.Println(err.Error())
+	c.Logger().Error(err)
+	templates.ErrorPage(c, "Error", msg).Render(c.Request().Context(), c.Response())
+}
 
 func main() {
 	appPort := utils.GetSetEnv("APP_PORT", "8080")
@@ -42,6 +57,8 @@ func main() {
 	app.Static("static", "./static")
 	app.File("/favicon.ico", "./static/images/icon.ico")
 	db := db.Connect()
+
+	app.HTTPErrorHandler = customHTTPErrorHandler
 
 	var dbApps []struct {
 		Pid             uint
@@ -115,9 +132,9 @@ func main() {
 
 	app.GET("/reset", resethandler.GetResetHandler().Serve, middlewares.MustNotBeLogged())
 	app.POST("/reset", resethandler.PostResetHandler().Serve, middlewares.MustNotBeLogged())
-	app.GET("/resetform", resethandler.GetResetformHandler().Serve)
-	app.POST("/resetform", resethandler.PostResetformHandler().Serve)
-	app.GET("/pwreset", resethandler.GetResetTokenHandler().Serve)
+	app.GET("/resetform", resethandler.GetResetformHandler().Serve, middlewares.MustNotBeLogged())
+	app.POST("/resetform", resethandler.PostResetformHandler().Serve, middlewares.MustNotBeLogged())
+	app.GET("/pwreset", resethandler.GetResetTokenHandler().Serve, middlewares.MustNotBeLogged())
 
 	// app.GET("/tkn/:token", tokenhandler.GetTokenHandler().Serve)
 

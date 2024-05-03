@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 )
 
@@ -21,11 +20,12 @@ func GetLoginHandler() *getLoginHandlerParams {
 }
 
 func (h getLoginHandlerParams) Serve(c echo.Context) error {
-	// To use TokenLookup: "form:_csrf"
-	csrfToken := "none"
-	if value, ok := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string); ok {
-		csrfToken = value
-	}
+	csrfToken := ""
+	// // To use TokenLookup: "form:_csrf"
+	// if value, ok := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string); ok {
+	// 	csrfToken = value
+	// }
 
+	// return echo.NewHTTPError(http.StatusUnauthorized, "Please provide valid credentials")
 	return templates.LoginPage(c, h.appName, h.pageTitle, csrfToken).Render(c.Request().Context(), c.Response())
 }

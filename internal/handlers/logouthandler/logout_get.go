@@ -18,20 +18,16 @@ func GetLogoutHandler() *getLogoutHandlerParams {
 
 func (h getLogoutHandlerParams) Serve(c echo.Context) error {
 
-	session, err := session.Get("authenticate-sessions", c)
-	if err != nil {
-		log.Printf("Error getting session: %v\n", err)
-		return c.Redirect(http.StatusSeeOther, "/login")
-	}
-
-	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		return c.Redirect(http.StatusSeeOther, "/login")
-	}
-
 	c.Response().Header().Set("Cache-Control", "no-cache, private, max-age=0")
 	c.Response().Header().Set("Expires", time.Unix(0, 0).Format(http.TimeFormat))
 	c.Response().Header().Set("Pragma", "no-cache")
 	c.Response().Header().Set("X-Accel-Expires", "0")
+
+	session, err := session.Get("authenticate-sessions", c)
+	if err != nil {
+		log.Printf("Error getting session: %v\n", err)
+		return c.Redirect(http.StatusSeeOther, "/error")
+	}
 
 	session.Values["authenticated"] = false
 	session.Values["user_id"] = nil

@@ -6,9 +6,9 @@ import (
 
 templ LoginPage(c echo.Context, appName string, pageTitle string, csrfToken string) {
     @Layout(c, pageTitle, false, "", false) {
-	<section class="bg-gray-50 dark:bg-gray-900">
+	<section class={ twPageSection }>
 	<!-- Main page div -->
-	<div hx-ext="response-targets" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+	<div class={ twPageMainDiv }>
 		<a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
 			<img class="w-8 h-8 mr-2" src="static/images/icon.ico" alt="logo"/>
 			{ appName }

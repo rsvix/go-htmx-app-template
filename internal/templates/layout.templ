@@ -16,6 +16,9 @@ const (
 	twTopbarText = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6 justify-start"
 	twGeneralText= "flex mx-5 my-2 text-white font-medium font-bold py-2 justify-start"
 	twLogoutText = "flex mx-5 my-2 text-white font-medium font-bold py-6 justify-start absolute bottom-0"
+
+	twPageSection = "bg-gray-50 dark:bg-gray-900"
+	twPageMainDiv = "flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
 )
 
 templ Layout(c echo.Context, pageTitle string, authenticated bool, userName string, showNavbar bool) {

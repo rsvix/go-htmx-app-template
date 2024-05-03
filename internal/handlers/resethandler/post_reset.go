@@ -64,7 +64,7 @@ func (h *postResetHandlerParams) Serve(c echo.Context) error {
 		log.Printf("Query result: %v\n", result)
 
 		appPort, _ := os.LookupEnv("APP_PORT")
-		passUrl := fmt.Sprintf("http://localhost:%s/tkn/%s", appPort, resetToken)
+		passUrl := fmt.Sprintf("http://localhost:%s/pwreset?%s", appPort, resetToken)
 		log.Printf("passUrl: %v\n", passUrl)
 
 		// Must configure SMTP server or other email sending service

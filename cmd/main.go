@@ -19,7 +19,6 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/resethandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/snippetshandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/termshandler"
-	"github.com/rsvix/go-htmx-app-template/internal/handlers/tokenhandler"
 
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
@@ -118,11 +117,10 @@ func main() {
 	app.POST("/reset", resethandler.PostResetHandler().Serve, middlewares.MustNotBeLogged())
 	app.GET("/resetform", resethandler.GetResetformHandler().Serve)
 	app.POST("/resetform", resethandler.PostResetformHandler().Serve)
+	app.GET("/pwreset", resethandler.GetResetTokenHandler().Serve)
 
-	app.GET("/tkn/:token", tokenhandler.GetTokenHandler().Serve)
+	// app.GET("/tkn/:token", tokenhandler.GetTokenHandler().Serve)
 
-	// app.GET("/activate", activationhandler.GetActivateHandler().Serve, middlewares.MustNotBeLogged())
-	// app.GET("/activation/:token", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
 	app.GET("/activation", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
 	app.GET("/newtoken", activationhandler.GetNewActivationHandler().Serve, middlewares.MustNotBeLogged())
 

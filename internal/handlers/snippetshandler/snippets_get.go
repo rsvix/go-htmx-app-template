@@ -1,7 +1,6 @@
 package snippetshandler
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -22,16 +21,14 @@ func GetSnippetsHandler() *getSnippetsHandlerParams {
 }
 
 func (h getSnippetsHandlerParams) Serve(c echo.Context) error {
-
 	sessionInfo, err := utils.GetSessionInfo(c)
 	if err != nil {
-		log.Printf("Error getting session info: %v\n", err)
-		return c.Redirect(http.StatusSeeOther, "/error")
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	db := c.Get("__db").(*gorm.DB)
 	var result []structs.Snippet
-	db.Raw("SELECT * FROM snippets WHERE owner = ? OR ispublic = ?;", sessionInfo.Id, "1").Scan(&result)
+	_ = db.Raw("SELECT * FROM snippets WHERE owner = ? OR ispublic = ?;", sessionInfo.Id, "1").Scan(&result)
 
 	return templates.SnippetsPage(c, h.pageTitle, sessionInfo.Username, result).Render(c.Request().Context(), c.Response())
 }

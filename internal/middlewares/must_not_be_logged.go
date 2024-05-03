@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/labstack/echo-contrib/session"
@@ -13,8 +12,7 @@ func MustNotBeLogged() echo.MiddlewareFunc {
 		return func(c echo.Context) error {
 			session, err := session.Get("authenticate-sessions", c)
 			if err != nil {
-				log.Printf("Error getting session: %v\n", err)
-				return err
+				return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 			}
 			if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 				return next(c)

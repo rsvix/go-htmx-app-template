@@ -1,7 +1,6 @@
 package loginhandler
 
 import (
-	"log"
 	"net/http"
 	"net/mail"
 
@@ -39,8 +38,7 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 		Password string
 		Enabled  int
 	}
-	result := db.Raw("SELECT id, username, password, enabled FROM users WHERE email = ?;", email).Scan(&user)
-	log.Printf("result: %v\n", result)
+	_ = db.Raw("SELECT id, username, password, enabled FROM users WHERE email = ?;", email).Scan(&user)
 
 	if user.Id != 0 {
 		if user.Enabled == 0 {
@@ -52,13 +50,11 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 
 			session, err := session.Get("authenticate-sessions", c)
 			if err != nil {
-				log.Printf("Error getting session: %v\n", err)
-				return c.HTML(http.StatusInternalServerError, "Error, please try again")
+				return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 			}
 
 			session.Values["authenticated"] = true
 			session.Values["user_id"] = user.Id
-			// session.Values["user_id"] = strconv.FormatUint(uint64(user.Id), 10)
 			session.Values["user_email"] = email
 			session.Values["username"] = user.Username
 
@@ -67,8 +63,7 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 			}
 
 			if err := session.Save(c.Request(), c.Response()); err != nil {
-				log.Printf("Error saving session: %s", err)
-				return c.HTML(http.StatusInternalServerError, "Error, please try again")
+				return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 			}
 
 			c.Response().Header().Set("HX-Redirect", "/")

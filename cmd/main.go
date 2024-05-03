@@ -28,7 +28,7 @@ import (
 )
 
 func customHTTPErrorHandler(err error, c echo.Context) {
-	msg := "We are working to fix the problem"
+	msg := ""
 	if m, ok := err.(*echo.HTTPError); ok {
 		msg = m.Message.(string)
 	}
@@ -37,8 +37,8 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 	// 	code = e.Code
 	// }
 	// log.Println(err.Error())
-	c.Logger().Error(err)
-	templates.ErrorPage(c, "Error", msg).Render(c.Request().Context(), c.Response())
+	c.Logger().Error(msg)
+	templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
 }
 
 func main() {

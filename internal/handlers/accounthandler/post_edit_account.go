@@ -27,7 +27,8 @@ func (h postEditAccountHandlerParams) Serve(c echo.Context) error {
 	email := c.Request().FormValue("email")
 	firstname := c.Request().FormValue("firstname")
 	lastname := c.Request().FormValue("lastname")
-	password := c.Request().Header.Get("HX-Prompt")
+	// password := c.Request().Header.Get("HX-Prompt")
+	password := c.Request().FormValue("password")
 
 	if _, err := mail.ParseAddress(email); err != nil {
 		return c.HTML(http.StatusUnprocessableEntity, "Invalid email")

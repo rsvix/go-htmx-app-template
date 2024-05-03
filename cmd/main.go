@@ -151,6 +151,7 @@ func main() {
 	app.GET("/account", accounthandler.GetAccountHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/edit_account", accounthandler.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
 	app.POST("/edit_account", accounthandler.PostEditAccountHandler().Serve, middlewares.MustBeLogged())
+	app.PUT("/edit_account", accounthandler.PutEditAccountHandler().Serve, middlewares.MustBeLogged())
 
 	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged())
 

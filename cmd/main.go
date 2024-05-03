@@ -73,7 +73,6 @@ func main() {
 		State string
 	}
 	db.Raw("SELECT pid, datname, usename, application_name, client_port, backend_start, state FROM pg_stat_activity ORDER BY pid;").Scan(&dbApps)
-	// https://stackoverflow.com/questions/27435839/how-to-list-active-connections-on-postgresql
 	// log.Printf("Apps connected: %v\n", dbApps)
 	for _, value := range dbApps {
 		if value.ApplicationName == "app-01" {
@@ -84,7 +83,7 @@ func main() {
 	// app.Pre(middleware.HTTPSRedirect())
 
 	app.Use(
-		// middleware.Logger(),
+		middleware.Logger(),
 		middleware.Recover(),
 		middlewares.DatabaseMiddleware(db),
 		session.Middleware(cookiestore.Start(db)),
@@ -96,18 +95,17 @@ func main() {
 			// ContentSecurityPolicy: "default-src 'self'", // defining in middlewares.CSPMiddleware()
 		}),
 		middlewares.CSPMiddleware(),
+		middleware.CSRFWithConfig(middleware.CSRFConfig{
+			// TokenLookup: "form:_csrf",
+			TokenLookup:    "cookie:_csrf",
+			CookiePath:     "/",
+			CookieDomain:   "localhost",
+			CookieMaxAge:   84600,
+			CookieSecure:   false,
+			CookieHTTPOnly: true,
+			CookieSameSite: http.SameSiteStrictMode,
+		}),
 	)
-
-	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-		// TokenLookup: "form:_csrf",
-		TokenLookup:    "cookie:_csrf",
-		CookiePath:     "/",
-		CookieDomain:   "localhost",
-		CookieMaxAge:   84600,
-		CookieSecure:   false,
-		CookieHTTPOnly: true,
-		CookieSameSite: http.SameSiteStrictMode,
-	}))
 
 	// app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 	// 	AllowOrigins: []string{"*"},
@@ -116,7 +114,7 @@ func main() {
 
 	echo.NotFoundHandler = func(c echo.Context) error {
 		pageUrl := c.Request().URL
-		log.Printf("Page not found: %v\n", pageUrl)
+		c.Logger().Error("Page not found: %v\n", pageUrl)
 		return c.Redirect(http.StatusSeeOther, "/notfound")
 	}
 

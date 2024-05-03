@@ -28,16 +28,15 @@ import (
 )
 
 func customHTTPErrorHandler(err error, c echo.Context) {
+	// If you want to get the error code and msg
 	msg := ""
-	if m, ok := err.(*echo.HTTPError); ok {
-		msg = m.Message.(string)
+	code := http.StatusInternalServerError
+	if e, ok := err.(*echo.HTTPError); ok {
+		msg = e.Message.(string)
+		code = e.Code
 	}
-	// code := http.StatusInternalServerError
-	// if e, ok := err.(*echo.HTTPError); ok {
-	// 	code = e.Code
-	// }
-	// log.Println(err.Error())
-	c.Logger().Error(msg)
+	log.Printf("Echo error\ncode: %v\nmessage: %v", code, msg)
+	c.Logger().Error(err)
 	templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
 }
 

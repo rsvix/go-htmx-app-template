@@ -35,7 +35,7 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 		msg = e.Message.(string)
 		code = e.Code
 	}
-	log.Printf("Echo handler error\ncode: %v\nmessage: %v", code, msg)
+	log.Printf("Echo handler error\ncode: %v\nmessage: %v\n", code, msg)
 
 	c.Logger().Error(err)
 	templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
@@ -120,8 +120,9 @@ func main() {
 	// }))
 
 	echo.NotFoundHandler = func(c echo.Context) error {
+		pageUrl := c.Request().URL
+		log.Printf("Page not found: %v\n", pageUrl)
 		return c.Redirect(http.StatusSeeOther, "/notfound")
-		// return c.Redirect(http.StatusSeeOther, "/")
 	}
 
 	app.GET("/login", loginhandler.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
@@ -135,8 +136,6 @@ func main() {
 	app.GET("/resetform", resethandler.GetResetformHandler().Serve, middlewares.MustNotBeLogged())
 	app.POST("/resetform", resethandler.PostResetformHandler().Serve, middlewares.MustNotBeLogged())
 	app.GET("/pwreset", resethandler.GetResetTokenHandler().Serve, middlewares.MustNotBeLogged())
-
-	// app.GET("/tkn/:token", tokenhandler.GetTokenHandler().Serve)
 
 	app.GET("/activation", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
 	app.GET("/newtoken", activationhandler.GetNewActivationHandler().Serve, middlewares.MustNotBeLogged())

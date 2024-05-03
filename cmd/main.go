@@ -35,7 +35,8 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 		msg = e.Message.(string)
 		code = e.Code
 	}
-	log.Printf("Echo error\ncode: %v\nmessage: %v", code, msg)
+	log.Printf("Echo handler error\ncode: %v\nmessage: %v", code, msg)
+
 	c.Logger().Error(err)
 	templates.ErrorPage(c, "Error", "We are working to fix the problem").Render(c.Request().Context(), c.Response())
 }

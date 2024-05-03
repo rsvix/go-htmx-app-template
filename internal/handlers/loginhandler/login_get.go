@@ -21,7 +21,7 @@ func GetLoginHandler() *getLoginHandlerParams {
 
 func (h getLoginHandlerParams) Serve(c echo.Context) error {
 	csrfToken := ""
-	// // To use TokenLookup: "form:_csrf"
+	// If you prefer to use TokenLookup: "form:_csrf" in your CSRF middleware
 	// if value, ok := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string); ok {
 	// 	csrfToken = value
 	// }

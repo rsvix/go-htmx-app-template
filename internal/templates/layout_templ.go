@@ -16,16 +16,20 @@ import (
 )
 
 const (
-	retractedSidebar = "h-full w-14 bg-gray-800 fixed z-30 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
-	expandedSidebar  = "h-full w-0 bg-gray-800 fixed z-40 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
+	twBody                 = "flex flex-col h-full bg-gray-50 dark:bg-gray-900"
+	twMain                 = "flex-1 w-full"
+	twColapsedSidebarWidth = "ml-14" // ml-14 = margin-left: 56px
 
-	topbarIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6"
-	generalcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-3"
-	logoutIcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-6 absolute bottom-0 left-0 right-0 mx-auto"
+	twColapsedSidebar = "h-full w-14 bg-gray-800 fixed z-30 overflow-auto top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl"
+	twExpandedSidebar = "h-full w-0 bg-gray-800 fixed z-40 overflow-hidden top-0 left-0 m-0 p-0 rounded-r-lg shadow dark:border-r dark:border-gray-700 block whitespace-normal float-none outline-0 text-xl transition-all"
 
-	topbarText  = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6 justify-start"
-	generalText = "flex mx-5 my-2 text-white font-medium font-bold py-2 justify-start"
-	logoutText  = "flex mx-5 my-2 text-white font-medium font-bold py-6 justify-start absolute bottom-0"
+	twTopbarIcon = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6"
+	twGeneralcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-3"
+	twLogoutIcon = "flex items-center justify-center my-2 text-white font-medium font-bold py-6 absolute bottom-0 left-0 right-0 mx-auto"
+
+	twTopbarText  = "flex items-center justify-center my-2 text-white font-medium font-bold pt-2 pb-6 justify-start"
+	twGeneralText = "flex mx-5 my-2 text-white font-medium font-bold py-2 justify-start"
+	twLogoutText  = "flex mx-5 my-2 text-white font-medium font-bold py-6 justify-start absolute bottom-0"
 )
 
 func Layout(c echo.Context, pageTitle string, authenticated bool, userName string, showNavbar bool) templ.Component {
@@ -71,7 +75,7 @@ func Layout(c echo.Context, pageTitle string, authenticated bool, userName strin
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"flex-1 w-full\"><div id=\"main\" class=\"main\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"flex-1 w-full\"><div id=\"main\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -115,7 +119,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(pageTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 48, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 51, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -128,7 +132,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 53, Col: 80}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 56, Col: 80}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -141,7 +145,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 54, Col: 88}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 57, Col: 88}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -154,7 +158,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 57, Col: 87}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 60, Col: 87}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -167,7 +171,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 59, Col: 88}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 62, Col: 88}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -180,7 +184,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 60, Col: 117}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 63, Col: 117}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -193,7 +197,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 62, Col: 95}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 65, Col: 95}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -206,7 +210,7 @@ func head(c echo.Context, pageTitle string) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 64, Col: 112}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 67, Col: 112}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -236,7 +240,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var12 = []any{retractedSidebar}
+		var templ_7745c5c3_Var12 = []any{twColapsedSidebar}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -258,7 +262,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var14 = []any{topbarIcon}
+		var templ_7745c5c3_Var14 = []any{twTopbarIcon}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -280,7 +284,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var16 = []any{generalcon}
+		var templ_7745c5c3_Var16 = []any{twGeneralcon}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -302,7 +306,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var18 = []any{generalcon}
+		var templ_7745c5c3_Var18 = []any{twGeneralcon}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var18...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -324,7 +328,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var20 = []any{generalcon}
+		var templ_7745c5c3_Var20 = []any{twGeneralcon}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -346,7 +350,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var22 = []any{logoutIcon}
+		var templ_7745c5c3_Var22 = []any{twLogoutIcon}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var22...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -368,7 +372,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var24 = []any{expandedSidebar}
+		var templ_7745c5c3_Var24 = []any{twExpandedSidebar}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var24...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -390,7 +394,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var26 = []any{topbarText}
+		var templ_7745c5c3_Var26 = []any{twTopbarText}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var26...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -412,7 +416,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var28 = []any{generalText}
+		var templ_7745c5c3_Var28 = []any{twGeneralText}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var28...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -434,7 +438,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var30 = []any{generalText}
+		var templ_7745c5c3_Var30 = []any{twGeneralText}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var30...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -456,7 +460,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var32 = []any{generalText}
+		var templ_7745c5c3_Var32 = []any{twGeneralText}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var32...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -478,7 +482,7 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var34 = []any{logoutText}
+		var templ_7745c5c3_Var34 = []any{twLogoutText}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var34...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -503,13 +507,13 @@ func sidebar(c echo.Context, pageTitle string, authenticated bool, userName stri
 		var templ_7745c5c3_Var36 string
 		templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 97, Col: 72}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/layout.templ`, Line: 100, Col: 72}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        document.getElementById(\"bars-menu-icon-closed\").addEventListener(\"click\",openCloseNav);\n        document.getElementById(\"bars-menu-icon-opened\").addEventListener(\"click\",openCloseNav);\n\n        function openCloseNav() {\n            if (document.getElementById(\"sidebarExtended\").style.width == 0 || document.getElementById(\"sidebarExtended\").style.width == \"0px\") {\n                document.getElementById(\"sidebarExtended\").style.width = \"195px\";\n                document.getElementById(\"main\").style.marginLeft = \"195px\";\n            } else {\n                document.getElementById(\"sidebarExtended\").style.width = \"0\";\n                document.getElementById(\"main\").style.marginLeft= \"56px\";\n            }\n        }\n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        document.getElementById(\"bars-menu-icon-closed\").addEventListener(\"click\",openCloseNav);\n        document.getElementById(\"bars-menu-icon-opened\").addEventListener(\"click\",openCloseNav);\n\n        function openCloseNav() {\n            if (document.getElementById(\"sidebarExtended\").style.width == 0 || document.getElementById(\"sidebarExtended\").style.width == \"0px\") {\n                document.getElementById(\"sidebarExtended\").style.width = \"195px\";\n                document.getElementById(\"main\").style.marginLeft = \"195px\";\n            } else {\n                document.getElementById(\"sidebarExtended\").style.width = \"0\";\n                document.getElementById(\"main\").style.marginLeft = \"56px\";\n            }\n        }\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

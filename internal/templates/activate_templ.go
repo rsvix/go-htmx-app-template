@@ -56,7 +56,7 @@ func ActivationPage(c echo.Context, title string, activated bool, msg string) te
 					return templ_7745c5c3_Err
 				}
 			} else {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"mt-6 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\" hx-get=\"/newtoken\" hx-trigger=\"click\" hx-target-error=\"#any-errors\" hx-swap=\"innerHTML swap:0.3s\">Send new activation e-mail!</button>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"mt-6 w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800\" hx-get=\"/newtoken\" hx-trigger=\"click\" hx-target=\"#any-errors\" hx-swap=\"innerHTML swap:0.3s\">Send new activation e-mail!</button>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

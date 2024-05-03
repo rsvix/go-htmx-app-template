@@ -81,7 +81,7 @@ func main() {
 			ContentTypeNosniff: "nosniff",
 			XFrameOptions:      "",
 			HSTSMaxAge:         3600,
-			// ContentSecurityPolicy: "default-src 'self'",
+			// ContentSecurityPolicy: "default-src 'self'", // defining in middlewares.CSPMiddleware()
 		}),
 		middlewares.CSPMiddleware(),
 	)

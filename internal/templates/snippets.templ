@@ -118,10 +118,10 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                             >
                                             for _, lang := range languages {
                                                 <li class="flex items-center">
-                                                    <input 
-                                                        id={ lang.Language }
+                                                    <input
+                                                        id="filter-checkbox"
                                                         type="checkbox" 
-                                                        value="" 
+                                                        value={ lang.Language }
                                                         class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                                         />
                                                     <label 
@@ -131,6 +131,12 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                                         { lang.Language } ({ strconv.FormatUint(uint64(lang.Count), 10) })
                                                     </label>
                                                 </li>    
+                                                <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
+                                                     document.querySelector("input").addEventListener("input", testFunc);
+                                                    function testFunc(e){
+                                                        console.log(e.target.value);
+                                                    }
+                                                </script>
                                             }
                                             // <li class="flex items-center">
                                             //     <input id="apple" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>

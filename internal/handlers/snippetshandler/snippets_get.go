@@ -1,6 +1,7 @@
 package snippetshandler
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -46,7 +47,9 @@ func (h getSnippetsHandlerParams) Serve(c echo.Context) error {
 			m[lang] = true
 		}
 	}
-	// log.Println(langArr)
+	log.Println(langArr)
+	totalSnippets := len(result)
+	log.Println(totalSnippets)
 
-	return templates.SnippetsPage(c, h.pageTitle, sessionInfo.Username, result, langArr).Render(c.Request().Context(), c.Response())
+	return templates.SnippetsPage(c, h.pageTitle, sessionInfo.Username, result, langArr, totalSnippets).Render(c.Request().Context(), c.Response())
 }

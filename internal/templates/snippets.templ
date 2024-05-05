@@ -7,7 +7,7 @@ import (
     "github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
 
-templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []structs.Snippet, languages []structs.Languages){
+templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []structs.Snippet, languages []structs.Languages, totalSnippets int){
     @Layout(c, pageTitle, true, userName, true) {
         <section class="bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-6 xl:m-8 2xl:m-10">
             <!-- Page title -->
@@ -222,9 +222,9 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                     <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                             Showing
-                            <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
+                            <span class="font-semibold text-gray-900 dark:text-white">1-{ strconv.Itoa(totalSnippets) }</span>
                             of
-                            <span class="font-semibold text-gray-900 dark:text-white">1000</span>
+                            <span class="font-semibold text-gray-900 dark:text-white">{ strconv.Itoa(totalSnippets) }</span>
                         </span>
                         <ul class="inline-flex items-stretch -space-x-px">
                             <li>

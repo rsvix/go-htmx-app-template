@@ -1,7 +1,6 @@
 package snippetshandler
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -32,17 +31,22 @@ func (h getSnippetsHandlerParams) Serve(c echo.Context) error {
 	_ = db.Raw("SELECT * FROM snippets WHERE owner = ? OR ispublic = ?;", sessionInfo.Id, "1").Scan(&result)
 
 	var m = make(map[string]bool)
-	var languages = []string{}
+	var langArr []structs.Languages
+
 	for _, v := range result {
 		lang := v.Language
 		if m[lang] {
-			// Already in the map
+			for index := range langArr {
+				if langArr[index].Language == lang {
+					langArr[index].Count = langArr[index].Count + 1
+				}
+			}
 		} else {
-			languages = append(languages, lang)
+			langArr = append(langArr, structs.Languages{Language: lang, Count: 1})
 			m[lang] = true
 		}
 	}
-	log.Println(languages)
+	// log.Println(langArr)
 
-	return templates.SnippetsPage(c, h.pageTitle, sessionInfo.Username, result, languages).Render(c.Request().Context(), c.Response())
+	return templates.SnippetsPage(c, h.pageTitle, sessionInfo.Username, result, langArr).Render(c.Request().Context(), c.Response())
 }

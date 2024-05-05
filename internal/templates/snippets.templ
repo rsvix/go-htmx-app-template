@@ -267,6 +267,7 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
         <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
             document.addEventListener('htmx:afterRequest', function(evt) {
                 hljs.highlightAll();
+                document.getElementById("snip-filter-list").style.display = "none";
             });
 
             window.onload = document.getElementById("snip-filter-list").style.display = "none";

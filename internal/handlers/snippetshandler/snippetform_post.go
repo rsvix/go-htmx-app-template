@@ -53,5 +53,7 @@ func (h postSnippetFormHandlerParams) Serve(c echo.Context) error {
 		log.Println(err.Error())
 		return c.Redirect(http.StatusSeeOther, "/error")
 	}
-	return c.Redirect(http.StatusSeeOther, "/snippets")
+	// return c.Redirect(http.StatusSeeOther, "/snippets")
+	c.Response().Header().Set("HX-Redirect", "/snippets")
+	return c.NoContent(http.StatusSeeOther)
 }

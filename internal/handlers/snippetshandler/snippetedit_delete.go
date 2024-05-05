@@ -33,5 +33,7 @@ func (h deleteSnippetEditHandlerParams) Serve(c echo.Context) error {
 		db.Exec("DELETE FROM snippets WHERE id = ?;", snippetId)
 	}
 
-	return c.Redirect(http.StatusSeeOther, "/snippets")
+	// return c.Redirect(http.StatusSeeOther, "/snippets")
+	c.Response().Header().Set("HX-Redirect", "/snippets")
+	return c.NoContent(http.StatusSeeOther)
 }

@@ -23,7 +23,7 @@ func SnippetViewModal(snippetName string, snippetLang string, snippetContent str
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modal\" _=\"on closeSnippetModal remove me\" class=\"fixed top-0 bottom-0 left-0 right-0 bg-black/75 z-50 flex flex-col items-center transition-all\"><!-- Background --><div class=\"absolute z-0 top-0 bottom-0 left-0 right-0\" _=\"on click trigger closeSnippetModal\"></div><!-- Modal content --><div class=\"m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-6 rounded-lg\"><!-- Modal header --><div class=\"flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600\"><h3 id=\"any-errors\" class=\"pb-2 text-xl font-semibold text-gray-900 dark:text-white\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"modal\" _=\"on closeSnippetModal remove me\" class=\"fixed top-0 bottom-0 left-0 right-0 bg-black/75 z-50 flex flex-col items-center transition-all p-4\"><!-- Background --><div class=\"absolute z-0 top-0 bottom-0 left-0 right-0\" _=\"on click trigger closeSnippetModal\"></div><!-- Modal content --><div class=\"m-auto z-40 w-4/5 max-w-5xl border border-gray-700 shadow bg-gray-800 p-6 rounded-lg\"><!-- Modal header --><div class=\"flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600\"><h3 id=\"any-errors\" class=\"pb-2 text-xl font-semibold text-gray-900 dark:text-white\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

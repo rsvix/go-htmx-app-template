@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -87,6 +88,7 @@ func main() {
 		middleware.Recover(),
 		middlewares.DatabaseMiddleware(db),
 		session.Middleware(cookiestore.Start(db)),
+		middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(15)),
 		middleware.SecureWithConfig(middleware.SecureConfig{
 			XSSProtection:      "1; mode=block",
 			ContentTypeNosniff: "nosniff",
@@ -104,6 +106,14 @@ func main() {
 			CookieSecure:   false,
 			CookieHTTPOnly: true,
 			CookieSameSite: http.SameSiteStrictMode,
+		}),
+		middleware.TimeoutWithConfig(middleware.TimeoutConfig{
+			Skipper:      middleware.DefaultSkipper,
+			ErrorMessage: "timeout error - unable to connect",
+			OnTimeoutRouteErrorHandler: func(err error, c echo.Context) {
+				log.Printf("Timeout error on path: %v\n", c.Path())
+			},
+			Timeout: 30 * time.Second,
 		}),
 	)
 

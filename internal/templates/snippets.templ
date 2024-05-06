@@ -187,9 +187,9 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                             { snippet.Name }
                                         </td>
                                         if snippet.Ispublic == 0 {
-                                            <td class="px-4 py-3 text-center">Private</td>
+                                            <td class="px-4 py-3 text-center">private</td>
                                         } else {
-                                            <td class="px-4 py-3 text-center">Public</td>
+                                            <td class="px-4 py-3 text-center">public</td>
                                         }
                                         <td class="px-4 py-3 text-center">{ snippet.Language }</td>
                                         <td class="px-4 py-3 text-center">{ snippet.Ownername }</td>

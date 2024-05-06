@@ -331,7 +331,7 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                         }
                     }
                 } else {
-                    for (i = 0; i < tr.filterByCheckboxesChecked; i++) {
+                    for (i = 0; i < tr.length; i++) {
                         tr[i].style.display = "";
                     }
                 }

@@ -113,52 +113,32 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                             >
                                             Choose language
                                         </h6>
-                                        <ul
-                                            class="space-y-2 text-sm" 
-                                            >
-                                            for _, lang := range languages {
-                                                <li class="flex items-center">
-                                                    <input
-                                                        id="filter-checkbox"
-                                                        type="checkbox" 
-                                                        value={ lang.Language }
-                                                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                                        />
-                                                    <label 
-                                                        for={ lang.Language }
-                                                        class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-                                                        >
-                                                        { lang.Language } ({ strconv.FormatUint(uint64(lang.Count), 10) })
-                                                    </label>
-                                                </li>    
-                                                <script type="text/javascript" nonce={ middlewares.GetRandomNonce(c) }>
-                                                     document.querySelector("input").addEventListener("input", testFunc);
-                                                    function testFunc(e){
-                                                        console.log(e.target.value);
-                                                    }
-                                                </script>
-                                            }
-                                            // <li class="flex items-center">
-                                            //     <input id="apple" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                                            //     <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Apple (56)</label>
-                                            // </li>
-                                            // <li class="flex items-center">
-                                            //     <input id="fitbit" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                                            //     <label for="fitbit" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Microsoft (16)</label>
-                                            // </li>
-                                            // <li class="flex items-center">
-                                            //     <input id="razor" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                                            //     <label for="razor" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Razor (49)</label>
-                                            // </li>
-                                            // <li class="flex items-center">
-                                            //     <input id="nikon" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                                            //     <label for="nikon" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Nikon (12)</label>
-                                            // </li>
-                                            // <li class="flex items-center">
-                                            //     <input id="benq" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                                            //     <label for="benq" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">BenQ (74)</label>
-                                            // </li>
-                                        </ul>
+                                        <div id="snip-filter-elements">
+                                            <ul
+                                                class="space-y-2 text-sm" 
+                                                >
+                                                for _, lang := range languages {
+                                                    <li class="flex items-center">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="filter-checkbox" 
+                                                            value={ lang.Language }
+                                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                                            />
+                                                        <label
+                                                            for={ lang.Language }
+                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+                                                            >
+                                                            { lang.Language } ({ strconv.FormatUint(uint64(lang.Count), 10) })
+                                                        </label>
+                                                    </li>
+                                                }
+                                                // <li class="flex items-center">
+                                                //     <input id="apple" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
+                                                //     <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Apple (56)</label>
+                                                // </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -292,10 +272,8 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
             function showHideFilter() {
                 if (document.getElementById("snip-filter-list").style.display == "none") {
                     document.getElementById("snip-filter-list").style.display = "";
-                    console.log("show");
                 } else {
                     document.getElementById("snip-filter-list").style.display = "none";
-                    console.log("hide");
                 }
             }
 
@@ -317,6 +295,44 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                         } else {
                             tr[i].style.display = "none";
                         }
+                    }
+                }
+            }
+
+            document.getElementById("snip-filter-elements").addEventListener("click", checkBoxFilter);
+            function checkBoxFilter(){
+                var checkboxes = document.getElementsByName("filter-checkbox");
+                var checkboxesChecked = [];
+                for (var i=0; i<checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        checkboxesChecked.push(checkboxes[i].value);
+                    }
+                }
+
+                console.log(checkboxesChecked);
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("text-search-box");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("snippets-table");
+                tr = table.getElementsByTagName("tr");
+
+                if (checkboxesChecked.length > 0) {
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[2];
+                        if (td) {
+                            for (const x of checkboxesChecked) {
+                                txtValue = td.textContent || td.innerText;
+                                if (txtValue.toLowerCase() == x) {
+                                    tr[i].style.display = "";
+                                } else {
+                                    tr[i].style.display = "none";
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (i = 0; i < tr.filterByCheckboxesChecked; i++) {
+                        tr[i].style.display = "";
                     }
                 }
             }

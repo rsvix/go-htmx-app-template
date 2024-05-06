@@ -36,7 +36,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-6 xl:m-8 2xl:m-10\"><!-- Page title --><div class=\"text-center p-0 mt-0 mb-2 md:mb-4 lg:mb-6 xl:mb-8 2xl:mb-10\"><h2 class=\"text-3xl m-0 pb-2 font-bold leading-tight tracking-tight text-gray-900 dark:text-white\">Snippets page</h2></div><!-- Page content --><div class=\"flow-root\"><div class=\"bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden\"><!-- Table header --><div class=\"flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4\"><!-- Search --><div class=\"w-full md:w-1/2\"><form class=\"flex items-center\"><label for=\"simple-search\" class=\"sr-only\">Search</label><div class=\"relative w-full\"><div class=\"absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none\"><svg aria-hidden=\"true\" class=\"w-5 h-5 text-gray-500 dark:text-gray-400\" fill=\"currentColor\" viewbox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><path fill-rule=\"evenodd\" d=\"M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z\" clip-rule=\"evenodd\"></path></svg></div><input type=\"text\" id=\"text-search-box\" class=\"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500\" placeholder=\"Search\" required=\"\"></div></form></div><!-- Add snippet --><div class=\"w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0\"><button hx-get=\"/snippetform\" hx-target=\"body\" hx-swap=\"beforeend\" type=\"button\" class=\"flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800\"><svg class=\"h-3.5 w-3.5 mr-2\" fill=\"currentColor\" viewbox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><path clip-rule=\"evenodd\" fill-rule=\"evenodd\" d=\"M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z\"></path></svg> Add snippet</button><div class=\"flex items-center space-x-3 w-full md:w-auto\"><!-- Actions --><button id=\"actionsDropdownButton\" data-dropdown-toggle=\"actionsDropdown\" class=\"w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700\" type=\"button\"><svg class=\"-ml-1 mr-1.5 w-5 h-5\" fill=\"currentColor\" viewbox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><path clip-rule=\"evenodd\" fill-rule=\"evenodd\" d=\"M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z\"></path></svg> Actions</button><div id=\"actionsDropdown\" class=\"hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600\"><ul class=\"py-1 text-sm text-gray-700 dark:text-gray-200\" aria-labelledby=\"actionsDropdownButton\"><li><a href=\"#\" class=\"block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white\">Mass Edit</a></li></ul><div class=\"py-1\"><a href=\"#\" class=\"block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white\">Delete all</a></div></div><!-- Filter --><div class=\"relative inline-block text-left\"><!-- Filter button --><div><button type=\"button\" class=\"w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700\" id=\"snip-filter-button\"><svg xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\" class=\"h-4 w-4 mr-2 text-gray-400\" viewbox=\"0 0 20 20\" fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z\" clip-rule=\"evenodd\"></path></svg> Filter <svg class=\"-mr-1 ml-1.5 w-5 h-5\" fill=\"currentColor\" viewbox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><path clip-rule=\"evenodd\" fill-rule=\"evenodd\" d=\"M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z\"></path></svg></button></div><!-- Filter list --><div class=\"absolute right-0 top-8 z-40 mt-2 w-48 p-3 origin-top-right rounded-md bg-white dark:bg-gray-700 shadow ring-1 ring-black ring-opacity-5 focus:outline-none\" id=\"snip-filter-list\"><h6 class=\"mb-3 text-sm font-medium text-gray-900 dark:text-white\">Choose language</h6><div id=\"snip-filter-elements\"><ul class=\"space-y-2 text-sm\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-6 xl:m-8 2xl:m-10\"><!-- Page title --><div class=\"text-center p-0 mt-0 mb-2 md:mb-4 lg:mb-6 xl:mb-8 2xl:mb-10\"><h2 class=\"text-3xl m-0 pb-2 font-bold leading-tight tracking-tight text-gray-900 dark:text-white\">Snippets page</h2></div><!-- Page content --><div class=\"flow-root\"><div class=\"bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden\"><!-- Table header --><div class=\"flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4\"><!-- Search --><div class=\"w-full md:w-1/2\"><form class=\"flex items-center\"><label for=\"simple-search\" class=\"sr-only\">Search</label><div class=\"relative w-full\"><div class=\"absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none\"><svg aria-hidden=\"true\" class=\"w-5 h-5 text-gray-500 dark:text-gray-400\" fill=\"currentColor\" viewbox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><path fill-rule=\"evenodd\" d=\"M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z\" clip-rule=\"evenodd\"></path></svg></div><input type=\"text\" id=\"text-search-box\" class=\"max-w-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500\" placeholder=\"Search\" required=\"\"></div></form></div><!--  Buttons --><div class=\"w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0\"><!-- Add snippet --><div class=\"flex items-center space-x-3 w-full md:w-auto\"><!-- Add snippet --><button hx-get=\"/snippetform\" hx-target=\"body\" hx-swap=\"beforeend\" type=\"button\" class=\"flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-2 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800\" type=\"button\"><svg class=\"h-3.5 w-3.5 mr-2\" fill=\"currentColor\" viewbox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><path clip-rule=\"evenodd\" fill-rule=\"evenodd\" d=\"M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z\"></path></svg> Add snippet</button><!-- Actions --><!-- Filter --><div class=\"relative inline-block text-left\"><!-- Filter button --><div><button type=\"button\" class=\"w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700\" id=\"snip-filter-button\">Filter <svg class=\"-mr-1 ml-1.5 w-5 h-5\" fill=\"currentColor\" viewbox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><path clip-rule=\"evenodd\" fill-rule=\"evenodd\" d=\"M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z\"></path></svg></button></div><!-- Filter list --><div class=\"absolute right-0 top-9 z-40 mt-2 w-48 p-3 origin-top-right rounded-md bg-white dark:bg-gray-700 shadow ring-1 ring-black ring-opacity-5 focus:outline-none\" id=\"snip-filter-list\"><h6 class=\"mb-3 text-sm font-medium text-gray-900 dark:text-white\">Choose language</h6><div id=\"snip-filter-elements\"><ul class=\"space-y-2 text-sm\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -48,7 +48,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(lang.Language)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 125, Col: 81}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 141, Col: 81}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -61,7 +61,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(lang.Language)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 129, Col: 79}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 145, Col: 79}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -74,7 +74,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var5 string
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(lang.Language)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 132, Col: 75}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 148, Col: 75}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
@@ -87,7 +87,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatUint(uint64(lang.Count), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 132, Col: 123}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 148, Col: 123}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -110,7 +110,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(snippet.Name)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 171, Col: 58}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 187, Col: 58}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
@@ -138,7 +138,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(snippet.Language)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 178, Col: 92}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 194, Col: 92}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -151,7 +151,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(snippet.Ownername)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 179, Col: 93}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 195, Col: 93}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -164,7 +164,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var10 string
 				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetview/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 183, Col: 115}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 199, Col: 115}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
@@ -177,7 +177,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var11 string
 				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetedit/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 194, Col: 115}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 210, Col: 115}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
@@ -190,7 +190,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var12 string
 				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetdelete/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 205, Col: 117}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 221, Col: 117}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {
@@ -208,7 +208,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(totalSnippets))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 222, Col: 117}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 238, Col: 117}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -221,7 +221,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(totalSnippets))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 224, Col: 115}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 240, Col: 115}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -234,13 +234,13 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var15 string
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 264, Col: 76}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 280, Col: 76}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('htmx:afterRequest', function(evt) {\n                hljs.highlightAll();\n                document.getElementById(\"snip-filter-list\").style.display = \"none\";\n            });\n\n            window.onload = document.getElementById(\"snip-filter-list\").style.display = \"none\";\n            document.getElementById(\"snip-filter-button\").addEventListener(\"click\", showHideFilter);\n            function showHideFilter() {\n                if (document.getElementById(\"snip-filter-list\").style.display == \"none\") {\n                    document.getElementById(\"snip-filter-list\").style.display = \"\";\n                } else {\n                    document.getElementById(\"snip-filter-list\").style.display = \"none\";\n                }\n            }\n\n            document.getElementById(\"text-search-box\").addEventListener(\"keyup\", searchBoxFilter);\n            function searchBoxFilter() {\n                var input, filter, table, tr, td, i, txtValue;\n                input = document.getElementById(\"text-search-box\");\n                filter = input.value.toUpperCase();\n                table = document.getElementById(\"snippets-table\");\n                tr = table.getElementsByTagName(\"tr\");\n\n                // Loop through all table rows, and hide those who don't match the search query\n                for (i = 0; i < tr.length; i++) {\n                    td = tr[i].getElementsByTagName(\"td\")[0];\n                    if (td) {\n                        txtValue = td.textContent || td.innerText;\n                        if (txtValue.toUpperCase().indexOf(filter) > -1) {\n                            tr[i].style.display = \"\";\n                        } else {\n                            tr[i].style.display = \"none\";\n                        }\n                    }\n                }\n            }\n\n            document.getElementById(\"snip-filter-elements\").addEventListener(\"click\", checkBoxFilter);\n            function checkBoxFilter(){\n                var checkboxes = document.getElementsByName(\"filter-checkbox\");\n                var checkboxesChecked = [];\n                for (var i=0; i<checkboxes.length; i++) {\n                    if (checkboxes[i].checked) {\n                        checkboxesChecked.push(checkboxes[i].value);\n                    }\n                }\n\n                console.log(checkboxesChecked);\n                var input, filter, table, tr, td, i, txtValue;\n                input = document.getElementById(\"text-search-box\");\n                filter = input.value.toUpperCase();\n                table = document.getElementById(\"snippets-table\");\n                tr = table.getElementsByTagName(\"tr\");\n\n                if (checkboxesChecked.length > 0) {\n                    for (i = 0; i < tr.length; i++) {\n                        td = tr[i].getElementsByTagName(\"td\")[2];\n                        if (td) {\n                            for (const x of checkboxesChecked) {\n                                txtValue = td.textContent || td.innerText;\n                                if (txtValue.toLowerCase() == x) {\n                                    tr[i].style.display = \"\";\n                                } else {\n                                    tr[i].style.display = \"none\";\n                                }\n                            }\n                        }\n                    }\n                } else {\n                    for (i = 0; i < tr.length; i++) {\n                        tr[i].style.display = \"\";\n                    }\n                }\n            }\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('htmx:afterRequest', function(evt) {\n                hljs.highlightAll();\n                document.getElementById(\"snip-filter-list\").style.display = \"none\";\n            });\n\n            window.onload = document.getElementById(\"snip-filter-list\").style.display = \"none\";\n            document.getElementById(\"snip-filter-button\").addEventListener(\"click\", showHideFilter);\n            function showHideFilter() {\n                if (document.getElementById(\"snip-filter-list\").style.display == \"none\") {\n                    document.getElementById(\"snip-filter-list\").style.display = \"\";\n                } else {\n                    document.getElementById(\"snip-filter-list\").style.display = \"none\";\n                }\n            }\n\n            document.getElementById(\"text-search-box\").addEventListener(\"keyup\", searchBoxFilter);\n            function searchBoxFilter() {\n                var input, filter, table, tr, td, i, txtValue;\n                input = document.getElementById(\"text-search-box\");\n                filter = input.value.toUpperCase();\n                table = document.getElementById(\"snippets-table\");\n                tr = table.getElementsByTagName(\"tr\");\n\n                // Loop through all table rows, and hide those who don't match the search query\n                for (i = 0; i < tr.length; i++) {\n                    td = tr[i].getElementsByTagName(\"td\")[0];\n                    if (td) {\n                        txtValue = td.textContent || td.innerText;\n                        if (txtValue.toUpperCase().indexOf(filter) > -1) {\n                            tr[i].style.display = \"\";\n                        } else {\n                            tr[i].style.display = \"none\";\n                        }\n                    }\n                }\n            }\n\n            document.getElementById(\"snip-filter-elements\").addEventListener(\"click\", checkBoxFilter);\n            function checkBoxFilter(){\n                var checkboxes = document.getElementsByName(\"filter-checkbox\");\n                var checkboxesChecked = [];\n                for (var i=0; i<checkboxes.length; i++) {\n                    if (checkboxes[i].checked) {\n                        checkboxesChecked.push(checkboxes[i].value);\n                    }\n                }\n\n                console.log(checkboxesChecked);\n                var input, filter, table, tr, td, i, txtValue;\n                input = document.getElementById(\"text-search-box\");\n                filter = input.value.toUpperCase();\n                table = document.getElementById(\"snippets-table\");\n                tr = table.getElementsByTagName(\"tr\");\n\n                if (checkboxesChecked.length > 0) {\n                    for (i = 0; i < tr.length; i++) {\n                        td = tr[i].getElementsByTagName(\"td\")[2];\n                        if (td) {\n                            // for (const x of checkboxesChecked) {\n                            //     txtValue = td.textContent || td.innerText;\n                            //     if (txtValue.toLowerCase() == x) {\n                            //         tr[i].style.display = \"\";\n                            //     } else {\n                            //         tr[i].style.display = \"none\";\n                            //     }\n                            // }\n\n                            txtValue = td.textContent || td.innerText;\n                            if (checkboxesChecked.indexOf(txtValue.toLowerCase()) === -1 ){ \n                                tr[i].style.display = \"none\";\n                            } else {\n                                tr[i].style.display = \"\";\n                            }\n                        }\n                    }\n                } else {\n                    for (i = 0; i < tr.length; i++) {\n                        tr[i].style.display = \"\";\n                    }\n                }\n            }\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

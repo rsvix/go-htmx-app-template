@@ -17,7 +17,7 @@ import (
 	"strconv"
 )
 
-func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []structs.Snippet, languages []structs.Languages, totalSnippets int) templ.Component {
+func SnippetsPage(c echo.Context, pageTitle string, userId int, userName string, snippets []structs.Snippet, languages []structs.Languages, totalSnippets int) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -170,33 +170,53 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#pagebody\" hx-swap=\"beforeend\" class=\"text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white\"><i class=\"fa-regular fa-eye\"></i></button></td><!-- Edit --><td class=\"px-4 py-3 text-center\"><button hx-get=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#pagebody\" hx-swap=\"beforeend\" class=\"text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white\"><i class=\"fa-regular fa-eye\"></i></button></td><!-- Edit --><td class=\"px-4 py-3 text-center\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var11 string
-				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetedit/" + strconv.FormatUint(uint64(snippet.Id), 10))
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 206, Col: 115}
+				if snippet.Owner == userId {
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button hx-get=\"")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					var templ_7745c5c3_Var11 string
+					templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetedit/" + strconv.FormatUint(uint64(snippet.Id), 10))
+					if templ_7745c5c3_Err != nil {
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 207, Col: 119}
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white\"><i class=\"fa-regular fa-pen-to-square\"></i></button>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><!-- Delete --><td class=\"px-4 py-3 text-center\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white\"><i class=\"fa-regular fa-pen-to-square\"></i></button></td><!-- Delete --><td class=\"px-4 py-3 text-center\"><button hx-get=\"")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
+				if snippet.Owner == userId {
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button hx-get=\"")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					var templ_7745c5c3_Var12 string
+					templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetdelete/" + strconv.FormatUint(uint64(snippet.Id), 10))
+					if templ_7745c5c3_Err != nil {
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 221, Col: 117}
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white\"><i class=\"fa-regular fa-trash-can\"></i></button>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
 				}
-				var templ_7745c5c3_Var12 string
-				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetdelete/" + strconv.FormatUint(uint64(snippet.Id), 10))
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 217, Col: 117}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white\"><i class=\"fa-regular fa-trash-can\"></i></button></td></tr>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td></tr>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -208,7 +228,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(totalSnippets))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 234, Col: 117}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 240, Col: 117}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -221,7 +241,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(totalSnippets))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 236, Col: 115}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 242, Col: 115}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -234,7 +254,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var15 string
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 276, Col: 76}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 282, Col: 76}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {

@@ -7,7 +7,7 @@ import (
     "github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
 
-templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []structs.Snippet, languages []structs.Languages, totalSnippets int){
+templ SnippetsPage(c echo.Context, pageTitle string, userId int, userName string, snippets []structs.Snippet, languages []structs.Languages, totalSnippets int){
     @Layout(c, pageTitle, true, userName, true) {
         <section class="bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-6 xl:m-8 2xl:m-10">
             <!-- Page title -->
@@ -202,17 +202,21 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                         </td>
                                         <!-- Edit -->
                                         <td class="px-4 py-3 text-center">
-                                            <button
-                                                hx-get={ "/snippetedit/"+strconv.FormatUint(uint64(snippet.Id), 10) }
-                                                hx-target="body"
-                                                hx-swap="beforeend"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                >
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
+                                            if snippet.Owner == userId {
+                                                <button
+                                                    hx-get={ "/snippetedit/"+strconv.FormatUint(uint64(snippet.Id), 10) }
+                                                    hx-target="body"
+                                                    hx-swap="beforeend"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    >
+                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                </button>
+                                            } else {
+                                            }
                                         </td>
                                         <!-- Delete -->
                                         <td class="px-4 py-3 text-center">
+                                            if snippet.Owner == userId {
                                             <button
                                                 hx-get={ "/snippetdelete/"+strconv.FormatUint(uint64(snippet.Id), 10) }
                                                 hx-target="body"
@@ -221,6 +225,8 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                                 >
                                                 <i class="fa-regular fa-trash-can"></i>
                                             </button>
+                                            } else {
+                                            }
                                         </td>
                                     </tr>
                                 }

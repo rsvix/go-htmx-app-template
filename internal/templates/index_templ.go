@@ -33,7 +33,7 @@ func IndexPage(c echo.Context, pageTitle string, userName string) templ.Componen
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-white dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-6 xl:m-8 2xl:m-10\"><!-- Page title --><div class=\"text-center p-0 mt-0 mb-2 md:mb-4 lg:mb-6 xl:mb-8 2xl:mb-10\"><h2 class=\"text-3xl m-0 pb-2 font-bold leading-tight tracking-tight text-gray-900 dark:text-white\">Hello ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-gray-50 dark:bg-gray-900 antialiased m-2 md:m-4 lg:m-6 xl:m-8 2xl:m-10\"><!-- Page title --><div class=\"text-center p-0 mt-0 mb-2 md:mb-4 lg:mb-6 xl:mb-8 2xl:mb-10\"><h2 class=\"text-3xl m-0 pb-2 font-bold leading-tight tracking-tight text-gray-900 dark:text-white\">Hello ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

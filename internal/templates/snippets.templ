@@ -68,7 +68,7 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                     type="button"
                                     >
                                     <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                        <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                                        <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
                                     </svg>
                                     Add snippet
                                 </button>
@@ -149,10 +149,6 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                                                         </label>
                                                     </li>
                                                 }
-                                                // <li class="flex items-center">
-                                                //     <input id="apple" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                                                //     <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Apple (56)</label>
-                                                // </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -169,7 +165,7 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                             <!-- Table head -->
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-4 py-3 text-left">Snippet name</th>
+                                    <th scope="col" class="px-4 py-3 text-left"  >Snippet name</th>
                                     <th scope="col" class="px-4 py-3 text-center">Category</th>
                                     <th scope="col" class="px-4 py-3 text-center">Language</th>
                                     <th scope="col" class="px-4 py-3 text-center">Owner</th>
@@ -286,7 +282,7 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
             window.onload = document.getElementById("snip-filter-list").style.display = "none";
             document.getElementById("snip-filter-button").addEventListener("click", showHideFilter);
             function showHideFilter() {
-                if (document.getElementById("snip-filter-list").style.display == "none") {
+                if (document.getElementById("snip-filter-list").style.display === "none") {
                     document.getElementById("snip-filter-list").style.display = "";
                 } else {
                     document.getElementById("snip-filter-list").style.display = "none";
@@ -297,7 +293,7 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
             function searchBoxFilter() {
                 var input, filter, table, tr, td, i, txtValue;
                 input = document.getElementById("text-search-box");
-                filter = input.value.toUpperCase();
+                filter = input.value.toLowerCase();
                 table = document.getElementById("snippets-table");
                 tr = table.getElementsByTagName("tr");
 
@@ -306,7 +302,7 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                     td = tr[i].getElementsByTagName("td")[0];
                     if (td) {
                         txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
                             tr[i].style.display = "";
                         } else {
                             tr[i].style.display = "none";
@@ -325,10 +321,10 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                     }
                 }
 
-                console.log(checkboxesChecked);
+                // console.log(checkboxesChecked);
                 var input, filter, table, tr, td, i, txtValue;
                 input = document.getElementById("text-search-box");
-                filter = input.value.toUpperCase();
+                filter = input.value.toLowerCase();
                 table = document.getElementById("snippets-table");
                 tr = table.getElementsByTagName("tr");
 

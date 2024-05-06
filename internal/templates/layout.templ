@@ -101,11 +101,11 @@ templ sidebar(c echo.Context, pageTitle string, authenticated bool, userName str
         document.getElementById("bars-menu-icon-opened").addEventListener("click",openCloseNav);
 
         function openCloseNav() {
-            if (document.getElementById("sidebarExtended").style.width == 0 || document.getElementById("sidebarExtended").style.width == "0px") {
+            if (document.getElementById("sidebarExtended").style.width === "" || document.getElementById("sidebarExtended").style.width === "0px") {
                 document.getElementById("sidebarExtended").style.width = "195px";
                 document.getElementById("main").style.marginLeft = "195px";
             } else {
-                document.getElementById("sidebarExtended").style.width = "0";
+                document.getElementById("sidebarExtended").style.width = "0px";
                 document.getElementById("main").style.marginLeft = "56px";
             }
         }

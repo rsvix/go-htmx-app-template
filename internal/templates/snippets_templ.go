@@ -110,7 +110,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(snippet.Name)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 187, Col: 58}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 183, Col: 58}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
@@ -121,12 +121,12 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 					return templ_7745c5c3_Err
 				}
 				if snippet.Ispublic == 0 {
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<td class=\"px-4 py-3 text-center\">Private</td>")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<td class=\"px-4 py-3 text-center\">private</td>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				} else {
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<td class=\"px-4 py-3 text-center\">Public</td>")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<td class=\"px-4 py-3 text-center\">public</td>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -138,7 +138,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(snippet.Language)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 194, Col: 92}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 190, Col: 92}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -151,7 +151,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(snippet.Ownername)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 195, Col: 93}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 191, Col: 93}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -164,7 +164,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var10 string
 				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetview/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 199, Col: 115}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 195, Col: 115}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
@@ -177,7 +177,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var11 string
 				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetedit/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 210, Col: 115}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 206, Col: 115}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
@@ -190,7 +190,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 				var templ_7745c5c3_Var12 string
 				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetdelete/" + strconv.FormatUint(uint64(snippet.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 221, Col: 117}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 217, Col: 117}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {
@@ -208,7 +208,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(totalSnippets))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 238, Col: 117}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 234, Col: 117}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -221,7 +221,7 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(totalSnippets))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 240, Col: 115}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 236, Col: 115}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -234,13 +234,13 @@ func SnippetsPage(c echo.Context, pageTitle string, userName string, snippets []
 			var templ_7745c5c3_Var15 string
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(middlewares.GetRandomNonce(c))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 280, Col: 76}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/snippets.templ`, Line: 276, Col: 76}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('htmx:afterRequest', function(evt) {\n                hljs.highlightAll();\n                document.getElementById(\"snip-filter-list\").style.display = \"none\";\n            });\n\n            window.onload = document.getElementById(\"snip-filter-list\").style.display = \"none\";\n            document.getElementById(\"snip-filter-button\").addEventListener(\"click\", showHideFilter);\n            function showHideFilter() {\n                if (document.getElementById(\"snip-filter-list\").style.display == \"none\") {\n                    document.getElementById(\"snip-filter-list\").style.display = \"\";\n                } else {\n                    document.getElementById(\"snip-filter-list\").style.display = \"none\";\n                }\n            }\n\n            document.getElementById(\"text-search-box\").addEventListener(\"keyup\", searchBoxFilter);\n            function searchBoxFilter() {\n                var input, filter, table, tr, td, i, txtValue;\n                input = document.getElementById(\"text-search-box\");\n                filter = input.value.toUpperCase();\n                table = document.getElementById(\"snippets-table\");\n                tr = table.getElementsByTagName(\"tr\");\n\n                // Loop through all table rows, and hide those who don't match the search query\n                for (i = 0; i < tr.length; i++) {\n                    td = tr[i].getElementsByTagName(\"td\")[0];\n                    if (td) {\n                        txtValue = td.textContent || td.innerText;\n                        if (txtValue.toUpperCase().indexOf(filter) > -1) {\n                            tr[i].style.display = \"\";\n                        } else {\n                            tr[i].style.display = \"none\";\n                        }\n                    }\n                }\n            }\n\n            document.getElementById(\"snip-filter-elements\").addEventListener(\"click\", checkBoxFilter);\n            function checkBoxFilter(){\n                var checkboxes = document.getElementsByName(\"filter-checkbox\");\n                var checkboxesChecked = [];\n                for (var i=0; i<checkboxes.length; i++) {\n                    if (checkboxes[i].checked) {\n                        checkboxesChecked.push(checkboxes[i].value);\n                    }\n                }\n\n                console.log(checkboxesChecked);\n                var input, filter, table, tr, td, i, txtValue;\n                input = document.getElementById(\"text-search-box\");\n                filter = input.value.toUpperCase();\n                table = document.getElementById(\"snippets-table\");\n                tr = table.getElementsByTagName(\"tr\");\n\n                if (checkboxesChecked.length > 0) {\n                    for (i = 0; i < tr.length; i++) {\n                        td = tr[i].getElementsByTagName(\"td\")[2];\n                        if (td) {\n                            // for (const x of checkboxesChecked) {\n                            //     txtValue = td.textContent || td.innerText;\n                            //     if (txtValue.toLowerCase() == x) {\n                            //         tr[i].style.display = \"\";\n                            //     } else {\n                            //         tr[i].style.display = \"none\";\n                            //     }\n                            // }\n\n                            txtValue = td.textContent || td.innerText;\n                            if (checkboxesChecked.indexOf(txtValue.toLowerCase()) === -1 ){ \n                                tr[i].style.display = \"none\";\n                            } else {\n                                tr[i].style.display = \"\";\n                            }\n                        }\n                    }\n                } else {\n                    for (i = 0; i < tr.length; i++) {\n                        tr[i].style.display = \"\";\n                    }\n                }\n            }\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('htmx:afterRequest', function(evt) {\n                hljs.highlightAll();\n                document.getElementById(\"snip-filter-list\").style.display = \"none\";\n            });\n\n            window.onload = document.getElementById(\"snip-filter-list\").style.display = \"none\";\n            document.getElementById(\"snip-filter-button\").addEventListener(\"click\", showHideFilter);\n            function showHideFilter() {\n                if (document.getElementById(\"snip-filter-list\").style.display === \"none\") {\n                    document.getElementById(\"snip-filter-list\").style.display = \"\";\n                } else {\n                    document.getElementById(\"snip-filter-list\").style.display = \"none\";\n                }\n            }\n\n            document.getElementById(\"text-search-box\").addEventListener(\"keyup\", searchBoxFilter);\n            function searchBoxFilter() {\n                var input, filter, table, tr, td, i, txtValue;\n                input = document.getElementById(\"text-search-box\");\n                filter = input.value.toLowerCase();\n                table = document.getElementById(\"snippets-table\");\n                tr = table.getElementsByTagName(\"tr\");\n\n                // Loop through all table rows, and hide those who don't match the search query\n                for (i = 0; i < tr.length; i++) {\n                    td = tr[i].getElementsByTagName(\"td\")[0];\n                    if (td) {\n                        txtValue = td.textContent || td.innerText;\n                        if (txtValue.toLowerCase().indexOf(filter) > -1) {\n                            tr[i].style.display = \"\";\n                        } else {\n                            tr[i].style.display = \"none\";\n                        }\n                    }\n                }\n            }\n\n            document.getElementById(\"snip-filter-elements\").addEventListener(\"click\", checkBoxFilter);\n            function checkBoxFilter(){\n                var checkboxes = document.getElementsByName(\"filter-checkbox\");\n                var checkboxesChecked = [];\n                for (var i=0; i<checkboxes.length; i++) {\n                    if (checkboxes[i].checked) {\n                        checkboxesChecked.push(checkboxes[i].value);\n                    }\n                }\n\n                // console.log(checkboxesChecked);\n                var input, filter, table, tr, td, i, txtValue;\n                input = document.getElementById(\"text-search-box\");\n                filter = input.value.toLowerCase();\n                table = document.getElementById(\"snippets-table\");\n                tr = table.getElementsByTagName(\"tr\");\n\n                if (checkboxesChecked.length > 0) {\n                    for (i = 0; i < tr.length; i++) {\n                        td = tr[i].getElementsByTagName(\"td\")[2];\n                        if (td) {\n                            txtValue = td.textContent || td.innerText;\n                            if (checkboxesChecked.indexOf(txtValue.toLowerCase()) === -1 ){ \n                                tr[i].style.display = \"none\";\n                            } else {\n                                tr[i].style.display = \"\";\n                            }\n                        }\n                    }\n                } else {\n                    for (i = 0; i < tr.length; i++) {\n                        tr[i].style.display = \"\";\n                    }\n                }\n            }\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -289,30 +289,34 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                 }
             }
 
-            document.getElementById("text-search-box").addEventListener("keyup", searchBoxFilter);
-            function searchBoxFilter() {
-                var input, filter, table, tr, td, i, txtValue;
-                input = document.getElementById("text-search-box");
-                filter = input.value.toLowerCase();
-                table = document.getElementById("snippets-table");
-                tr = table.getElementsByTagName("tr");
+            // document.getElementById("text-search-box").addEventListener("keyup", searchBoxFilter);
+            // function searchBoxFilter() {
+            //     var input, filter, table, tr, td, i, txtValue;
+            //     input = document.getElementById("text-search-box");
+            //     filter = input.value.toLowerCase();
+            //     table = document.getElementById("snippets-table");
+            //     tr = table.getElementsByTagName("tr");
 
-                // Loop through all table rows, and hide those who don't match the search query
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[0];
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
-            }
+            //     // Loop through all table rows, and hide those who don't match the search query
+            //     for (i = 0; i < tr.length; i++) {
+            //         td = tr[i].getElementsByTagName("td")[0];
+            //         if (td) {
+            //             txtValue = td.textContent || td.innerText;
+            //             if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            //                 tr[i].style.display = "";
+            //             } else {
+            //                 tr[i].style.display = "none";
+            //             }
+            //         }
+            //     }
+            // }
 
+            document.getElementById("text-search-box").addEventListener("keyup", checkBoxFilter);
             document.getElementById("snip-filter-elements").addEventListener("click", checkBoxFilter);
             function checkBoxFilter(){
+                var show = [];
+                var hide = [];
+
                 var checkboxes = document.getElementsByName("filter-checkbox");
                 var checkboxesChecked = [];
                 for (var i=0; i<checkboxes.length; i++) {
@@ -328,22 +332,51 @@ templ SnippetsPage(c echo.Context, pageTitle string, userName string, snippets [
                 table = document.getElementById("snippets-table");
                 tr = table.getElementsByTagName("tr");
 
+                // Checkbox filter
                 if (checkboxesChecked.length > 0) {
                     for (i = 0; i < tr.length; i++) {
                         td = tr[i].getElementsByTagName("td")[2];
                         if (td) {
                             txtValue = td.textContent || td.innerText;
                             if (checkboxesChecked.indexOf(txtValue.toLowerCase()) === -1 ){ 
-                                tr[i].style.display = "none";
+                                // tr[i].style.display = "none";
+                                hide.push(tr[i]);
                             } else {
-                                tr[i].style.display = "";
+                                // tr[i].style.display = "";
+                                show.push(tr[i]);
                             }
                         }
                     }
                 } else {
                     for (i = 0; i < tr.length; i++) {
-                        tr[i].style.display = "";
+                        // tr[i].style.display = "";
+                        show.push(tr[i]);
                     }
+                }
+
+                // Searchbox filter
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) === -1) {
+                            if (!hide.includes(tr[i])){
+                                hide.push(tr[i]);
+                            }
+                            if (show.includes(tr[i])){
+                                var arrInd = show.indexOf(tr[i]);
+                                show.splice(arrInd, 1);
+                            }
+                        }
+                    }
+                }
+                // console.log("hide: "+hide)
+                // console.log("show: "+show)
+                for (i = 0; i < hide.length; i++) {
+                    hide[i].style.display = "none";
+                }
+                for (i = 0; i < show.length; i++) {
+                    show[i].style.display = "";
                 }
             }
         </script>

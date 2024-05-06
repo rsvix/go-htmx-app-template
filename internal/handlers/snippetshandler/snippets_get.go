@@ -46,9 +46,7 @@ func (h getSnippetsHandlerParams) Serve(c echo.Context) error {
 			m[lang] = true
 		}
 	}
-	// log.Println(langArr)
 	totalSnippets := len(result)
-	// log.Println(totalSnippets)
 
 	return templates.SnippetsPage(c, h.pageTitle, sessionInfo.Id, sessionInfo.Username, result, langArr, totalSnippets).Render(c.Request().Context(), c.Response())
 }

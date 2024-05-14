@@ -101,6 +101,10 @@ func main() {
 	// 	}
 	// }
 
+	var res string
+	db.Raw("SELECT * FROM information_schema.processlist;").Scan(&res)
+	log.Printf("Apps connected: %v\n", res)
+
 	sched := scheduler.BuildAsyncSched()
 
 	// app.Pre(middleware.HTTPSRedirect())

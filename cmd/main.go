@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo-contrib/session"
@@ -13,6 +14,7 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/activationhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/indexhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/internalerrorhandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/ldaploginhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/loginhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/logouthandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/notfoundhandler"
@@ -52,6 +54,16 @@ func main() {
 	utils.GetSetEnv("POSTGRES_HOST", "localhost")
 	utils.GetSetEnv("APP_NAME_DB", "app-01")
 	utils.GetSetEnv("DB_CONTEXT_KEY", "__db")
+
+	utils.GetSetEnv("LDAP_URL", "ldap://localhost:389")
+	utils.GetSetEnv("LDAP_BASE_DN", "DC=example,DC=com")
+	utils.GetSetEnv("LDAP_GROUP", "OU=group,DC=example,DC=com")
+	ldapLogin := utils.GetSetEnv("LDAP_LOGIN", "false")
+	ldapLoginBool, err := strconv.ParseBool(ldapLogin)
+	if err != nil {
+		log.Println(err)
+		ldapLoginBool = false
+	}
 
 	app := echo.New()
 	// app.Debug = true
@@ -128,20 +140,25 @@ func main() {
 		return c.Redirect(http.StatusSeeOther, "/notfound")
 	}
 
-	app.GET("/login", loginhandler.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
-	app.POST("/login", loginhandler.PostLoginHandler().Serve, middlewares.MustNotBeLogged())
+	if ldapLoginBool {
+		app.GET("/login", ldaploginhandler.GetLdapLoginHandler().Serve, middlewares.MustNotBeLogged())
+		app.POST("/login", ldaploginhandler.PostLdapLoginHandler().Serve, middlewares.MustNotBeLogged())
+	} else {
+		app.GET("/login", loginhandler.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
+		app.POST("/login", loginhandler.PostLoginHandler().Serve, middlewares.MustNotBeLogged())
 
-	app.GET("/register", registerhandler.GetRegisterHandler().Serve, middlewares.MustNotBeLogged())
-	app.POST("/register", registerhandler.PostRegisterHandler().Serve, middlewares.MustNotBeLogged())
+		app.GET("/register", registerhandler.GetRegisterHandler().Serve, middlewares.MustNotBeLogged())
+		app.POST("/register", registerhandler.PostRegisterHandler().Serve, middlewares.MustNotBeLogged())
 
-	app.GET("/reset", resethandler.GetResetHandler().Serve, middlewares.MustNotBeLogged())
-	app.POST("/reset", resethandler.PostResetHandler().Serve, middlewares.MustNotBeLogged())
-	app.GET("/resetform", resethandler.GetResetformHandler().Serve, middlewares.MustNotBeLogged())
-	app.POST("/resetform", resethandler.PostResetformHandler().Serve, middlewares.MustNotBeLogged())
-	app.GET("/pwreset", resethandler.GetResetTokenHandler().Serve, middlewares.MustNotBeLogged())
+		app.GET("/reset", resethandler.GetResetHandler().Serve, middlewares.MustNotBeLogged())
+		app.POST("/reset", resethandler.PostResetHandler().Serve, middlewares.MustNotBeLogged())
+		app.GET("/resetform", resethandler.GetResetformHandler().Serve, middlewares.MustNotBeLogged())
+		app.POST("/resetform", resethandler.PostResetformHandler().Serve, middlewares.MustNotBeLogged())
+		app.GET("/pwreset", resethandler.GetResetTokenHandler().Serve, middlewares.MustNotBeLogged())
 
-	app.GET("/activation", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
-	app.GET("/newtoken", activationhandler.GetNewActivationHandler().Serve, middlewares.MustNotBeLogged())
+		app.GET("/activation", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
+		app.GET("/newtoken", activationhandler.GetNewActivationHandler().Serve, middlewares.MustNotBeLogged())
+	}
 
 	app.GET("/notfound", notfoundhandler.GetNotfoundHandler().Serve)
 	app.GET("/error", internalerrorhandler.GetInternalErrorHandler().Serve)

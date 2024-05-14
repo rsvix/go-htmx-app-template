@@ -23,6 +23,8 @@ go get github.com/labstack/echo/v4
 go get github.com/gorilla/sessions
 go get github.com/labstack/echo-contrib/session
 go get github.com/a-h/templ
+go get github.com/go-ldap/ldap/v3
+go get github.com/go-co-op/gocron/v2
 go get -u gorm.io/gorm
 go get github.com/wader/gormstore/v2
 go get gorm.io/driver/postgres

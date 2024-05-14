@@ -1,11 +1,15 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"strconv"
 	"time"
 
+	"github.com/go-co-op/gocron/v2"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -94,6 +98,31 @@ func main() {
 			log.Printf("This is the main instance of the app, it will manage cronjobs\n")
 		}
 	}
+
+	// create a scheduler
+	sched, err := gocron.NewScheduler()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// add a job to the scheduler
+	j, err := sched.NewJob(
+		gocron.DurationJob(15*time.Second),
+		gocron.NewTask(
+			func(a string) {
+				log.Println(a)
+			},
+			"\n\ntest\n\n",
+		),
+	)
+	if err != nil {
+		log.Println(err)
+	}
+	// each job has a unique id
+	log.Println(j.ID())
+
+	// start the scheduler
+	sched.Start()
 
 	// app.Pre(middleware.HTTPSRedirect())
 
@@ -184,6 +213,26 @@ func main() {
 
 	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged())
 
-	log.Printf("Starting %v server on port %v", appName, appPort)
-	app.Logger.Fatal(app.Start(":" + appPort))
+	// log.Printf("Starting %v server on port %v", appName, appPort)
+	// app.Logger.Fatal(app.Start(":" + appPort))
+
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+	// Start server
+	go func() {
+		log.Printf("Starting %v server on port %v", appName, appPort)
+		if err := app.Start(":" + appPort); err != nil && err != http.ErrServerClosed {
+			app.Logger.Fatal("shutting down the server")
+		}
+	}()
+	// Wait for interrupt signal to gracefully shutdown the server with a timeout of 10 seconds.
+	<-ctx.Done()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := sched.Shutdown(); err != nil {
+		log.Println(err)
+	}
+	if err := app.Shutdown(ctx); err != nil {
+		app.Logger.Fatal(err)
+	}
 }

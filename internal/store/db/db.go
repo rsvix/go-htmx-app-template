@@ -62,7 +62,7 @@ func Connect() *gorm.DB {
 			"username VARCHAR(64) UNIQUE NOT NULL,"+
 			"firstname VARCHAR(64) NOT NULL,"+
 			"lastname VARCHAR(64) NOT NULL,"+
-			"password VARCHAR(128) NOT NULL,"+
+			"password VARCHAR(128),"+
 			"activationtoken VARCHAR(256),"+
 			"activationtokenexpiration TIMESTAMP WITH TIME ZONE,"+
 			"passwordchangetoken VARCHAR(256),"+

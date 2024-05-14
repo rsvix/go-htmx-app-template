@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/go-ldap/ldap/v3"
+	"github.com/rsvix/go-htmx-app-template/internal/utils"
+	"gorm.io/gorm"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -85,44 +87,70 @@ func (h *postLdapLoginHandlerParams) Serve(c echo.Context) error {
 	// result.PrettyPrint(2)
 
 	nameFromLdap := result.Entries[0].GetAttributeValues("name")[0]
+	splitNameFromLdap := strings.Split(nameFromLdap, " ")
 	memberOfFromLdap := result.Entries[0].GetAttributeValues("memberOf")
-	log.Printf("name: %v\n", nameFromLdap)
-	log.Printf("memberOf: %v\n", memberOfFromLdap)
+	// log.Printf("name: %v\n", nameFromLdap)
+	// log.Printf("memberOf: %v\n", memberOfFromLdap)
 
 	for _, group := range memberOfFromLdap {
 		if group == h.ldapGroup {
-			log.Printf("Authorized")
+			log.Printf("Authorized - User in group")
+
+			ip, ipErr := utils.GetIP(c.Request())
+			if ipErr != nil {
+				log.Printf("Error obtaining ip from request: %v\n", ipErr)
+				ip = ""
+			}
+
+			db := c.Get(h.dbKey).(*gorm.DB)
+
+			// RAW
+			var ID int
+			result := db.Raw("INSERT INTO users (email, username, firstname, lastname, registerip, enabled) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;",
+				email,
+				ldapUser,
+				splitNameFromLdap[0],
+				splitNameFromLdap[len(splitNameFromLdap)-1],
+				ip,
+				1,
+			).Scan(&ID)
+
+			if err := result.Error; err != nil {
+				if strings.Contains(err.Error(), "violates unique constraint \"users_email_key\"") {
+					res2 := db.Raw("UPDATE users SET lastip = ? WHERE email = ? RETURNING id;", ip, email).Scan(&ID)
+					if err := res2.Error; err != nil {
+						log.Printf("err: %v\n", err)
+						return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
+					}
+				} else {
+					log.Printf("err: %v\n", err)
+					return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")
+				}
+			}
+			// log.Printf("id: %v\n", ID)
+
+			session, err := session.Get("authenticate-sessions", c)
+			if err != nil {
+				return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+			}
+
+			session.Values["authenticated"] = true
+			session.Values["user_id"] = ID
+			session.Values["user_email"] = email
+			session.Values["username"] = ldapUser
+
+			if remember == "true" {
+				session.Options.MaxAge = 84600 * 30
+			}
+
+			if err := session.Save(c.Request(), c.Response()); err != nil {
+				return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+			}
+
+			c.Response().Header().Set("HX-Redirect", "/")
+			return c.NoContent(http.StatusSeeOther)
 		}
 	}
-
-	// db := c.Get(h.dbKey).(*gorm.DB)
-	// var user struct {
-	// 	Id       int
-	// 	Username string
-	// 	Password string
-	// 	Enabled  int
-	// }
-	// _ = db.Raw("SELECT id, username, password, enabled FROM users WHERE email = ?;", email).Scan(&user)
-
-	session, err := session.Get("authenticate-sessions", c)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	}
-
-	session.Values["authenticated"] = true
-	session.Values["user_id"] = 123
-	session.Values["user_email"] = email
-	session.Values["username"] = "LDAPteste"
-
-	if remember == "true" {
-		session.Options.MaxAge = 84600 * 30
-	}
-
-	if err := session.Save(c.Request(), c.Response()); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	}
-
-	c.Response().Header().Set("HX-Redirect", "/")
-	return c.NoContent(http.StatusSeeOther)
-
+	log.Printf("Not authorized - User not in group")
+	return c.HTML(http.StatusUnprocessableEntity, "User not in access group")
 }

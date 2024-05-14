@@ -81,7 +81,7 @@ func main() {
 	app.HTTPErrorHandler = customHTTPErrorHandler
 
 	// // This is for future stuff iam trying
-	// var dbApps []struct {
+	// var dbStats []struct {
 	// 	Pid             uint
 	// 	Datname         string
 	// 	Usename         string
@@ -93,17 +93,28 @@ func main() {
 	// 	// Query           string
 	// 	State string
 	// }
-	// db.Raw("SELECT pid, datname, usename, application_name, client_port, backend_start, state FROM pg_stat_activity ORDER BY pid;").Scan(&dbApps)
-	// // log.Printf("Apps connected: %v\n", dbApps)
+	// db.Raw("SELECT pid, datname, usename, application_name, client_port, backend_start, state FROM pg_stat_activity ORDER BY pid;").Scan(&dbStats)
+	// // log.Printf("Apps connected: %v\n", dbStats)
 	// for _, value := range dbApps {
 	// 	if value.ApplicationName == "app-01" {
 	// 		log.Printf("This is the main instance of the app, it will manage cronjobs\n")
 	// 	}
 	// }
 
-	var res string
-	db.Raw("SELECT * FROM information_schema.processlist;").Scan(&res)
-	log.Printf("Apps connected: %v\n", res)
+	var dbStats []struct {
+		Id      uint
+		User    string
+		Host    string
+		Db      string
+		Command string
+		Time    string
+		State   string
+		Info    string
+	}
+	db.Raw("SELECT id, user, host, db, state FROM information_schema.processlist;").Scan(&dbStats)
+	log.Printf("Apps connected: %v\n", dbStats)
+
+	// https://github.com/go-co-op/gocron-gorm-lock
 
 	sched := scheduler.BuildAsyncSched()
 

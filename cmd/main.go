@@ -73,6 +73,7 @@ func main() {
 
 	app.HTTPErrorHandler = customHTTPErrorHandler
 
+	// This is for future stuff iam trying
 	var dbApps []struct {
 		Pid             uint
 		Datname         string

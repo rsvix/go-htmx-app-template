@@ -20,7 +20,7 @@ services:
       APP_NAME: GoBotApp
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
-      DB_URL: mysql://admin:password123@db:3306/testbg
+      DB_URL: mysql://admin:password123@tcp(db:3306)/testbg
       # Check the video below to learn how to use gmail smtp server to send emails
       # https://www.youtube.com/watch?v=g_j6ILT-X0k
       # SMTP_EMAIL: your gmail here
@@ -52,7 +52,7 @@ services:
   ### Mysql
   db:
     image: mysql:latest
-    container_name: mysql-test
+    container_name: mysql-gobot
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -69,4 +69,4 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       interval: 10s
       timeout: 15s
-      retries: 10  
+      retries: 10

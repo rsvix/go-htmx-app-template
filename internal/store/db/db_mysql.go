@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"strings"
 	"time"
 
@@ -13,37 +12,18 @@ import (
 )
 
 func ConnectMysql() *gorm.DB {
-	host := os.Getenv("POSTGRES_HOST")
-	// dbName, _ := os.LookupEnv("POSTGRES_DB")
-	// user, _ := os.LookupEnv("POSTGRES_USER")
-	// password, _ := os.LookupEnv("POSTGRES_PASSWORD")
-	appNameDb := os.Getenv("APP_NAME_DB")
 	dbConnUrl := os.Getenv("DB_URL")
+	// driver := strings.Split(dbConnUrl, "://")[0]
+	dsn1 := strings.Split(dbConnUrl, "://")[1]
+	dsn2 := strings.Split(dsn1, "/")[0]
+	dbName := strings.Split(dsn1, "/")[1]
 
-	driver := strings.Split(dbConnUrl, "://")[0]
-	user := strings.Split(strings.Split(dbConnUrl, "://")[1], ":")[0]
-	password := strings.SplitN(strings.SplitN(dbConnUrl, ":", 1)[1], "@", 0)[0]
-	dbName := strings.SplitN(strings.SplitN(dbConnUrl, "@", 0)[1], ":", 0)[0]
-	portStr := strings.SplitN(strings.SplitN(dbConnUrl, ":", 2)[1], "/", 0)[0]
-	port, err := strconv.Atoi(portStr)
-	if err != nil {
-		log.Panic(err)
-	}
-
-	log.Println(driver)
-	log.Println(user)
-	log.Println(password)
-	log.Println(dbName)
-	log.Println(portStr)
-
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d application_name='%s' sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, dbName, port, appNameDb)
-	database, e := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	database, e := gorm.Open(mysql.Open(dsn1), &gorm.Config{})
 	if e != nil {
-		// Create database if it doesn't exists
+		log.Println(e)
 		if strings.Contains(e.Error(), "does not exist") {
 			log.Printf("Creating Mysql database '%s'", dbName)
-			dsn = fmt.Sprintf("host=%s user=%s password=%s port=%d application_name='%s' sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, port, appNameDb)
-			database, e = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+			database, e = gorm.Open(mysql.Open(dsn2), &gorm.Config{})
 			if e != nil {
 				log.Panic(e)
 			}
@@ -73,9 +53,9 @@ func ConnectMysql() *gorm.DB {
 			"lastname VARCHAR(64) NOT NULL," +
 			"password VARCHAR(128)," +
 			"activationtoken VARCHAR(256)," +
-			"activationtokenexpiration TIMESTAMP WITH TIME ZONE," +
+			"activationtokenexpiration TIMESTAMP," +
 			"passwordchangetoken VARCHAR(256)," +
-			"passwordchangetokenexpiration TIMESTAMP WITH TIME ZONE," +
+			"passwordchangetokenexpiration TIMESTAMP," +
 			"pinnumber INTEGER," +
 			"registerip VARCHAR(64)," +
 			"lastip VARCHAR(64)," +

@@ -59,7 +59,7 @@ func main() {
 	utils.GetSetEnv("APP_NAME_DB", "app-01")
 	utils.GetSetEnv("DB_CONTEXT_KEY", "__db")
 
-	utils.GetSetEnv("DB_URL", "mysql://admin:password123@db:3306/testbg")
+	utils.GetSetEnv("DB_URL", "mysql://admin:password123@tcp(localhost:3306)/testbg")
 
 	utils.GetSetEnv("LDAP_URL", "ldap://localhost:389")
 	utils.GetSetEnv("LDAP_BASE_DN", "DC=example,DC=com")
@@ -80,26 +80,26 @@ func main() {
 
 	app.HTTPErrorHandler = customHTTPErrorHandler
 
-	// This is for future stuff iam trying
-	var dbApps []struct {
-		Pid             uint
-		Datname         string
-		Usename         string
-		ApplicationName string
-		// ClientHostname  string
-		ClientPort   uint
-		BackendStart string
-		// QueryStart      string
-		// Query           string
-		State string
-	}
-	db.Raw("SELECT pid, datname, usename, application_name, client_port, backend_start, state FROM pg_stat_activity ORDER BY pid;").Scan(&dbApps)
-	// log.Printf("Apps connected: %v\n", dbApps)
-	for _, value := range dbApps {
-		if value.ApplicationName == "app-01" {
-			log.Printf("This is the main instance of the app, it will manage cronjobs\n")
-		}
-	}
+	// // This is for future stuff iam trying
+	// var dbApps []struct {
+	// 	Pid             uint
+	// 	Datname         string
+	// 	Usename         string
+	// 	ApplicationName string
+	// 	// ClientHostname  string
+	// 	ClientPort   uint
+	// 	BackendStart string
+	// 	// QueryStart      string
+	// 	// Query           string
+	// 	State string
+	// }
+	// db.Raw("SELECT pid, datname, usename, application_name, client_port, backend_start, state FROM pg_stat_activity ORDER BY pid;").Scan(&dbApps)
+	// // log.Printf("Apps connected: %v\n", dbApps)
+	// for _, value := range dbApps {
+	// 	if value.ApplicationName == "app-01" {
+	// 		log.Printf("This is the main instance of the app, it will manage cronjobs\n")
+	// 	}
+	// }
 
 	sched := scheduler.BuildAsyncSched()
 

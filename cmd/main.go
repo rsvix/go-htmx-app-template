@@ -141,6 +141,10 @@ func main() {
 		return c.Redirect(http.StatusSeeOther, "/notfound")
 	}
 
+	app.GET("/notfound", notfoundhandler.GetNotfoundHandler().Serve)
+	app.GET("/error", internalerrorhandler.GetInternalErrorHandler().Serve)
+	app.GET("/terms", termshandler.GetTermsHandlerParams().Serve)
+
 	if ldapLoginBool {
 		app.GET("/login", ldaploginhandler.GetLdapLoginHandler().Serve, middlewares.MustNotBeLogged())
 		app.POST("/login", ldaploginhandler.PostLdapLoginHandler().Serve, middlewares.MustNotBeLogged())
@@ -159,11 +163,12 @@ func main() {
 
 		app.GET("/activation", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
 		app.GET("/newtoken", activationhandler.GetNewActivationHandler().Serve, middlewares.MustNotBeLogged())
-	}
 
-	app.GET("/notfound", notfoundhandler.GetNotfoundHandler().Serve)
-	app.GET("/error", internalerrorhandler.GetInternalErrorHandler().Serve)
-	app.GET("/terms", termshandler.GetTermsHandlerParams().Serve)
+		app.GET("/account", accounthandler.GetAccountHandler().Serve, middlewares.MustBeLogged())
+		app.GET("/edit_account", accounthandler.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
+		app.POST("/edit_account", accounthandler.PostEditAccountHandler().Serve, middlewares.MustBeLogged())
+		app.PUT("/edit_account", accounthandler.PutEditAccountHandler().Serve, middlewares.MustBeLogged())
+	}
 
 	app.GET("/", indexhandler.GetIndexHandler().Serve, middlewares.MustBeLogged())
 
@@ -175,11 +180,6 @@ func main() {
 	app.PUT("/snippetedit/:id", snippetshandler.PutSnippetEditHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/snippetdelete/:id", snippetshandler.GetSnippetDeleteModalEditHandler().Serve, middlewares.MustBeLogged())
 	app.DELETE("/snippetdelete/:id", snippetshandler.DeleteSnippetEditHandler().Serve, middlewares.MustBeLogged())
-
-	app.GET("/account", accounthandler.GetAccountHandler().Serve, middlewares.MustBeLogged())
-	app.GET("/edit_account", accounthandler.GetEditAccountHandler().Serve, middlewares.MustBeLogged())
-	app.POST("/edit_account", accounthandler.PostEditAccountHandler().Serve, middlewares.MustBeLogged())
-	app.PUT("/edit_account", accounthandler.PutEditAccountHandler().Serve, middlewares.MustBeLogged())
 
 	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged())
 

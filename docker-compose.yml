@@ -20,6 +20,7 @@ services:
       APP_NAME: GoBotApp
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
+      DB_URL: mysql://admin:password123@db:3306/testbg
       # Check the video below to learn how to use gmail smtp server to send emails
       # https://www.youtube.com/watch?v=g_j6ILT-X0k
       # SMTP_EMAIL: your gmail here
@@ -29,36 +30,43 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  db:
-    image: postgres:latest
-    container_name: go-app-postgres
-    restart: unless-stopped
-    environment:
-      <<: *common-variables
-      PGTZ: "America/Sao_Paulo"
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      # https://stackoverflow.com/questions/60193781/postgres-with-docker-compose-gives-fatal-role-root-does-not-exist-error
-      test: "pg_isready -h db"
-      interval: 10s
-      timeout: 5s
-      retries: 20
-      start_period: 10s
-  # pgadmin:
-  #   container_name: go-app-pgadmin
-  #   image: dpage/pgadmin4
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
-  #     PGADMIN_DEFAULT_PASSWORD: 123
-  #     PGADMIN_CONFIG_SERVER_MODE: 'False'
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   ports:
-  #     - "5433:80"
-  #   volumes:
-  #     - ./servers.json:/pgadmin4/servers.json
+  ### Postgreql
+  # db:
+  #   image: postgres:latest
+  #   container_name: go-app-postgres
   #   restart: unless-stopped
+  #   environment:
+  #     <<: *common-variables
+  #     PGTZ: "America/Sao_Paulo"
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   healthcheck:
+  #     # https://stackoverflow.com/questions/60193781/postgres-with-docker-compose-gives-fatal-role-root-does-not-exist-error
+  #     test: "pg_isready -h db"
+  #     interval: 10s
+  #     timeout: 15s
+  #     retries: 10
+  #     start_period: 10s
+  ### Mysql
+  db:
+    image: mysql:latest
+    container_name: mysql-test
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./init.sql:/data/application/init.sql
+    environment:
+      MYSQL_DATABASE: testbg
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password123
+      MYSQL_ROOT_PASSWORD: password123
+      TZ: "America/Sao_Paulo"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 15s
+      retries: 10  

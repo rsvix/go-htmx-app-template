@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-co-op/gocron/v2"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -29,6 +28,7 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/templates"
 
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
+	"github.com/rsvix/go-htmx-app-template/internal/scheduler"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
 	"github.com/rsvix/go-htmx-app-template/internal/store/db"
 	"github.com/rsvix/go-htmx-app-template/internal/utils"
@@ -59,6 +59,8 @@ func main() {
 	utils.GetSetEnv("APP_NAME_DB", "app-01")
 	utils.GetSetEnv("DB_CONTEXT_KEY", "__db")
 
+	utils.GetSetEnv("DB_URL", "mysql://admin:password123@db:3306/testbg")
+
 	utils.GetSetEnv("LDAP_URL", "ldap://localhost:389")
 	utils.GetSetEnv("LDAP_BASE_DN", "DC=example,DC=com")
 	utils.GetSetEnv("LDAP_GROUP", "OU=group,DC=example,DC=com")
@@ -74,7 +76,7 @@ func main() {
 	// app.Debug = true
 	app.Static("static", "./static")
 	app.File("/favicon.ico", "./static/images/icon.ico")
-	db := db.Connect()
+	db := db.ConnectMysql()
 
 	app.HTTPErrorHandler = customHTTPErrorHandler
 
@@ -99,30 +101,7 @@ func main() {
 		}
 	}
 
-	// create a scheduler
-	sched, err := gocron.NewScheduler()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// add a job to the scheduler
-	j, err := sched.NewJob(
-		gocron.DurationJob(15*time.Second),
-		gocron.NewTask(
-			func(a string) {
-				log.Println(a)
-			},
-			"\n\ntest\n\n",
-		),
-	)
-	if err != nil {
-		log.Println(err)
-	}
-	// each job has a unique id
-	log.Println(j.ID())
-
-	// start the scheduler
-	sched.Start()
+	sched := scheduler.BuildAsyncSched()
 
 	// app.Pre(middleware.HTTPSRedirect())
 
@@ -181,16 +160,13 @@ func main() {
 	} else {
 		app.GET("/login", loginhandler.GetLoginHandler().Serve, middlewares.MustNotBeLogged())
 		app.POST("/login", loginhandler.PostLoginHandler().Serve, middlewares.MustNotBeLogged())
-
 		app.GET("/register", registerhandler.GetRegisterHandler().Serve, middlewares.MustNotBeLogged())
 		app.POST("/register", registerhandler.PostRegisterHandler().Serve, middlewares.MustNotBeLogged())
-
 		app.GET("/reset", resethandler.GetResetHandler().Serve, middlewares.MustNotBeLogged())
 		app.POST("/reset", resethandler.PostResetHandler().Serve, middlewares.MustNotBeLogged())
 		app.GET("/resetform", resethandler.GetResetformHandler().Serve, middlewares.MustNotBeLogged())
 		app.POST("/resetform", resethandler.PostResetformHandler().Serve, middlewares.MustNotBeLogged())
 		app.GET("/pwreset", resethandler.GetResetTokenHandler().Serve, middlewares.MustNotBeLogged())
-
 		app.GET("/activation", activationhandler.GetActivationTokenHandler().Serve, middlewares.MustNotBeLogged())
 		app.GET("/newtoken", activationhandler.GetNewActivationHandler().Serve, middlewares.MustNotBeLogged())
 
@@ -201,7 +177,6 @@ func main() {
 	}
 
 	app.GET("/", indexhandler.GetIndexHandler().Serve, middlewares.MustBeLogged())
-
 	app.GET("/snippets", snippetshandler.GetSnippetsHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/snippetform", snippetshandler.GetSnippetFormHandler().Serve, middlewares.MustBeLogged())
 	app.POST("/snippetform", snippetshandler.PostSnippetFormHandler().Serve, middlewares.MustBeLogged())
@@ -210,7 +185,6 @@ func main() {
 	app.PUT("/snippetedit/:id", snippetshandler.PutSnippetEditHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/snippetdelete/:id", snippetshandler.GetSnippetDeleteModalEditHandler().Serve, middlewares.MustBeLogged())
 	app.DELETE("/snippetdelete/:id", snippetshandler.DeleteSnippetEditHandler().Serve, middlewares.MustBeLogged())
-
 	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged())
 
 	// log.Printf("Starting %v server on port %v", appName, appPort)

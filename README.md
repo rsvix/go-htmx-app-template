@@ -28,6 +28,7 @@ go get github.com/go-co-op/gocron/v2
 go get -u gorm.io/gorm
 go get github.com/wader/gormstore/v2
 go get gorm.io/driver/postgres
+go get gorm.io/driver/mysql
 go install github.com/a-h/templ/cmd/templ@latest
 ```
 

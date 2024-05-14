@@ -38,7 +38,7 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 		Password string
 		Enabled  int
 	}
-	_ = db.Raw("SELECT id, username, password, enabled FROM users WHERE email = ?;", email).Scan(&user)
+	_ = db.Raw("SELECT id, username, password, user_enabled FROM users WHERE email = ?;", email).Scan(&user)
 
 	if user.Id != 0 {
 		if user.Enabled == 0 {

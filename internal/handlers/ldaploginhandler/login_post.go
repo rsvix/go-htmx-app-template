@@ -106,7 +106,7 @@ func (h *postLdapLoginHandlerParams) Serve(c echo.Context) error {
 
 			// RAW
 			var ID int
-			result := db.Raw("INSERT INTO users (email, username, firstname, lastname, registerip, enabled) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;",
+			result := db.Raw("INSERT INTO users (email, username, firstname, lastname, registerip, user_enabled) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;",
 				email,
 				ldapUser,
 				splitNameFromLdap[0],

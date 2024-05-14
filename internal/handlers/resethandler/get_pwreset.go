@@ -69,7 +69,7 @@ func (h getResetTokenHandlerParams) Serve(c echo.Context) error {
 				Passwordchangetokenexpiration time.Time
 				Enabled                       int
 			}
-			db.Raw("SELECT email, passwordchangetoken, passwordchangetokenexpiration, enabled FROM users WHERE id = ?", id).Scan(&result)
+			db.Raw("SELECT email, passwordchangetoken, passwordchangetokenexpiration, user_enabled FROM users WHERE id = ?", id).Scan(&result)
 
 			// diff := time.Until(result.Passwordchangetokenexpiration)
 			diff := result.Passwordchangetokenexpiration.Sub(time.Now().UTC())

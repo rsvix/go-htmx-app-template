@@ -59,7 +59,7 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 			Activationtokenexpiration time.Time
 			Enabled                   int
 		}
-		_ = db.Raw("SELECT activationtoken, activationtokenexpiration, enabled FROM users WHERE id = ?", id).Scan(&result)
+		_ = db.Raw("SELECT activationtoken, activationtokenexpiration, user_enabled FROM users WHERE id = ?", id).Scan(&result)
 
 		if result.Enabled == 0 {
 			diff := result.Activationtokenexpiration.Sub(time.Now().UTC())
@@ -69,7 +69,7 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 			if secs > 0.0 {
 				if strings.Compare(strings.TrimSpace(result.Activationtoken), strings.TrimSpace(token)) == 0 {
 					timeNow := time.Now().UTC()
-					res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"enabled": 1, "activationtokenexpiration": timeNow})
+					res := db.Table("users").Where("id = ?", id).Updates(map[string]interface{}{"user_enabled": 1, "activationtokenexpiration": timeNow})
 					if res.Error != nil {
 						log.Println("Error enabling user")
 						return c.Redirect(http.StatusSeeOther, "/error")

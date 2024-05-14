@@ -39,7 +39,7 @@ func (h getNewActivationHandler) Serve(c echo.Context) error {
 			Activationtokenexpiration time.Time
 			Enabled                   int
 		}
-		db.Raw("SELECT email, activationtokenexpiration, enabled FROM users WHERE id = ?", id).Scan(&result)
+		db.Raw("SELECT email, activationtokenexpiration, user_enabled FROM users WHERE id = ?", id).Scan(&result)
 		log.Printf("result: %v\n", result)
 
 		if result.Enabled == 0 {

@@ -59,6 +59,7 @@ func main() {
 	utils.GetSetEnv("LDAP_BASE_DN", "DC=example,DC=com")
 	utils.GetSetEnv("LDAP_GROUP", "OU=group,DC=example,DC=com")
 	ldapLogin := utils.GetSetEnv("LDAP_LOGIN", "false")
+
 	ldapLoginBool, err := strconv.ParseBool(ldapLogin)
 	if err != nil {
 		log.Println(err)

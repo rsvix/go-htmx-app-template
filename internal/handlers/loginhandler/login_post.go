@@ -57,6 +57,7 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 			session.Values["user_id"] = user.Id
 			session.Values["user_email"] = email
 			session.Values["username"] = user.Username
+			session.Values["ldap"] = false
 
 			if remember == "true" {
 				session.Options.MaxAge = 84600 * 30

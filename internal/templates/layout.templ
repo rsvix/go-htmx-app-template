@@ -1,6 +1,7 @@
 package templates
 
 import (
+	"os"
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
@@ -78,9 +79,11 @@ templ sidebar(c echo.Context, pageTitle string, authenticated bool, userName str
         <a class={ twGeneralcon } title="&#128161; Code snippets" href="/snippets">
             <i class="fa-solid fa-code"></i>
         </a>
-        <a class={ twGeneralcon } title="&#128161; Account" href="/account">
-            <i class="fa-solid fa-wrench"></i>
-        </a> 
+		if os.Getenv("LDAP_LOGIN") != "true" {
+			<a class={ twGeneralcon } title="&#128161; Account" href="/account">
+				<i class="fa-solid fa-wrench"></i>
+			</a> 
+		}
         <a class={ twLogoutIcon } title="&#128161; Logout" href="/logout">
             <i class="fa-solid fa-right-from-bracket"></i>
         </a>

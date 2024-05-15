@@ -6,30 +6,38 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron/v2"
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 // https://github.com/go-co-op/gocron-gorm-lock
 
-func BuildAsyncSched(db *gorm.DB, instanceId uuid.UUID) gocron.Scheduler {
+func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 
 	// Create cron lock table
 	query := fmt.Sprintf(
 		"CREATE TABLE IF NOT EXISTS cron_scheduler_lock (" +
-			"id INT UNSIGNED PRIMARY KEY NOT NULL," +
+			"entry_id INT UNSIGNED NOT NULL," +
 			"instance_id VARCHAR(64) NOT NULL," +
-			"last_ping DATETIME," +
-			"UNIQUE (id)" +
+			"last_update TIMESTAMP NOT NULL," +
+			"UNIQUE (entry_id)" +
 			")")
 	if err := db.Exec(query); err.Error != nil {
 		log.Panicf("Error creating cron_scheduler_lock table: %v", err)
 	}
 
-	t := time.Now().UTC()
-	var instanceIdInTable string
-	db.Raw("INSERT IGNORE INTO cron_scheduler_lock (id, instance_id, last_ping) VALUES (?, ?, ?) RETURNING instance_id;", 1, instanceId, t).Scan(&instanceIdInTable)
-	log.Printf("instanceIdInTable: %v", instanceIdInTable)
+	t := time.Now().UTC().Format("2006-01-02 15:04:05")
+	log.Println(t)
+	result := db.Raw("INSERT INTO cron_scheduler_lock (entry_id, instance_id, last_update) VALUES (?, ?, ?);", 1, instanceId, t)
+	log.Printf("RowsAffected: %v", result.RowsAffected)
+	log.Printf("Error: %v", result.Error)
+
+	var schedInfo []struct {
+		EntryId    uint
+		InstanceId string
+		LastUpdate time.Time
+	}
+	db.Raw("SELECT * FROM cron_scheduler_lock;").Scan(&schedInfo)
+	log.Printf("schedInfo: %v", schedInfo)
 
 	sched, err := gocron.NewScheduler()
 	if err != nil {
@@ -43,7 +51,7 @@ func BuildAsyncSched(db *gorm.DB, instanceId uuid.UUID) gocron.Scheduler {
 	// 			var schedInfo []struct {
 	// 				Id         uint
 	// 				InstanceId string
-	// 				LastPing   string
+	// 				LastUpdate   string
 	// 			}
 	// 			db.Raw("SELECT * FROM cron_scheduler_lock;").Scan(&schedInfo)
 	// 		},

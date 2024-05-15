@@ -38,7 +38,7 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 }
 
 func main() {
-	instanceId := uuid.New()
+	instanceId := uuid.New().String()
 	log.Printf("\n\nApp instance id: %v\n\n", instanceId)
 
 	appPort := utils.GetSetEnv("APP_PORT", "8080")

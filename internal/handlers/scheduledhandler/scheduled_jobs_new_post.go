@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/go-co-op/gocron/v2"
 	"github.com/labstack/echo/v4"
@@ -36,6 +37,12 @@ func (h postNewJobHandlerParams) Serve(c echo.Context) error {
 	agentName := c.Request().FormValue("agentName")
 
 	db := c.Get("__db").(*gorm.DB)
+
+	if len(strings.Split(cronExp, " ")) != 6 {
+		log.Println("Cron expression must have exactly 6 fields")
+		c.Response().Header().Set("HX-Redirect", "/cronjobs")
+		return c.NoContent(http.StatusSeeOther)
+	}
 
 	cd, err := crondescriptor.NewCronDescriptor(cronExp)
 	if err != nil {

@@ -79,7 +79,7 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 					log.Println(a)
 				}
 			},
-			"\n\ntest\n\n",
+			" ##########################  test  ##########################",
 		),
 	)
 	if err != nil {

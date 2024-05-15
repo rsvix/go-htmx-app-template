@@ -58,10 +58,12 @@ func (h *postResetHandlerParams) Serve(c echo.Context) error {
 		log.Printf("passToken: %v\n", resetToken)
 		timein := time.Now().UTC().Add(1 * time.Hour)
 
-		var dbEmail string
-		result := db.Raw("UPDATE users SET passwordchangetoken = ?, passwordchangetokenexpiration = ? WHERE id = ? RETURNING email;", resetToken, timein, id).Scan(&dbEmail)
-		log.Printf("dbEmail: %v\n", dbEmail)
+		result := db.Exec("UPDATE users SET passwordchangetoken = ?, passwordchangetokenexpiration = ? WHERE id = ?;", resetToken, timein, id)
 		log.Printf("Query result: %v\n", result)
+
+		var dbEmail string
+		db.Raw("SELECT email from users WHERE id = ?;", id).Scan(&dbEmail)
+		log.Printf("dbEmail: %v\n", dbEmail)
 
 		appPort, _ := os.LookupEnv("APP_PORT")
 		passUrl := fmt.Sprintf("http://localhost:%s/pwreset?%s", appPort, resetToken)

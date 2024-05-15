@@ -67,7 +67,7 @@ func (h getResetTokenHandlerParams) Serve(c echo.Context) error {
 				Email                         string
 				Passwordchangetoken           string
 				Passwordchangetokenexpiration time.Time
-				Enabled                       int
+				UserEnabled                   int
 			}
 			db.Raw("SELECT email, passwordchangetoken, passwordchangetokenexpiration, user_enabled FROM users WHERE id = ?", id).Scan(&result)
 
@@ -86,7 +86,7 @@ func (h getResetTokenHandlerParams) Serve(c echo.Context) error {
 				// return c.Redirect(http.StatusSeeOther, "/resetform")
 			}
 
-			if result.Enabled == 0 {
+			if result.UserEnabled == 0 {
 				return c.JSON(http.StatusBadRequest, "User must be activated first")
 				// session.Values["pr_error"] = "User must be activated first"
 				// err = session.Save(c.Request(), c.Response())

@@ -79,6 +79,9 @@ templ sidebar(c echo.Context, pageTitle string, authenticated bool, userName str
         <a class={ twGeneralcon } title="&#128161; Code snippets" href="/snippets">
             <i class="fa-solid fa-code"></i>
         </a>
+        <a class={ twGeneralcon } title="&#128161; Cron Jobs" href="/cronjobs">
+            <i class="fa-regular fa-calendar-days"></i>
+        </a>
 		if os.Getenv("LDAP_LOGIN") != "true" {
 			<a class={ twGeneralcon } title="&#128161; Account" href="/account">
 				<i class="fa-solid fa-wrench"></i>

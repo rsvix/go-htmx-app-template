@@ -105,19 +105,21 @@ func (h *postLdapLoginHandlerParams) Serve(c echo.Context) error {
 			db := c.Get(h.dbKey).(*gorm.DB)
 
 			// RAW
-			var ID int
-			result := db.Raw("INSERT INTO users (email, username, firstname, lastname, registerip, user_enabled) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;",
+			result := db.Exec("INSERT INTO users (email, username, firstname, lastname, registerip, user_enabled) VALUES (?, ?, ?, ?, ?, ?);",
 				email,
 				ldapUser,
 				splitNameFromLdap[0],
 				splitNameFromLdap[len(splitNameFromLdap)-1],
 				ip,
 				1,
-			).Scan(&ID)
+			)
+
+			var ID int
+			db.Raw("SELECT id from users WHERE email = ?;", email).Scan(&ID)
 
 			if err := result.Error; err != nil {
 				if strings.Contains(err.Error(), "violates unique constraint \"users_email_key\"") {
-					res2 := db.Raw("UPDATE users SET lastip = ? WHERE email = ? RETURNING id;", ip, email).Scan(&ID)
+					res2 := db.Exec("UPDATE users SET lastip = ? WHERE email = ?;", ip, email)
 					if err := res2.Error; err != nil {
 						log.Printf("err: %v\n", err)
 						return c.HTML(http.StatusInternalServerError, "An error occured<br>please try again")

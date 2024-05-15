@@ -42,7 +42,7 @@ func main() {
 	log.Printf("App instance id: %v\n", instanceId)
 
 	appPort := utils.GetSetEnv("APP_PORT", "8080")
-	appName := utils.GetSetEnv("APP_NAME", "GoBot")
+	appName := utils.GetSetEnv("APP_NAME", "BotGlass")
 	utils.GetSetEnv("DB_CONTEXT_KEY", "__db")
 	utils.GetSetEnv("IS_SCHEDULED", "false")
 

@@ -33,15 +33,15 @@ func (h *postLoginHandlerParams) Serve(c echo.Context) error {
 
 	db := c.Get(h.dbKey).(*gorm.DB)
 	var user struct {
-		Id       int
-		Username string
-		Password string
-		Enabled  int
+		Id          int
+		Username    string
+		Password    string
+		UserEnabled int
 	}
 	_ = db.Raw("SELECT id, username, password, user_enabled FROM users WHERE email = ?;", email).Scan(&user)
 
 	if user.Id != 0 {
-		if user.Enabled == 0 {
+		if user.UserEnabled == 0 {
 			return c.HTML(http.StatusUnprocessableEntity, "User not enabled<br/>Check your email")
 		}
 

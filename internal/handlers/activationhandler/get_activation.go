@@ -57,11 +57,11 @@ func (h getActivationTokenHandlerParams) Serve(c echo.Context) error {
 		var result struct {
 			Activationtoken           string
 			Activationtokenexpiration time.Time
-			Enabled                   int
+			UserEnabled               int
 		}
 		_ = db.Raw("SELECT activationtoken, activationtokenexpiration, user_enabled FROM users WHERE id = ?", id).Scan(&result)
 
-		if result.Enabled == 0 {
+		if result.UserEnabled == 0 {
 			diff := result.Activationtokenexpiration.Sub(time.Now().UTC())
 			secs := diff.Seconds()
 			// log.Printf("diff: %v\nsecs: %v\n", diff, secs)

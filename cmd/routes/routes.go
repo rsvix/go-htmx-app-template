@@ -14,6 +14,7 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/notfoundhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/registerhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/resethandler"
+	"github.com/rsvix/go-htmx-app-template/internal/handlers/scheduledhandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/snippetshandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/termshandler"
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
@@ -65,6 +66,8 @@ func AppRoutes(app *echo.Echo, ldapLoginBool bool) *echo.Echo {
 	app.GET("/snippetdelete/:id", snippetshandler.GetSnippetDeleteModalEditHandler().Serve, middlewares.MustBeLogged())
 	app.DELETE("/snippetdelete/:id", snippetshandler.DeleteSnippetEditHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged())
+	app.GET("/cronjobs", scheduledhandler.GetScheduledJobsHandler().Serve, middlewares.MustBeLogged())
+	app.GET("/newcronjob", scheduledhandler.GetNewJobHandler().Serve, middlewares.MustBeLogged())
 
 	return app
 }

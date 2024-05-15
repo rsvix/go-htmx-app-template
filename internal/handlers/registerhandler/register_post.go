@@ -74,15 +74,17 @@ func (h *postRegisterHandlerParams) Serve(c echo.Context) error {
 	db := c.Get("__db").(*gorm.DB)
 
 	// RAW
-	var ID int
-	result := db.Raw("INSERT INTO users (email, username, firstname, lastname, password, registerip) VALUES (?, ?, ?, ?, ?, ?) RETURNING id;",
+	result := db.Exec("INSERT INTO users (email, username, firstname, lastname, password, registerip) VALUES (?, ?, ?, ?, ?, ?);",
 		email,
 		username,
 		firstname,
 		lastname,
 		hashPassword,
 		ip,
-	).Scan(&ID)
+	)
+
+	var ID int
+	db.Raw("SELECT id from users WHERE email = ?;", email).Scan(&ID)
 	id := strconv.FormatInt(int64(ID), 10)
 
 	// // GORM

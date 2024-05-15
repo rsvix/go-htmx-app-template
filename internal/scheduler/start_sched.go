@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/go-co-op/gocron/v2"
+	"github.com/rsvix/go-htmx-app-template/internal/structs"
 	"gorm.io/gorm"
 )
 
@@ -75,12 +76,11 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	jt, err := sched.NewJob(
 		gocron.DurationJob(15*time.Second),
 		gocron.NewTask(
-			func(a string) {
+			func() {
 				if os.Getenv("IS_SCHEDULER") == "true" {
-					log.Println(a)
+					log.Println("##########################  test  ##########################")
 				}
 			},
-			" ##########################  test  ##########################",
 		),
 	)
 	if err != nil {
@@ -88,21 +88,27 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	}
 	log.Printf("test job id: %v", jt.ID())
 
-	var schedJobsTable []struct {
-		Id          uint
-		CronExp     string
-		CronDesc    string
-		BotName     string
-		BotVersion  string
-		TargetAgent string
-		Params      string
-		Uuid        string
-	}
-	db.Raw("SELECT * FROM scheduled_jobs;").Scan(&schedJobsTable)
-	log.Printf("schedJobsTable: %v", schedJobsTable)
+	var schedJobs []structs.ScheduledJob
+	db.Raw("SELECT * FROM scheduled_jobs;").Scan(&schedJobs)
+	log.Printf("schedJobsTable: %v", schedJobs)
 
-	for _, job := range schedJobsTable {
-		log.Printf("job: %v", job)
+	for _, tableJob := range schedJobs {
+		log.Printf("job: %v", tableJob)
+		job, err := sched.NewJob(
+			gocron.DurationJob(15*time.Second),
+			gocron.NewTask(
+				func() {
+					if os.Getenv("IS_SCHEDULER") == "true" {
+						cmd := fmt.Sprintf("exec-bot::%v::%v", tableJob.BotName, tableJob.BotVersion)
+						log.Printf("cmd: %v", cmd)
+					}
+				},
+			),
+		)
+		if err != nil {
+			log.Println(err)
+		}
+		db.Exec("UPDATE scheduled_jobs SET uuid = ? WHERE id = ?", job.ID().String(), tableJob.Id)
 	}
 
 	// start the scheduler

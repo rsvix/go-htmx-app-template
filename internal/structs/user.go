@@ -14,5 +14,5 @@ type User struct {
 	Passwordchangetoken           string
 	Passwordchangetokenexpiration time.Time
 	Registerip                    string
-	Enabled                       int
+	UserEnabled                   int
 }

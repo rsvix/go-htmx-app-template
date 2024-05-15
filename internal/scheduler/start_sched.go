@@ -95,7 +95,7 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	for _, tableJob := range schedJobs {
 		log.Printf("job: %v", tableJob)
 		job, err := sched.NewJob(
-			gocron.DurationJob(15*time.Second),
+			gocron.CronJob(tableJob.CronExp, true),
 			gocron.NewTask(
 				func() {
 					if os.Getenv("IS_SCHEDULER") == "true" {

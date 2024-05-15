@@ -41,7 +41,7 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	}
 
 	// Job that defines the instance responsible for creating tasks
-	j, err := sched.NewJob(
+	_, err = sched.NewJob(
 		gocron.DurationJob(15*time.Second),
 		gocron.NewTask(
 			func() {
@@ -70,30 +70,30 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Printf("scheduler_lock job id: %v", j.ID())
+	// log.Printf("scheduler_lock job id: %v", j.ID())
 
-	// Test job
-	jt, err := sched.NewJob(
-		gocron.DurationJob(15*time.Second),
-		gocron.NewTask(
-			func() {
-				if os.Getenv("IS_SCHEDULER") == "true" {
-					log.Println("##########################  test  ##########################")
-				}
-			},
-		),
-	)
-	if err != nil {
-		log.Println(err)
-	}
-	log.Printf("test job id: %v", jt.ID())
+	// // Test job
+	// jt, err := sched.NewJob(
+	// 	gocron.DurationJob(15*time.Second),
+	// 	gocron.NewTask(
+	// 		func() {
+	// 			if os.Getenv("IS_SCHEDULER") == "true" {
+	// 				log.Println("##########################  test  ##########################")
+	// 			}
+	// 		},
+	// 	),
+	// )
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+	// log.Printf("test job id: %v", jt.ID())
 
 	var schedJobs []structs.ScheduledJob
 	db.Raw("SELECT * FROM scheduled_jobs;").Scan(&schedJobs)
 	// log.Printf("schedJobsTable: %v", schedJobs)
 
 	for _, tableJob := range schedJobs {
-		log.Printf("job: %v", tableJob)
+		log.Printf("Starting job: %v", tableJob)
 		job, err := sched.NewJob(
 			gocron.CronJob(tableJob.CronExp, true),
 			gocron.NewTask(

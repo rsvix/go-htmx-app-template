@@ -38,18 +38,21 @@ func (h postNewJobHandlerParams) Serve(c echo.Context) error {
 
 	db := c.Get("__db").(*gorm.DB)
 
+	emptyDesc := "error"
+	var fullDescription *string
 	cd, err := crondescriptor.NewCronDescriptor(cronExp)
 	if err != nil {
-		log.Println(err.Error())
-	}
-
-	emptyDesc := ""
-	fullDescription, err := cd.GetDescription(crondescriptor.Full)
-	if err != nil {
-		log.Panic(err.Error())
+		log.Printf("error creating descriptor: %v\n", err.Error())
 		fullDescription = &emptyDesc
+	} else {
+		fullDescription, err = cd.GetDescription(crondescriptor.Full)
+		if err != nil {
+			// log.Panic(err.Error())
+			log.Printf("error getting description: %v\n", err.Error())
+			fullDescription = &emptyDesc
+		}
+		fmt.Printf("%s => %s\n", cronExp, *fullDescription)
 	}
-	fmt.Printf("%s => %s\n", cronExp, *fullDescription)
 
 	job, err := h.sched.NewJob(
 		gocron.DurationJob(15*time.Second),
@@ -68,14 +71,14 @@ func (h postNewJobHandlerParams) Serve(c echo.Context) error {
 
 	result := db.Exec("INSERT INTO scheduled_jobs (cron_exp, cron_desc, bot_name, bot_version, target_agent, uuid) VALUES (?, ?, ?, ?, ?, ?);",
 		cronExp,
-		fullDescription,
+		&fullDescription,
 		botName,
 		botVersion,
 		agentName,
 		job.ID().String(),
 	)
 	if err := result.Error; err != nil {
-		log.Println(err.Error())
+		log.Printf("error updating db: %v\n", err.Error())
 		return c.Redirect(http.StatusSeeOther, "/error")
 	}
 	c.Response().Header().Set("HX-Redirect", "/cronjobs")

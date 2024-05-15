@@ -27,12 +27,13 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	}
 
 	t := time.Now().UTC()
-	result := db.Exec("INSERT IGNORE INTO cron_scheduler_lock (id, instance_id, last_update) VALUES (?, ?, ?);", 1, instanceId, t)
+	result := db.Exec("INSERT IGNORE INTO cron_scheduler_lock (id, instance_id, last_update) VALUES ('1', ?, ?);", instanceId, t)
 	if result.RowsAffected == 1 {
 		os.Setenv("IS_SCHEDULER", "true")
 	} else {
 		os.Setenv("IS_SCHEDULER", "false")
 	}
+	os.Setenv("IS_SCHEDULER", "true")
 
 	sched, err := gocron.NewScheduler()
 	if err != nil {
@@ -43,13 +44,29 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 		gocron.DurationJob(15*time.Second),
 		gocron.NewTask(
 			func() {
-				var schedInfo []struct {
+				var schedInfo struct {
 					Id         uint
 					InstanceId string
-					LastUpdate string
+					LastUpdate time.Time
 				}
-				db.Raw("SELECT * FROM cron_scheduler_lock WHERE id = ?;", 1).Scan(&schedInfo)
+				db.Raw("SELECT * FROM cron_scheduler_lock WHERE id = '1';").Scan(&schedInfo)
 				log.Printf("schedInfo: %v", schedInfo)
+				log.Printf("schedInfo.InstanceId: %v", schedInfo.InstanceId)
+				log.Printf("instanceId: %v", instanceId)
+
+				if schedInfo.InstanceId == instanceId {
+					os.Setenv("IS_SCHEDULER", "true")
+					t := time.Now().UTC()
+					db.Exec("UPDATE cron_scheduler_lock SET last_update = ? WHERE id = '1';", t)
+				} else {
+					os.Setenv("IS_SCHEDULER", "false")
+					diffInSecs := time.Now().UTC().Sub(schedInfo.LastUpdate).Seconds()
+					if diffInSecs > 60 {
+						log.Printf("diffInSecs: %v", diffInSecs)
+						db.Exec("UPDATE cron_scheduler_lock SET instance_id = ?, last_update = ? WHERE id = '1';", instanceId, t)
+						os.Setenv("IS_SCHEDULER", "true")
+					}
+				}
 			},
 		),
 	)

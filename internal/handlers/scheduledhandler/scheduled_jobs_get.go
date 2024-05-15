@@ -16,7 +16,7 @@ type getScheduledJobsHandlerParams struct {
 
 func GetScheduledJobsHandler() *getScheduledJobsHandlerParams {
 	return &getScheduledJobsHandlerParams{
-		pageTitle: "Snippets",
+		pageTitle: "CronJobs",
 	}
 }
 

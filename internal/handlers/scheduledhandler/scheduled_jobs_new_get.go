@@ -13,7 +13,7 @@ type getNewJobHandlerParams struct {
 
 func GetNewJobHandler() *getNewJobHandlerParams {
 	return &getNewJobHandlerParams{
-		pageTitle: "Snippets",
+		pageTitle: "CronJobs",
 	}
 }
 

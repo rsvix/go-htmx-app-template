@@ -7,6 +7,8 @@ import (
 	"github.com/go-co-op/gocron/v2"
 )
 
+// https://github.com/go-co-op/gocron-gorm-lock
+
 func BuildAsyncSched() gocron.Scheduler {
 
 	sched, err := gocron.NewScheduler()

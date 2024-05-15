@@ -109,5 +109,20 @@ func ConnectPostgresql() *gorm.DB {
 		log.Println(tx4.Error)
 	}
 
+	// var dbStat []struct {
+	// 	Pid             uint
+	// 	Datname         string
+	// 	Usename         string
+	// 	ApplicationName string
+	// 	ClientHostname  string
+	// 	ClientPort      uint
+	// 	BackendStart    string
+	// 	QueryStart      string
+	// 	Query           string
+	// 	State           string
+	// }
+	// database.Raw("SELECT pid, datname, usename, application_name, client_port, backend_start, state FROM pg_stat_activity ORDER BY pid;").Scan(&dbStat)
+	// log.Printf("Apps connected: %v\n", dbStat)
+
 	return database
 }

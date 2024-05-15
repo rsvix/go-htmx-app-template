@@ -112,7 +112,7 @@ func main() {
 	// 	AllowMethods: []string{"*"},
 	// }))
 
-	app = routes.AppRoutes(app, ldapLoginBool)
+	app = routes.AppRoutes(app, ldapLoginBool, sched)
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()

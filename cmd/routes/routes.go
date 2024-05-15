@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/go-co-op/gocron/v2"
 	"github.com/labstack/echo/v4"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/accounthandler"
 	"github.com/rsvix/go-htmx-app-template/internal/handlers/activationhandler"
@@ -20,7 +21,7 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
 
-func AppRoutes(app *echo.Echo, ldapLoginBool bool) *echo.Echo {
+func AppRoutes(app *echo.Echo, ldapLoginBool bool, sched gocron.Scheduler) *echo.Echo {
 	echo.NotFoundHandler = func(c echo.Context) error {
 		pageUrl := c.Request().URL
 		c.Logger().Error("Page not found: %v\n", pageUrl)
@@ -68,6 +69,7 @@ func AppRoutes(app *echo.Echo, ldapLoginBool bool) *echo.Echo {
 	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/cronjobs", scheduledhandler.GetScheduledJobsHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/newcronjob", scheduledhandler.GetNewJobHandler().Serve, middlewares.MustBeLogged())
+	app.POST("/newcronjob", scheduledhandler.PostNewJobHandler(sched).Serve, middlewares.MustBeLogged())
 
 	return app
 }

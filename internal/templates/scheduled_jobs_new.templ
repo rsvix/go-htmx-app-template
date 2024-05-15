@@ -32,7 +32,7 @@ templ AddSchedJobModal(languages []string){
 			<!-- Modal body -->
 			<form
 				class="space-y-4 md:space-y-6"
-				hx-post="/snippetform"
+				hx-post="/newcronjob"
 				hx-trigger="submit"
 				hx-target="body"
 				hx-target-error="#any-errors"
@@ -82,15 +82,15 @@ templ AddSchedJobModal(languages []string){
 					<!-- Version -->
 					<div>
 						<label 
-							for="botName" 
+							for="botVersion" 
 							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 							>
 							Version
 						</label>
 						<select
 							type="text" 
-							name="botName" 
-							id="botName" 
+							name="botVersion" 
+							id="botVersion" 
 							class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 							placeholder=""
 							required=""
@@ -103,15 +103,15 @@ templ AddSchedJobModal(languages []string){
 					<!-- Agent -->
 					<div>
 						<label 
-							for="botName" 
+							for="agentName" 
 							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 							>
 							Agent
 						</label>
 						<select
 							type="text" 
-							name="botName" 
-							id="botName" 
+							name="agentName" 
+							id="agentName" 
 							class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 							placeholder=""
 							required=""

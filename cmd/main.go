@@ -59,7 +59,7 @@ func main() {
 	app.File("/favicon.ico", "./static/images/icon.ico")
 
 	db := db.Connect()
-	sched := scheduler.BuildAsyncSched()
+	sched := scheduler.BuildAsyncSched(db)
 
 	app.HTTPErrorHandler = customHTTPErrorHandler
 

@@ -70,6 +70,7 @@ func AppRoutes(app *echo.Echo, ldapLoginBool bool, sched gocron.Scheduler) *echo
 	app.GET("/cronjobs", scheduledhandler.GetScheduledJobsHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/newcronjob", scheduledhandler.GetNewJobHandler().Serve, middlewares.MustBeLogged())
 	app.POST("/newcronjob", scheduledhandler.PostNewJobHandler(sched).Serve, middlewares.MustBeLogged())
+	app.DELETE("/cronjobdelete/:id", scheduledhandler.DeleteScheduledJobsHandler(sched).Serve, middlewares.MustBeLogged())
 
 	return app
 }

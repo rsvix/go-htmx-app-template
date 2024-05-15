@@ -160,7 +160,7 @@ func ScheduleJobsPage(c echo.Context, pageTitle string, userId int, userName str
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var11 string
-				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetedit/" + strconv.FormatUint(uint64(job.Id), 10))
+				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs("/cronjobedit/" + strconv.FormatUint(uint64(job.Id), 10))
 				if templ_7745c5c3_Err != nil {
 					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/scheduled_jobs.templ`, Line: 146, Col: 111}
 				}
@@ -168,14 +168,14 @@ func ScheduleJobsPage(c echo.Context, pageTitle string, userId int, userName str
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white\"><i class=\"fa-regular fa-pen-to-square\"></i></button></td><!-- Delete --><td class=\"px-4 py-3 text-center\"><button hx-get=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"body\" hx-swap=\"beforeend\" class=\"text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white\"><i class=\"fa-regular fa-pen-to-square\"></i></button></td><!-- Delete --><td class=\"px-4 py-3 text-center\"><button hx-delete=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var12 string
-				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs("/snippetdelete/" + strconv.FormatUint(uint64(job.Id), 10))
+				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs("/cronjobdelete/" + strconv.FormatUint(uint64(job.Id), 10))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/scheduled_jobs.templ`, Line: 157, Col: 113}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/scheduled_jobs.templ`, Line: 157, Col: 116}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {

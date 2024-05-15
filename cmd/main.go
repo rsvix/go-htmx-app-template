@@ -74,7 +74,7 @@ func main() {
 	// app.Pre(middleware.HTTPSRedirect())
 
 	app.Use(
-		middleware.Logger(),
+		// middleware.Logger(),
 		middleware.Recover(),
 		middlewares.DatabaseMiddleware(db),
 		session.Middleware(cookiestore.Start(db)),

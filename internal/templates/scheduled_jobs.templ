@@ -143,7 +143,7 @@ templ ScheduleJobsPage(c echo.Context, pageTitle string, userId int, userName st
                                         <!-- Edit -->
                                         <td class="px-4 py-3 text-center">
                                             <button
-                                                hx-get={ "/snippetedit/"+strconv.FormatUint(uint64(job.Id), 10) }
+                                                hx-get={ "/cronjobedit/"+strconv.FormatUint(uint64(job.Id), 10) }
                                                 hx-target="body"
                                                 hx-swap="beforeend"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -154,7 +154,7 @@ templ ScheduleJobsPage(c echo.Context, pageTitle string, userId int, userName st
                                         <!-- Delete -->
                                         <td class="px-4 py-3 text-center">
                                             <button
-                                                hx-get={ "/snippetdelete/"+strconv.FormatUint(uint64(job.Id), 10) }
+                                                hx-delete={ "/cronjobdelete/"+strconv.FormatUint(uint64(job.Id), 10) }
                                                 hx-target="body"
                                                 hx-swap="beforeend"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xl ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"

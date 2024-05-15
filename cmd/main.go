@@ -38,6 +38,8 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 }
 
 func main() {
+	utils.GetSetEnv("APP_LANG", "PT")
+
 	instanceId := uuid.New().String()
 	log.Printf("App instance id: %v\n", instanceId)
 

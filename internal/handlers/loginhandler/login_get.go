@@ -26,5 +26,6 @@ func (h getLoginHandlerParams) Serve(c echo.Context) error {
 	// 	csrfToken = value
 	// }
 
-	return templates.LoginPage(c, h.appName, h.pageTitle, csrfToken).Render(c.Request().Context(), c.Response())
+	appLang := os.Getenv("APP_LANG")
+	return templates.LoginPage(c, h.appName, h.pageTitle, csrfToken, appLang).Render(c.Request().Context(), c.Response())
 }

@@ -105,11 +105,12 @@ func (h *postLdapLoginHandlerParams) Serve(c echo.Context) error {
 			db := c.Get(h.dbKey).(*gorm.DB)
 
 			// RAW
-			result := db.Exec("INSERT INTO users (email, username, firstname, lastname, registerip, user_enabled) VALUES (?, ?, ?, ?, ?, ?);",
+			result := db.Exec("INSERT INTO users (email, username, firstname, lastname, password, registerip, user_enabled) VALUES (?, ?, ?, ?, ?, ?, ?);",
 				email,
 				ldapUser,
 				splitNameFromLdap[0],
 				splitNameFromLdap[len(splitNameFromLdap)-1],
+				"fromLDAP",
 				ip,
 				1,
 			)

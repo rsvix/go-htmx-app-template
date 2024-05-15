@@ -38,8 +38,9 @@ func (h postNewJobHandlerParams) Serve(c echo.Context) error {
 
 	db := c.Get("__db").(*gorm.DB)
 
-	if len(strings.Split(cronExp, " ")) != 6 {
-		log.Println("Cron expression must have exactly 6 fields")
+	if len(strings.Split(cronExp, " ")) != 5 || len(strings.Split(cronExp, " ")) != 6 {
+		log.Println("Cron expression must have 5 or 6 fields")
+		log.Println(len(strings.Split(cronExp, " ")))
 		c.Response().Header().Set("HX-Redirect", "/cronjobs")
 		return c.NoContent(http.StatusSeeOther)
 	}

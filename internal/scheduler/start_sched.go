@@ -90,7 +90,7 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 
 	var schedJobs []structs.ScheduledJob
 	db.Raw("SELECT * FROM scheduled_jobs;").Scan(&schedJobs)
-	log.Printf("schedJobsTable: %v", schedJobs)
+	// log.Printf("schedJobsTable: %v", schedJobs)
 
 	for _, tableJob := range schedJobs {
 		log.Printf("job: %v", tableJob)

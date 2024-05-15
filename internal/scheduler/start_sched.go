@@ -33,7 +33,6 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	} else {
 		os.Setenv("IS_SCHEDULER", "false")
 	}
-	os.Setenv("IS_SCHEDULER", "true")
 
 	sched, err := gocron.NewScheduler()
 	if err != nil {
@@ -55,7 +54,6 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 				log.Printf("instanceId: %v", instanceId)
 
 				if schedInfo.InstanceId == instanceId {
-					os.Setenv("IS_SCHEDULER", "true")
 					t := time.Now().UTC()
 					db.Exec("UPDATE cron_scheduler_lock SET last_update = ? WHERE id = '1';", t)
 				} else {
@@ -75,21 +73,23 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	}
 	log.Printf("scheduler_lock job id: %v", j.ID())
 
-	// // add a job to the scheduler
-	// jt, err := sched.NewJob(
-	// 	gocron.DurationJob(15*time.Second),
-	// 	gocron.NewTask(
-	// 		func(a string) {
-	// 			log.Println(a)
-	// 		},
-	// 		"\n\ntest\n\n",
-	// 	),
-	// )
-	// if err != nil {
-	// 	log.Println(err)
-	// }
-	// // each job has a unique id
-	// log.Println(jt.ID())
+	// add a job to the scheduler
+	jt, err := sched.NewJob(
+		gocron.DurationJob(15*time.Second),
+		gocron.NewTask(
+			func(a string) {
+				if os.Getenv("IS_SCHEDULER") == "true" {
+					log.Println(a)
+				}
+			},
+			"\n\ntest\n\n",
+		),
+	)
+	if err != nil {
+		log.Println(err)
+	}
+	// each job has a unique id
+	log.Printf("test job id: %v", jt.ID())
 
 	// start the scheduler
 	sched.Start()

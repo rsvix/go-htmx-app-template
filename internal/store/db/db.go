@@ -64,9 +64,8 @@ func Connect() *gorm.DB {
 				"user_enabled INTEGER NOT NULL DEFAULT '0'," +
 				"CONSTRAINT UC_credentials UNIQUE (id, email, username)" +
 				")")
-		tx2 := database.Exec(createUsersTable)
-		if tx2.Error != nil {
-			log.Println(tx2.Error)
+		if err := database.Exec(createUsersTable); err.Error != nil {
+			log.Panicf("Error creating users table: %v", err)
 		}
 
 		// Create snippets table
@@ -82,9 +81,8 @@ func Connect() *gorm.DB {
 				"ispublic INTEGER NOT NULL DEFAULT '0'," +
 				"CONSTRAINT UC_credentials UNIQUE (id, name)" +
 				")")
-		tx3 := database.Exec(createSnippetsTable)
-		if tx3.Error != nil {
-			log.Println(tx3.Error)
+		if err := database.Exec(createSnippetsTable); err.Error != nil {
+			log.Panicf("Error creating snippets table: %v", err)
 		}
 
 		// Create snippets table
@@ -100,9 +98,8 @@ func Connect() *gorm.DB {
 				"uuid VARCHAR(128)," +
 				"UNIQUE (id)" +
 				")")
-		tx4 := database.Exec(createJobsTable)
-		if tx4.Error != nil {
-			log.Println(tx4.Error)
+		if err := database.Exec(createJobsTable); err.Error != nil {
+			log.Panicf("Error creating scheduled_jobs table: %v", err)
 		}
 
 		// var dbStats []struct {

@@ -9,16 +9,17 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
-	"github.com/rsvix/go-htmx-app-template/internal/templates"
-
+	"github.com/rsvix/go-htmx-app-template/cmd/routes"
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 	"github.com/rsvix/go-htmx-app-template/internal/scheduler"
 	"github.com/rsvix/go-htmx-app-template/internal/store/cookiestore"
 	"github.com/rsvix/go-htmx-app-template/internal/store/db"
+	"github.com/rsvix/go-htmx-app-template/internal/templates"
 	"github.com/rsvix/go-htmx-app-template/internal/utils"
 )
 
@@ -37,9 +38,14 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 }
 
 func main() {
+	instanceId := uuid.New()
+	log.Printf("\n\nApp instance id: %v\n\n", instanceId)
+
 	appPort := utils.GetSetEnv("APP_PORT", "8080")
 	appName := utils.GetSetEnv("APP_NAME", "GoBot")
 	utils.GetSetEnv("DB_CONTEXT_KEY", "__db")
+	utils.GetSetEnv("IS_SCHEDULED", "false")
+
 	utils.GetSetEnv("DB_URL", "mysql://admin:password123@tcp(localhost:3306)/testbg")
 
 	utils.GetSetEnv("LDAP_URL", "ldap://localhost:389")
@@ -59,7 +65,7 @@ func main() {
 	app.File("/favicon.ico", "./static/images/icon.ico")
 
 	db := db.Connect()
-	sched := scheduler.BuildAsyncSched(db)
+	sched := scheduler.BuildAsyncSched(db, instanceId)
 
 	app.HTTPErrorHandler = customHTTPErrorHandler
 
@@ -104,7 +110,7 @@ func main() {
 	// 	AllowMethods: []string{"*"},
 	// }))
 
-	appRoutes(app, ldapLoginBool)
+	app = routes.AppRoutes(app, ldapLoginBool)
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()

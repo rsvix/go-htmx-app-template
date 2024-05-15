@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"net/http"
@@ -19,7 +19,7 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
 
-func appRoutes(app *echo.Echo, ldapLoginBool bool) {
+func AppRoutes(app *echo.Echo, ldapLoginBool bool) *echo.Echo {
 	echo.NotFoundHandler = func(c echo.Context) error {
 		pageUrl := c.Request().URL
 		c.Logger().Error("Page not found: %v\n", pageUrl)
@@ -65,4 +65,6 @@ func appRoutes(app *echo.Echo, ldapLoginBool bool) {
 	app.GET("/snippetdelete/:id", snippetshandler.GetSnippetDeleteModalEditHandler().Serve, middlewares.MustBeLogged())
 	app.DELETE("/snippetdelete/:id", snippetshandler.DeleteSnippetEditHandler().Serve, middlewares.MustBeLogged())
 	app.GET("/logout", logouthandler.GetLogoutHandler().Serve, middlewares.MustBeLogged())
+
+	return app
 }

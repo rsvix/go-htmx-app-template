@@ -39,6 +39,7 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 		log.Fatal(err)
 	}
 
+	// Job that defines the instance responsible for creating tasks
 	j, err := sched.NewJob(
 		gocron.DurationJob(15*time.Second),
 		gocron.NewTask(
@@ -70,7 +71,7 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	}
 	log.Printf("scheduler_lock job id: %v", j.ID())
 
-	// add a job to the scheduler
+	// Test job
 	jt, err := sched.NewJob(
 		gocron.DurationJob(15*time.Second),
 		gocron.NewTask(
@@ -85,8 +86,24 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 	if err != nil {
 		log.Println(err)
 	}
-	// each job has a unique id
 	log.Printf("test job id: %v", jt.ID())
+
+	var schedJobsTable []struct {
+		Id          uint
+		CronExp     string
+		CronDesc    string
+		BotName     string
+		BotVersion  string
+		TargetAgent string
+		Params      string
+		Uuid        string
+	}
+	db.Raw("SELECT * FROM scheduled_jobs;").Scan(&schedJobsTable)
+	log.Printf("schedJobsTable: %v", schedJobsTable)
+
+	for _, job := range schedJobsTable {
+		log.Printf("job: %v", job)
+	}
 
 	// start the scheduler
 	sched.Start()

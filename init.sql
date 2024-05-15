@@ -12,3 +12,11 @@ CREATE TABLE IF NOT EXISTS users (
     registerip VARCHAR(64),
     enabled INTEGER NOT NULL DEFAULT '0'
 );
+
+
+CREATE TABLE IF NOT EXISTS cron_scheduler_lock (
+    entry_id INT UNSIGNED PRIMARY KEY NOT NULL,
+    instance_id VARCHAR(64) NOT NULL,
+    last_update VARCHAR(32) NOT NULL,
+    UNIQUE (entry_id)
+)

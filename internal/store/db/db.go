@@ -20,12 +20,12 @@ func Connect() *gorm.DB {
 		dsn2 := strings.Split(dsn1, "/")[0]
 		dbName := strings.Split(dsn1, "/")[1]
 
-		database, e := gorm.Open(mysql.Open(dsn1+"?parseTime=true"), &gorm.Config{})
+		database, e := gorm.Open(mysql.Open(dsn1+"?charset=utf8&parseTime=true"), &gorm.Config{})
 		if e != nil {
 			log.Println(e)
 			if strings.Contains(e.Error(), "does not exist") {
 				log.Printf("Creating Mysql database '%s'", dbName)
-				database, e = gorm.Open(mysql.Open(dsn2+"?parseTime=true"), &gorm.Config{})
+				database, e = gorm.Open(mysql.Open(dsn2+"?charset=utf8&parseTime=true"), &gorm.Config{})
 				if e != nil {
 					log.Panic(e)
 				}

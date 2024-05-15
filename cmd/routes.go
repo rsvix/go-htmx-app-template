@@ -19,7 +19,7 @@ import (
 	"github.com/rsvix/go-htmx-app-template/internal/middlewares"
 )
 
-func setRoutes(app *echo.Echo, ldapLoginBool bool) {
+func appRoutes(app *echo.Echo, ldapLoginBool bool) {
 	echo.NotFoundHandler = func(c echo.Context) error {
 		pageUrl := c.Request().URL
 		c.Logger().Error("Page not found: %v\n", pageUrl)

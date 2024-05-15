@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/go-co-op/gocron/v2"
 	"github.com/labstack/echo/v4"
@@ -38,24 +37,23 @@ func (h postNewJobHandlerParams) Serve(c echo.Context) error {
 
 	db := c.Get("__db").(*gorm.DB)
 
-	emptyDesc := "error"
-	var fullDescription *string
 	cd, err := crondescriptor.NewCronDescriptor(cronExp)
 	if err != nil {
 		log.Printf("error creating descriptor: %v\n", err.Error())
-		fullDescription = &emptyDesc
-	} else {
-		fullDescription, err = cd.GetDescription(crondescriptor.Full)
-		if err != nil {
-			// log.Panic(err.Error())
-			log.Printf("error getting description: %v\n", err.Error())
-			fullDescription = &emptyDesc
-		}
-		fmt.Printf("%s => %s\n", cronExp, *fullDescription)
+		c.Response().Header().Set("HX-Redirect", "/cronjobs")
+		return c.NoContent(http.StatusSeeOther)
 	}
 
+	fullDescription, err := cd.GetDescription(crondescriptor.Full)
+	if err != nil {
+		log.Printf("error getting description: %v\n", err.Error())
+		c.Response().Header().Set("HX-Redirect", "/cronjobs")
+		return c.NoContent(http.StatusSeeOther)
+	}
+	fmt.Printf("%s => %s\n", cronExp, *fullDescription)
+
 	job, err := h.sched.NewJob(
-		gocron.DurationJob(15*time.Second),
+		gocron.CronJob(cronExp, true),
 		gocron.NewTask(
 			func() {
 				if os.Getenv("IS_SCHEDULER") == "true" {

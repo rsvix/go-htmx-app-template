@@ -50,9 +50,6 @@ func BuildAsyncSched(db *gorm.DB, instanceId string) gocron.Scheduler {
 				}
 				db.Raw("SELECT * FROM cron_scheduler_lock WHERE id = '1';").Scan(&schedInfo)
 				log.Printf("schedInfo: %v", schedInfo)
-				log.Printf("schedInfo.InstanceId: %v", schedInfo.InstanceId)
-				log.Printf("instanceId: %v", instanceId)
-
 				if schedInfo.InstanceId == instanceId {
 					t := time.Now().UTC()
 					db.Exec("UPDATE cron_scheduler_lock SET last_update = ? WHERE id = '1';", t)

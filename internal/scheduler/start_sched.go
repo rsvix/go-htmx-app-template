@@ -27,8 +27,9 @@ func BuildAsyncSched(db *gorm.DB, instanceId uuid.UUID) gocron.Scheduler {
 	}
 
 	t := time.Now().UTC()
-	result := db.Raw("INSERT IGNORE INTO cron_scheduler_lock (id, instance_id, last_ping) VALUES (?, ?, ?);", 1, instanceId, t)
-	log.Println(result)
+	var instanceIdInTable string
+	db.Raw("INSERT IGNORE INTO cron_scheduler_lock (id, instance_id, last_ping) VALUES (?, ?, ?) RETURNING instance_id;", 1, instanceId, t).Scan(&instanceIdInTable)
+	log.Printf("instanceIdInTable: %v", instanceIdInTable)
 
 	sched, err := gocron.NewScheduler()
 	if err != nil {
